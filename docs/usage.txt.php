@@ -1,5 +1,8 @@
 <?
-
+/**
+ * Example of the framework usage
+ * Create one page, with one table, which has a few fields in it
+ */
 
 // create the login field
 $loginField = new Field_Text('Login', 'login', 150);
@@ -25,11 +28,12 @@ $table->orderBy('display_order')
 	->manageOrder('true')
 	->addPaging();
 
+// create one page
 $page = new Page('Test Page', 'test-page-url');
 $page->showButtonBack()
 	->add($table);
 
+// create the application
 $app = new App('Example app');
-$app->add($page);
-
-$app->show();
+$app->add($page)
+	->show();

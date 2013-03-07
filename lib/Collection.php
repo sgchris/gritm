@@ -31,6 +31,21 @@ class Collection {
 	}
 
 	/**
+	 * Remove item from the collection (if the item exists)
+	 * @param required $key
+	 * @return this object
+	 */
+	public function remove($key) {
+		if (!$key) throw new Exception(__METHOD__.' - $key is not defined');
+
+		if ($this->exists($key)) {
+			unset($this->items[$key]);
+		}
+
+		return $this;
+	}
+
+	/**
 	 * Set specific item in the collection
 	 * @param required $item
 	 * @param required $key
