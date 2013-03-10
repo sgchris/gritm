@@ -34,6 +34,6 @@ $page->showButtonBack()
 	->add($table);
 
 // create the application
-$app = new App('Example app');
+$app = new Application('Example app');
 $app->add($page)
-	->show();
+	->run();

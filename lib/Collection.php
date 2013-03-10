@@ -78,6 +78,13 @@ class Collection {
 	}
 
 	/**
+	 * @alias to `getAll`
+	 */
+	public function getItems() { 
+		return $this->getAll();
+	}
+
+	/**
 	 * Check if the key exists
 	 * @param required $key
 	 * @return true/false

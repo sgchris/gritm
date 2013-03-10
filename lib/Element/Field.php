@@ -8,7 +8,7 @@ require_once dirname(__FILE__).'/../Element.php';
 
 class Field extends Element {
 
-  /**
+	/**
 	 * the name of the field in the database
 	 */
 	private $field_database_name;
