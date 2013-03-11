@@ -16,10 +16,13 @@ class Page extends Collection {
 	/**
 	 * The url of the page
 	 */
-	private $_url;
+	private $_url = null;
 
-	
-	
+	/**
+	 * The request object
+	 */
+	private $_request = null;
+
 	/**
 	 * initialize the object
 	 */
@@ -33,6 +36,14 @@ class Page extends Collection {
 	 */
 	public function isResponsibleFor(Request $request) {
 		return false;
+	}
+
+	/**
+	 * Set the request object to be handled by the page
+	 */
+	public function setRequest(Request $request) {
+		$this->_request = $request;
+		return $this;
 	}
 
 

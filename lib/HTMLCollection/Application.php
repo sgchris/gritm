@@ -73,7 +73,13 @@ class Application extends HTMLCollection {
 		}
 
 		// load the HTML of the page
-		$this->_html = $currentPage instanceof Page ? $currentPage->getHtml($this->_request) : $this->_getHomepage();
+		if ($currentPage instanceof Page) {
+			$currentPage->setRequest($request);
+			$this->_html = $currentPage->getHtml()
+		} else {
+			$homePage = new Homepage();
+			$this->_html = $homePage->getHtml();
+		}
 
 		// load the page
 		if ($this->layoutEnabled) {
