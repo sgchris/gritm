@@ -1,6 +1,6 @@
 <?php
 /**
- *	One page class
+ * One page class
  */
 
 require_once __DIR__ . '/../Collection.php';

@@ -1,8 +1,7 @@
 <?php
 /**
- *	HTML Element base class
+ * HTML Element base class
  */
-
 
 class HTMLElement {
 
@@ -106,7 +105,7 @@ class HTMLElement {
 	 * execute ajax call
 	 */
 	public function executeAjax() {
-		
+
 	}
 
 }
