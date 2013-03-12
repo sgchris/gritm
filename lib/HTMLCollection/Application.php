@@ -54,6 +54,7 @@ class Application extends HTMLCollection {
 
 		// get the request object for the current request
 		$this->_request = new Request;
+		$this->_request->parse();
 	}
 
 	/**
@@ -61,24 +62,20 @@ class Application extends HTMLCollection {
 	 */
 	public function run() {
 
-		// determine which object the current request belongs
-		$currentPage = null;
-
-		// perform "polling" to get who can manage this request
-		foreach ($this->getItems() as $item) {
-			if (($item instanceof Page) && $item->isResponsibleFor($this->_request)) {
-				$currentPage = $item;
-				break;
-			}
+		// get the current page (page which processes this request)
+		$currentPage = $this->_getCurrentPage();
+		if (!$currentPage) {
+			$currentPage = new Homepage;
 		}
 
-		// load the HTML of the page
-		if ($currentPage instanceof Page) {
-			$currentPage->setRequest($request);
-			$this->_html = $currentPage->getHtml()
+		// set the request object to the page
+		$currentPage->setRequest($request);
+
+		// check if this is AJAX request
+		if ($this->_request->isAjax()) {
+			$currentPage->executeAjax();
 		} else {
-			$homePage = new Homepage();
-			$this->_html = $homePage->getHtml();
+			$this->_html = $currentPage->getHtml()
 		}
 
 		// load the page
@@ -91,21 +88,31 @@ class Application extends HTMLCollection {
 	}
 
 	/**
+	 * Get the page which can process this request
+	 */
+	protected function _getCurrentPage() {
+
+		// determine which object the current request belongs
+		$currentPage = null;
+
+		// perform "polling" to get who can manage this request
+		foreach ($this->getItems() as $item) {
+			if (($item instanceof Page) && $item->isResponsibleFor($this->_request)) {
+				$currentPage = $item;
+				break;
+			}
+		}
+
+		return $currentPage;
+	}
+
+	/**
 	 * Wrap the current _html ($this->_html) with the layout (views/application.view.php)
 	 */
 	protected function _renderLayout() {
 		ob_start();
 		require APP_VIEW;
 		$this->_html = ob_get_clean();
-	}
-
-	/**
-	 * return the homepage HTML
-	 */
-	protected function _getHomepage() {
-		ob_start();
-		require HOMEPAGE_VIEW;
-		return ob_get_clean();
 	}
 
 }

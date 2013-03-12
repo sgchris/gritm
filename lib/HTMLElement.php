@@ -102,4 +102,11 @@ class HTMLElement {
 		return $this;
 	}
 
+	/**
+	 * execute ajax call
+	 */
+	public function executeAjax() {
+		
+	}
+
 }
