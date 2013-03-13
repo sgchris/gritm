@@ -73,22 +73,29 @@ class Application extends HTMLCollection {
 
 		// check if this is AJAX request
 		if ($this->_request->isAjax()) {
+
+			// execute the ajax functions
 			$currentPage->executeAjax();
+			
 		} else {
+
+			// get the html of the page
 			$this->_html = $currentPage->getHtml()
+
+			// load the page
+			if ($this->layoutEnabled) {
+				$this->_renderLayout();
+			}
+
+			// output the app HTML
+			echo $this->_html;
+
 		}
 
-		// load the page
-		if ($this->layoutEnabled) {
-			$this->_renderLayout();
-		}
-
-		// output the app HTML
-		echo $this->_html;
 	}
 
 	/**
-	 * Get the page which can process this request
+	 * Get the page which can process the current request
 	 */
 	protected function _getCurrentPage() {
 
