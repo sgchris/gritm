@@ -4,12 +4,12 @@
  */
 
 require_once __DIR__ . '/../HTMLCollection.php';
+require_once __DIR__ . '/Page/Homepage.php';
 require_once __DIR__ . '/../Tools/Request.php';
 
-// all the view files
-define('VIEWS_DIR', __DIR__.'/../Views');
 // The view file of the application
 define('APP_VIEW', VIEWS_DIR.'/Application.view.php');
+
 // The homepage HTML
 define('HOMEPAGE_VIEW', VIEWS_DIR.'/Application.homepage.view.php');
 
@@ -65,31 +65,22 @@ class Application extends HTMLCollection {
 		// get the current page (page which processes this request)
 		$currentPage = $this->_getCurrentPage();
 		if (!$currentPage) {
-			$currentPage = new Homepage;
+			$currentPage = new Homepage('Homepage', '');
 		}
 
 		// set the request object to the page
-		$currentPage->setRequest($request);
+		$currentPage->setRequest(new Request);
 
 		// check if this is AJAX request
 		if ($this->_request->isAjax()) {
 
 			// execute the ajax functions
 			$this->_executeAjax($currentPage);
-			
+
 		} else {
 
-			// get the html of the page
-			$this->_html = $currentPage->getHtml()
-
-			// load the page
-			if ($this->layoutEnabled) {
-				$this->_renderLayout();
-			}
-
 			// output the app HTML
-			echo $this->_html;
-
+			echo $this->getHtml();
 		}
 
 	}
@@ -116,7 +107,17 @@ class Application extends HTMLCollection {
 	/**
 	 * Wrap the current _html ($this->_html) with the layout (views/application.view.php)
 	 */
-	protected function _renderLayout() {
+	public function getHtml() {
+
+		// get only the `Page` objects from all the items
+		$applicationPages = array_filter($this->getItems(), function($item) {
+			return ($item instanceof Page);
+		});
+
+		// get the HTML of the current page
+		$currentPageHtml = ($currentPage = $this->_getCurrentPage()) !== null ? $currentPage->getHtml() : '';
+
+
 		ob_start();
 		require APP_VIEW;
 		$this->_html = ob_get_clean();

@@ -3,6 +3,9 @@
  * HTML Element base class
  */
 
+// include the global configuration file
+require_once __DIR__.'/Config/Config.php';
+
 class HTMLElement {
 
 	/**
