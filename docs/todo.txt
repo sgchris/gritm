@@ -1,0 +1,3 @@
+check if this is AJAX call:
+	$_SERVER['HTTP_X_REQUESTED_WITH']
+(Request Object)
