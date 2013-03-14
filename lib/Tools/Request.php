@@ -109,6 +109,7 @@ class Request {
 
 	/**
 	 * Get URL param. When the request is /path/to/file. 0->path 1->to 2->file
+	 * @param number $number - index of the 
 	 */
 	public function getUrlParam($number) {
 		if (is_null($this->_urlParams)) {

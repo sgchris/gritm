@@ -75,7 +75,7 @@ class Application extends HTMLCollection {
 		if ($this->_request->isAjax()) {
 
 			// execute the ajax functions
-			$currentPage->executeAjax();
+			$this->_executeAjax($currentPage);
 			
 		} else {
 
@@ -120,6 +120,16 @@ class Application extends HTMLCollection {
 		ob_start();
 		require APP_VIEW;
 		$this->_html = ob_get_clean();
+	}
+
+	/**
+	 * Execute AJAX
+	 * @param Page $currentPage
+	 */
+	protected function _executeAjax($page) {
+
+		// Run ajax of the current requested page
+		$page->executeAjax();
 	}
 
 }

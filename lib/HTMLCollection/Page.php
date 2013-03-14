@@ -35,6 +35,15 @@ class Page extends Collection {
 	 * Check if the current object can process this request
 	 */
 	public function isResponsibleFor(Request $request) {
+
+		// store the current request
+		$this->_request = $request;
+
+		// check if the current first URL param equals this page's URL
+		if (!is_null($this->_request) && strcasecmp($this->_request->getUrlParam(0), $this->_url)) {
+			return true;
+		}
+
 		return false;
 	}
 

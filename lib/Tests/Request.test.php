@@ -1,70 +1,52 @@
 <?php
 
+require_once __DIR__.'/UnitTest.php';
 require_once __DIR__.'/../Tools/Request.php';
 
-echo '<b> This test is valid on Dev.Mode only, where the dir is "/gritm"</b><br><br>';
+class RequestTest extends UnitTest {
 
-echo 'right document root<br>';
-$_server_document_root = $_SERVER['DOCUMENT_ROOT'];
 
-$RightReq = new Request;
-$RightReq->parse();
+	public function testRightRelativePath() {
 
-if (($rightRelativePath = $RightReq->getRelativePath()) !== '/gritm') {
-	echo 'ERROR - ', $RightReq->getRelativePath(); 
-} else {
-	echo 'Ok';
+		$RightReq = new Request;
+		$RightReq->parse();
+
+		$this->assertEquals($RightReq->getRelativePath(), '/gritm');
+	}
+
+
+	public function testWrongDocRoot() {
+		$docRoot = $_SERVER['DOCUMENT_ROOT'];
+		$_SERVER['DOCUMENT_ROOT'] = realpath($_SERVER['DOCUMENT_ROOT'].'/..');
+
+		$req = new Request;
+		$req->parse();
+
+		$this->assertEquals($req->getRelativePath(), '/htdocs/gritm');
+
+		// restore the docroot
+		$_SERVER['DOCUMENT_ROOT'] = $docRoot;
+	}
+
+
+	public function testUrlParam1() {
+		$RequestUri = $_SERVER['REQUEST_URI'];
+		$_SERVER['REQUEST_URI'] = '/gritm/get/some/file';
+
+		$req = new Request;
+		$req->parse();
+
+		$this->assertEqualsStrict($req->getUrlParam(-3), null);
+		$this->assertEquals($req->getUrlParam(0), 'get');
+		$this->assertEquals($req->getUrlParam(1), 'some');
+		$this->assertEquals($req->getUrlParam(2), 'file');
+		$this->assertEqualsStrict($req->getUrlParam(3), null);
+
+		// restore the docroot
+		$_SERVER['REQUEST_URI'] = $RequestUri;
+	}
+
 }
-echo '<br>';
 
-
-
-
-echo 'document root is one above the real<br>';
-$_SERVER['DOCUMENT_ROOT'] = 'C:\\xampp';
-$req = new Request;
-$req->parse();
-
-if ($req->getRelativePath() !== '/htdocs/gritm') {
-	echo 'ERROR - ', $req->getRelativePath(); 
-} else {
-	echo 'Ok';
-}
-echo '<br>';
-
-
-
-
-echo 'same document root<br>';
-$_SERVER['DOCUMENT_ROOT'] = 'C:\\xampp\\htdocs\\gritm';
-$req = new Request;
-$req->parse();
-
-if ($req->getRelativePath() !== '') {
-	echo 'ERROR - ', $req->getRelativePath(); 
-} else {
-	echo 'Ok';
-}
-echo '<br>';
-
-
-echo 'bad document root<br>';
-$_SERVER['DOCUMENT_ROOT'] = 'D:\\xampp\\htdocs\\gritm';
-$req = new Request;
-$req->parse();
-
-$expected = rtrim(str_replace('\\', '/', $_server_document_root), '/').$rightRelativePath;
-
-if ($req->getRelativePath() !== $expected) {
-	echo 'ERROR - ', $req->getRelativePath(), ', exptected - ', $expected; 
-} else {
-	echo 'Ok';
-}
-echo '<br>';
-
-
-
-echo '<br>--------------------------------------------------<br><br><br>';
-
-
-// $RightReq
+$rt = new RequestTest;
+$rt->run();
