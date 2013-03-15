@@ -10,9 +10,6 @@ require_once __DIR__ . '/../Tools/Request.php';
 // The view file of the application
 define('APP_VIEW', VIEWS_DIR.'/Application.view.php');
 
-// The homepage HTML
-define('HOMEPAGE_VIEW', VIEWS_DIR.'/Application.homepage.view.php');
-
 class Application extends HTMLCollection {
 
 	/**
@@ -27,9 +24,9 @@ class Application extends HTMLCollection {
 	private $_request = null;
 
 	/**
-	 * The HTML of the inner page (output from `Page` object)
+	 * Current page
 	 */
-	protected $_html = '';
+	protected $_currentPage = null;
 
 	/**
 	 * enable/disable layout. default true. 
@@ -59,28 +56,34 @@ class Application extends HTMLCollection {
 
 	/**
 	 * Execute the application
+	 * @param $returnHtml - output or return the HTML of the application
 	 */
-	public function run() {
+	public function run($returnHtml = false) {
 
 		// get the current page (page which processes this request)
-		$currentPage = $this->_getCurrentPage();
-		if (!$currentPage) {
-			$currentPage = new Homepage('Homepage', '');
+		$this->_currentPage = $this->_getCurrentPage();
+		if (!$this->_currentPage) {
+			$this->_currentPage = new Homepage('Homepage', '');
 		}
 
 		// set the request object to the page
-		$currentPage->setRequest(new Request);
+		$this->_currentPage->setRequest(new Request);
 
 		// check if this is AJAX request
 		if ($this->_request->isAjax()) {
 
 			// execute the ajax functions
-			$this->_executeAjax($currentPage);
+			$this->_executeAjax();
 
 		} else {
 
 			// output the app HTML
-			echo $this->getHtml();
+			$html = $this->getHtml();
+			if ($returnHtml) {
+				return $html;
+			} else {
+				echo $html;
+			}
 		}
 
 	}
@@ -105,7 +108,7 @@ class Application extends HTMLCollection {
 	}
 
 	/**
-	 * Wrap the current _html ($this->_html) with the layout (views/application.view.php)
+	 * Get the whole html of the application
 	 */
 	public function getHtml() {
 
@@ -115,22 +118,27 @@ class Application extends HTMLCollection {
 		});
 
 		// get the HTML of the current page
-		$currentPageHtml = ($currentPage = $this->_getCurrentPage()) !== null ? $currentPage->getHtml() : '';
+		$currentPageHtml = $this->_currentPage->getHtml();
 
+		// check if the layout is enabled, if no, just return the HTML of the current page
+		if (!$this->layoutEnabled) {
+			return $currentPageHtml;
+		}
 
+		// load the application template
 		ob_start();
 		require APP_VIEW;
-		$this->_html = ob_get_clean();
+		return ob_get_clean();
 	}
 
 	/**
 	 * Execute AJAX
 	 * @param Page $currentPage
 	 */
-	protected function _executeAjax($page) {
+	protected function _executeAjax() {
 
 		// Run ajax of the current requested page
-		$page->executeAjax();
+		$this->_currentPage->executeAjax();
 	}
 
 }

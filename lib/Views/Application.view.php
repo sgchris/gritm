@@ -22,7 +22,7 @@
 		</nav>
 
 		<seciton>
-			<?=$this->_html?>
+			<?=$currentPageHtml?>
 		</section>
 
 		<footer>
