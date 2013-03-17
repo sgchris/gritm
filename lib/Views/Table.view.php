@@ -13,8 +13,8 @@
         <tr>
             <th>#</th>
             <? foreach ($fieldsList as $field) { ?>
-                <th width="<?=$field->getWidth()?>">
-                <?= htmlentities($field->getName(), ENT_NOQUOTES, 'utf-8') ?>
+                <th width="<?= $field->getWidth() ?>">
+                    <?= htmlentities($field->getName(), ENT_NOQUOTES, 'utf-8') ?>
                 </th>
             <? } ?>
         </tr>

@@ -226,7 +226,7 @@ class Table extends HTMLCollection {
         $sql = $this->_getSql();
 
         // prepare the query
-        $db = Db::get();
+        $db = Database::get();
         $stmt = $db->prepare($sql);
 
         // bind values for the where clause

@@ -1,26 +1,16 @@
 <?php
  
+require_once __DIR__ . '/../Config/Config.php';
+
 /**
  * PDO SINGLETON CLASS
  */ 
-class Db 
+class Database 
 {  
 	/**
 	 * The singleton instance
 	 */
 	protected static $PDOInstance = null; 
-	
-	/**
-	 * Credentials
-	 */
-	const username = 'root';
-	const password = '123456';
-
-	/**
-	 * DB info
-	 */
-	const host = 'localhost';
-	const dbName = 'gritm';
 
 	/**
 	 * get database instance
@@ -28,7 +18,7 @@ class Db
 	 */
 	public static function get() {
 		if (is_null(self::$PDOInstance)) {
-			self::$PDOInstance = new PDO('mysql:host='.(Db::host).';dbname='.(Db::dbName), Db::username, Db::password);
+			self::$PDOInstance = new PDO('mysql:host='.DBHOST.';dbname='.DBNAME, DBUSER, DBPASS);
 			self::$PDOInstance->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC); 
 			self::$PDOInstance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING); 
 			self::$PDOInstance->exec('set names "utf8"'); 

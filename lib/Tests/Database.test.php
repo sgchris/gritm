@@ -7,8 +7,8 @@ class DatabaseTest extends UnitTest {
 
 	public function testDatabaseInstance() {
 		try {
-			$db1 = Db::get();
-			$db2 = Db::get();
+			$db1 = Database::get();
+			$db2 = Database::get();
 		} catch (Exception $e) {
 			$this->assertFalse($e->getMessage());
 			return;

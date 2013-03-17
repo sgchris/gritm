@@ -1,0 +1,1 @@
+<?=htmlentities($this->getValue(), ENT_NOQUOTES, 'utf-8')?>

@@ -29,6 +29,16 @@ class Field extends HTMLElement {
 	protected $_type;
     
     /**
+     * the value of the field - as it comes from the database
+     */
+    protected $_value;
+    
+    /**
+     * the whole record value(s)
+     */
+    protected $_row;
+    
+    /**
      * Default constructor for a field
      * 
      * @param type $name
@@ -40,5 +50,15 @@ class Field extends HTMLElement {
         $this->setDbName($dbName);
         $this->setWidth($width);
     }
-
+    
+    /**
+     * Assign a value to the field
+     * @param type $value
+     * @param type $row
+     */
+    public function setValue($value, $row = null) {
+        $this->_value = $value;
+        $this->_row = $row;
+    }
+    
 }

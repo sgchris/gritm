@@ -1,145 +1,142 @@
 <?php
+
 /**
  * Main App class
  */
-
 require_once __DIR__ . '/../HTMLCollection.php';
 require_once __DIR__ . '/Page/Homepage.php';
 require_once __DIR__ . '/../Tools/Request.php';
 
 // The view file of the application
-define('APP_VIEW', VIEWS_DIR.'/Application.view.php');
+define('APP_VIEW', VIEWS_DIR . '/Application.view.php');
 
 class Application extends HTMLCollection {
 
-	/**
-	 * The name of the application
-	 */
-	protected $_name;
+    /**
+     * The name of the application
+     */
+    protected $_name;
 
-	/**
-	 * the request object
-	 * initialized by `Request` object
-	 */
-	protected $_request = null;
+    /**
+     * the request object
+     * initialized by `Request` object
+     */
+    protected $_request = null;
 
-	/**
-	 * Current page
-	 */
-	protected $_currentPage = null;
+    /**
+     * Current page
+     */
+    protected $_currentPage = null;
 
-	/**
-	 * enable/disable layout. default true. 
-	 * e.g. false is used for AJAX requests 
-	 */
-	protected $_layoutEnabled = true;
+    /**
+     * enable/disable layout. default true. 
+     * e.g. false is used for AJAX requests 
+     */
+    protected $_layoutEnabled = true;
 
-	/**
-	 * disable layout - (for ajax requests for example)
-	 * @alias $app->setLayoutEnabled(false)
-	 */
-	public function disableLayout() {
-		$this->_layoutEnabled = false;
-	}
+    /**
+     * disable layout - (for ajax requests for example)
+     * @alias $app->setLayoutEnabled(false)
+     */
+    public function disableLayout() {
+        $this->_layoutEnabled = false;
+    }
 
-	/**
-	 * Initialize application object
-	 */
-	public function __construct($applicationName = 'Unnamed application') {
+    /**
+     * Initialize application object
+     */
+    public function __construct($applicationName = 'Unnamed application') {
 
-		// initialize the name of the application
-		$this->_name = $applicationName;
+        // initialize the name of the application
+        $this->_name = $applicationName;
 
-		// get the request object for the current request
-		$this->_request = new Request;
-		$this->_request->parse();
-	}
+        // get the request object for the current request
+        $this->_request = new Request;
+        $this->_request->parse();
+    }
 
-	/**
-	 * Execute the application
-	 * @param $returnHtml - output or return the HTML of the application
-	 */
-	public function run($returnHtml = false) {
+    /**
+     * Execute the application
+     * @param $returnHtml - output or return the HTML of the application
+     */
+    public function run($returnHtml = false) {
 
-		// get the current page (page which processes this request)
-		$this->_currentPage = $this->_getCurrentPage();
-		if (!$this->_currentPage) {
-			$this->_currentPage = new Homepage('Homepage', '');
-		}
+        // get the current page (page which processes this request)
+        $this->_currentPage = $this->_getCurrentPage();
+        if (!$this->_currentPage) {
+            $this->_currentPage = new Page_Homepage('Homepage', '');
+        }
 
-		// set the request object to the page
-		$this->_currentPage->setRequest(new Request);
+        // set the request object to the page
+        $this->_currentPage->setRequest(new Request);
+        // check if this is AJAX request
+        if ($this->_request->isAjax()) {
 
-		// check if this is AJAX request
-		if ($this->_request->isAjax()) {
+            // execute the ajax functions
+            $this->_executeAjax();
+        } else {
 
-			// execute the ajax functions
-			$this->_executeAjax();
+            // output the app HTML
+            $html = $this->getHtml();
+            if ($returnHtml) {
+                return $html;
+            } else {
+                echo $html;
+            }
+        }
+    }
 
-		} else {
+    /**
+     * Get the page which can process the current request
+     */
+    protected function _getCurrentPage() {
 
-			// output the app HTML
-			$html = $this->getHtml();
-			if ($returnHtml) {
-				return $html;
-			} else {
-				echo $html;
-			}
-		}
+        // determine which object the current request belongs
+        $currentPage = null;
 
-	}
+        // perform "polling" to get who can manage this request
+        foreach ($this->getItems() as $item) {
+            if (($item instanceof Page) && $item->isResponsibleFor($this->_request)) {
+                $currentPage = $item;
+                break;
+            }
+        }
 
-	/**
-	 * Get the page which can process the current request
-	 */
-	protected function _getCurrentPage() {
+        return $currentPage;
+    }
 
-		// determine which object the current request belongs
-		$currentPage = null;
+    /**
+     * Get the whole html of the application
+     */
+    public function getHtml() {
 
-		// perform "polling" to get who can manage this request
-		foreach ($this->getItems() as $item) {
-			if (($item instanceof Page) && $item->isResponsibleFor($this->_request)) {
-				$currentPage = $item;
-				break;
-			}
-		}
+        // get only the `Page` objects from all the items
+        $applicationPages = array_filter($this->getItems(), function($item) {
+                    return ($item instanceof Page);
+                });
 
-		return $currentPage;
-	}
+        // get the HTML of the current page
+        $currentPageHtml = $this->_currentPage ? $this->_currentPage->getHtml() : '';
 
-	/**
-	 * Get the whole html of the application
-	 */
-	public function getHtml() {
+        // check if the layout is enabled, if no, just return the HTML of the current page
+        if (!$this->_layoutEnabled) {
+            return $currentPageHtml;
+        }
 
-		// get only the `Page` objects from all the items
-		$applicationPages = array_filter($this->getItems(), function($item) {
-			return ($item instanceof Page);
-		});
+        // load the application template
+        ob_start();
+        require APP_VIEW;
+        return ob_get_clean();
+    }
 
-		// get the HTML of the current page
-		$currentPageHtml = $this->_currentPage->getHtml();
+    /**
+     * Execute AJAX
+     * @param Page $currentPage
+     */
+    protected function _executeAjax() {
 
-		// check if the layout is enabled, if no, just return the HTML of the current page
-		if (!$this->_layoutEnabled) {
-			return $currentPageHtml;
-		}
-
-		// load the application template
-		ob_start();
-		require APP_VIEW;
-		return ob_get_clean();
-	}
-
-	/**
-	 * Execute AJAX
-	 * @param Page $currentPage
-	 */
-	protected function _executeAjax() {
-
-		// Run ajax of the current requested page
-		$this->_currentPage->executeAjax();
-	}
+        // Run ajax of the current requested page
+        $this->_currentPage->executeAjax();
+    }
 
 }
