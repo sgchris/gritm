@@ -11,7 +11,7 @@ abstract class UnitTest {
 	 * check the value is true
 	 * @param mixed $expr
 	 */
-	 public function assertTrue($expr) {
+	public function assertTrue($expr) {
 		if (!$expr) {
 			$this->_printAssertResult("\"{$expr}\" - assertTrue failed!");
 		}
@@ -22,7 +22,7 @@ abstract class UnitTest {
 	 * check the value is false
 	 * @param mixed $expr
 	 */
-	 public function assertFalse($expr) {
+    public function assertFalse($expr) {
 		if ($expr) {
 			$this->_printAssertResult("\"{$expr}\" - assertFalse failed!");
 		}
@@ -72,9 +72,11 @@ abstract class UnitTest {
 			}
 		}
 
+		echo '<br/><br/><hr/>';
 		if ($this->errors) {
-			echo '<br/><br/><hr/>';
 			echo '<span style="color:#C11;">ERRORS FOUND</span>';
+		} else {
+			echo '<span style="color:#1C1;">Test passed</span>';
 		}
 	}
 	

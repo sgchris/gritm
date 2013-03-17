@@ -84,6 +84,27 @@ class Table extends HTMLCollection {
 	}
 
 	/**
+	 * Add order by clause item
+	 * can be called several times (appends the order)
+	 * @param $fieldName
+	 * @param $fieldOrder - Field::ORDER_ASCENDING / Field::ORDER_DESCENDING
+	 * @return $this
+	 */
+	public function orderBy($fieldName, $fieldOrder = Field::ORDER_ASCENDING) {
+		// get the current order
+		$order = $this->getOrder();
+
+		// add the new order
+		$order[] = array(
+			'key'=>$fieldName,
+			'order'=>$fieldOrder
+			);
+
+		$this->setOrder($order);
+		return $this;
+	}
+
+	/**
 	 * Get the html of the table
 	 */
 	public function getHtml() {
@@ -106,4 +127,55 @@ class Table extends HTMLCollection {
 		return $pageHtml;
 	}
 
+	/**
+	 * Get the sql for the table (custom or native)
+	 */
+	private function _getSql() {
+
+		// get the custom URL if defined
+		$sql = $this->getCustomSql();
+		if (!empty($sql)) {
+			return $sql;
+		}
+
+		// build the sql //
+
+		// select clause
+		$sql_Select = array($this->getPkField());
+		array_walk($this->getItems(), function($item) use (&$sql_Select) {
+			if ($item instanceof Field) {
+				$sql_Select[] = $item->getDbName();
+			}
+		});
+
+		// from clause
+		$sql_From = array($this->getDbName());
+
+		// where clause
+		$sql_Where = array();
+		array_walk($this->getExtraConditions(), function($item) use (&$sql_Where) {
+			$sql_Where[] = '`'.$item['key'].'` '.$item['operator'].' :'.$item['key'];
+		});
+
+		// order by clause
+		$sql_Order = array();
+		array_walk($this->getOrder(), function($item) use (&$sql_Order) {
+			$sql_Order[] = '`'.$item['key'].'` '.($item['key'] == Table::ORDER_ASCENDING ? 'ASC' : 'DESC');
+		});
+
+		// limit clause
+		// TODO: manage paging
+		$sql_Limit = array($this->getTotalRows());
+
+		$sql = '
+			SELECT '.implode(',', $sql_Select).'
+			FROM '.implode(',', $sql_From).'
+			WHERE ('.implode(') AND (', $sql_Where).')
+			ORDER BY '.implode(',', $sql_Order).'
+			LIMIT '.implode(',', $sql_Limit);
+
+		// prepare
+
+		// bind values
+	}
 }

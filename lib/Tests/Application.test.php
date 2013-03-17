@@ -17,7 +17,7 @@ class ApplicationTest extends UnitTest {
 		$this->assertTrue($endsWithHtmlTag);
 
 	}
-
+    
 	public function testAppWithoutLayout() {
 		$app = new Application('Test App');
 		$app->disableLayout();

@@ -30,12 +30,8 @@ $table->orderBy('display_order')
 
 // create one page
 $page = new Page('Test Page', 'test-page-url');
-<<<<<<< HEAD
-$page->add($table);
-=======
 $page->showButtonBack()
 	->add($table);
->>>>>>> ba636dd09a26f9c51ac4612f540516f34fffdf8d
 
 // create the application
 $app = new Application('Example app');
