@@ -3,7 +3,12 @@
  * One table class
  */
 
-require_once __DIR__ . '/../HTMLCollection.php';
+require_once __DIR__ . '/../HTMLElement.php';
+require_once __DIR__ . '/../HTMLElement/Field.php';
+require_once __DIR__ . '/../HTMLElement/Button.php';
+
+// The view file of the page
+define('TABLE_VIEW', VIEWS_DIR.'/Table.view.php');
 
 class Table extends HTMLCollection {
 
@@ -62,32 +67,11 @@ class Table extends HTMLCollection {
 	}
 
 	/**
-	 * Generic set/get methods
-	 */
-	public function __call($funcName, $args) {
-
-		// SET function
-		if (preg_match('%^set%i', $funcName)) {
-			$varName = '_'.lcfirst(preg_replace('%^set%i', '', $funcName));
-			if (property_exists($this, $varName) && isset($args[0])) {
-				$this->$varName = $args[0];
-				return $this;
-			}
-		}
-
-		// GET function
-		if (preg_match('%^get%i', $funcName)) {
-			$varName = '_'.lcfirst(preg_replace('%^get%i', '', $funcName));
-			if (property_exists($this, $varName)) {
-				return $this->$varName;
-			}
-		}
-
-		throw new Exception(__METHOD__.': error calling "'.$funcName.'" function');
-	}
-
-	/**
 	 * add condition to the sql
+	 * @param $key
+	 * @param $val
+	 * @param $operator default "=" (available "in", "like", etc)
+	 * @return $this
 	 */
 	public function addExtraCondition($key, $val, $operator = '=') {
 		$this->_extraConditions[] = array(
@@ -95,6 +79,31 @@ class Table extends HTMLCollection {
 			'val'=>$val,
 			'operator'=>$operator
 		);
+
+		return $this;
+	}
+
+	/**
+	 * Get the html of the table
+	 */
+	public function getHtml() {
+
+		// get only the fields
+		$fieldsList = array_filter($this->getItems(), function($item) {
+			return ($item instanceof Field);
+		});
+
+		// get only the buttons
+		$buttonsList = array_filter($this->getItems(), function($item) {
+			return ($item instanceof Button);
+		});
+
+		// load page template
+		ob_start();
+		require TABLE_VIEW;
+		$pageHtml = ob_get_clean();
+
+		return $pageHtml;
 	}
 
 }

@@ -32,13 +32,14 @@ class Application extends HTMLCollection {
 	 * enable/disable layout. default true. 
 	 * e.g. false is used for AJAX requests 
 	 */
-	private $layoutEnabled = true;
+	private $_layoutEnabled = true;
 
 	/**
 	 * disable layout - (for ajax requests for example)
+	 * @alias $app->setLayoutEnabled(false)
 	 */
 	public function disableLayout() {
-		$this->layoutEnabled = false;
+		$this->_layoutEnabled = false;
 	}
 
 	/**
@@ -121,7 +122,7 @@ class Application extends HTMLCollection {
 		$currentPageHtml = $this->_currentPage->getHtml();
 
 		// check if the layout is enabled, if no, just return the HTML of the current page
-		if (!$this->layoutEnabled) {
+		if (!$this->_layoutEnabled) {
 			return $currentPageHtml;
 		}
 

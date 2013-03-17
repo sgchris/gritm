@@ -19,23 +19,9 @@ class Page extends HTMLCollection {
 	private $_name;
 
 	/**
-	 * get the name of the page
-	 */
-	public function getName() {
-		return $this->_name;
-	}
-
-	/**
 	 * The url of the page
 	 */
 	private $_url = null;
-
-	/**
-	 * get the URL of the page
-	 */
-	public function getUrl() {
-		return $this->_url;
-	}
 
 	/**
 	 * The request object
@@ -64,14 +50,6 @@ class Page extends HTMLCollection {
 		}
 
 		return false;
-	}
-
-	/**
-	 * Set the request object to be handled by the page
-	 */
-	public function setRequest(Request $request) {
-		$this->_request = $request;
-		return $this;
 	}
 
 	/**

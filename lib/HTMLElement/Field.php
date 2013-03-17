@@ -9,41 +9,25 @@ require_once dirname(__FILE__).'/../HTMLElement.php';
 class Field extends HTMLElement {
 
 	/**
+	 * The name of the column
+	 */
+	private $_name;
+
+	/**
 	 * the name of the field in the database
 	 */
-	private $field_database_name;
-
-	/**
-	 * set the name of the field in the database
-	 */
-	private function setDatabaseName($field_database_name) {
-		$this->field_database_name = $field_database_name;
-	}
-
-	/**
-	 * get the name of the field in the database
-	 */
-	private function getDatabaseName() {
-		return $this->field_database_name;
-	}
+	private $_dbName;
 
 	/**
 	 * the type of the field (text / password / etc)
 	 */
-	private $type;
+	private $_type;
 
 	/**
-	 * set the type of the field
+	 * Get the HTML of the field
 	 */
-	private function setType($type) {
-		$this->type = $type;
-	}
-
-	/**
-	 * get the type of the field
-	 */
-	private function getType() {
-		return $this->type;
+	public function getHtml() {
+		
 	}
 
 }

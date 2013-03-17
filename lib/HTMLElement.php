@@ -111,4 +111,31 @@ class HTMLElement {
 
 	}
 
+
+	/**
+	 * Generic set/get methods
+	 * @return $this - in case of "set"
+	 */
+	public function __call($funcName, $args) {
+
+		// SET function
+		if (preg_match('%^set%i', $funcName)) {
+			$varName = '_'.lcfirst(preg_replace('%^set%i', '', $funcName));
+			if (property_exists($this, $varName) && isset($args[0])) {
+				$this->$varName = $args[0];
+				return $this;
+			}
+		}
+
+		// GET function
+		if (preg_match('%^get%i', $funcName)) {
+			$varName = '_'.lcfirst(preg_replace('%^get%i', '', $funcName));
+			if (property_exists($this, $varName)) {
+				return $this->$varName;
+			}
+		}
+
+		throw new Exception(__METHOD__.': error calling "'.$funcName.'" function');
+	}	
+
 }
