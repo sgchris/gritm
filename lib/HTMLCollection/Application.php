@@ -15,13 +15,13 @@ class Application extends HTMLCollection {
 	/**
 	 * The name of the application
 	 */
-	private $_name;
+	protected $_name;
 
 	/**
 	 * the request object
 	 * initialized by `Request` object
 	 */
-	private $_request = null;
+	protected $_request = null;
 
 	/**
 	 * Current page
@@ -32,7 +32,7 @@ class Application extends HTMLCollection {
 	 * enable/disable layout. default true. 
 	 * e.g. false is used for AJAX requests 
 	 */
-	private $_layoutEnabled = true;
+	protected $_layoutEnabled = true;
 
 	/**
 	 * disable layout - (for ajax requests for example)

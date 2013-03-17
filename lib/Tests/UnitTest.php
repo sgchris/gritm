@@ -39,6 +39,54 @@ abstract class UnitTest {
 			$this->_printAssertResult("\"{$expr1}\" not equals \"{$expr2}\"");
 		}
 	}
+	
+	/**
+	 *
+	 * check if $expr1 is Greater Than $expr2
+	 * @param mixed $expr1
+	 * @param mixed $expr2
+	 */
+	public function assertGt($expr1, $expr2) {
+		if ($expr1 > $expr2) {
+			$this->_printAssertResult("\"{$expr1}\" not greater than \"{$expr2}\"");
+		}
+	}
+
+	/**
+	 *
+	 * check if $expr1 is Greater Than or Equal $expr2
+	 * @param mixed $expr1
+	 * @param mixed $expr2
+	 */
+	public function assertGte($expr1, $expr2) {
+		if ($expr1 >= $expr2) {
+			$this->_printAssertResult("\"{$expr1}\" not greater than or equal \"{$expr2}\"");
+		}
+	}
+	
+	/**
+	 *
+	 * check if $expr1 is Lower Than $expr2
+	 * @param mixed $expr1
+	 * @param mixed $expr2
+	 */
+	public function assertLt($expr1, $expr2) {
+		if ($expr1 < $expr2) {
+			$this->_printAssertResult("\"{$expr1}\" not lower than \"{$expr2}\"");
+		}
+	}
+
+	/**
+	 *
+	 * check if $expr1 is Greater Than or Equal $expr2
+	 * @param mixed $expr1
+	 * @param mixed $expr2
+	 */
+	public function assertLte($expr1, $expr2) {
+		if ($expr1 <= $expr2) {
+			$this->_printAssertResult("\"{$expr1}\" not lower than or equal \"{$expr2}\"");
+		}
+	}
 
 	/**
 	 *

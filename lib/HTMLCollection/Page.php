@@ -16,17 +16,17 @@ class Page extends HTMLCollection {
 	/**
 	 * The name/title of the page
 	 */
-	private $_name;
+	protected $_name;
 
 	/**
 	 * The url of the page
 	 */
-	private $_url = null;
+	protected $_url = null;
 
 	/**
 	 * The request object
 	 */
-	private $_request = null;
+	protected $_request = null;
 
 	/**
 	 * initialize the object

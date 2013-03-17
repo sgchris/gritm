@@ -10,7 +10,7 @@ class HTMLCollection extends HTMLElement {
 	/**
 	 * The html of the element
 	 */
-	private $items = array();
+	protected $items = array();
 
 	/**
 	 * Add item to the collection

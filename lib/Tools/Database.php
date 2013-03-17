@@ -8,7 +8,7 @@ class Db
 	/**
 	 * The singleton instance
 	 */
-	private static $PDOInstance = null; 
+	protected static $PDOInstance = null; 
 	
 	/**
 	 * Credentials
@@ -20,7 +20,7 @@ class Db
 	 * DB info
 	 */
 	const host = 'localhost';
-	const Dbname = 'gritm';
+	const dbName = 'gritm';
 
 	/**
 	 * get database instance
@@ -28,7 +28,7 @@ class Db
 	 */
 	public static function get() {
 		if (is_null(self::$PDOInstance)) {
-			self::$PDOInstance = new PDO('mysql:host='.(Db::host).';Dbname='.(Db::Dbname), Db::username, Db::password);
+			self::$PDOInstance = new PDO('mysql:host='.(Db::host).';dbname='.(Db::dbName), Db::username, Db::password);
 			self::$PDOInstance->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC); 
 			self::$PDOInstance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING); 
 			self::$PDOInstance->exec('set names "utf8"'); 
@@ -46,9 +46,9 @@ class Db
 	}
 
 	/**
-	 * private constructor - singleton
+	 * protected constructor - singleton
 	 */
-	private function __construct() {
+	protected function __construct() {
 		// empty constructor
 	}
 

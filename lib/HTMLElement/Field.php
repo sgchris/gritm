@@ -11,23 +11,34 @@ class Field extends HTMLElement {
 	/**
 	 * The name of the column
 	 */
-	private $_name;
+	protected $_name;
 
 	/**
 	 * the name of the field in the database
 	 */
-	private $_dbName;
+	protected $_dbName;
+
+	/**
+	 * the width of the field column in the table
+	 */
+	protected $_width = null;
 
 	/**
 	 * the type of the field (text / password / etc)
 	 */
-	private $_type;
-
-	/**
-	 * Get the HTML of the field
-	 */
-	public function getHtml() {
-		
-	}
+	protected $_type;
+    
+    /**
+     * Default constructor for a field
+     * 
+     * @param type $name
+     * @param type $dbName
+     * @param type $width
+     */
+    public function __construct($name, $dbName, $width = null) {
+        $this->setName($name);
+        $this->setDbName($dbName);
+        $this->setWidth($width);
+    }
 
 }
