@@ -29,7 +29,7 @@
                 </section>
             </section>
             
-            <footer class="navbar-static-bottom navbar-fixed-bottom well">
+            <footer class="navbar-static-bottom navbar-fixed-bottom well well-small">
                 <nav>
                     <small class="muted pull-right">
                         All rights reserved to GriTM 2013&copy;

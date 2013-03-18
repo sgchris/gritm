@@ -13,16 +13,6 @@ define('APP_VIEW', VIEWS_DIR . '/Application.view.php');
 class Application extends HTMLCollection {
 
     /**
-     * The name of the application
-     */
-    protected $_name;
-
-    /**
-     * The description of the application
-     */
-    protected $_description;
-
-    /**
      * the request object
      * initialized by `Request` object
      */
@@ -45,6 +35,7 @@ class Application extends HTMLCollection {
      */
     public function disableLayout() {
         $this->_layoutEnabled = false;
+        return $this;
     }
 
     /**

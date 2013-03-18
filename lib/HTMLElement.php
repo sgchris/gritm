@@ -9,6 +9,16 @@ require_once __DIR__ . '/Config/Config.php';
 class HTMLElement {
 
     /**
+     * The name of the element
+     */
+    protected $_name;
+
+    /**
+     * The description of the element
+     */
+    protected $_description;
+
+    /**
      * The html of the element
      */
     protected $_html;

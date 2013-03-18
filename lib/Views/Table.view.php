@@ -8,7 +8,7 @@
 </div>
 
 <? /* TABLE */ ?>
-<table class="table table-bordered table-striped table-condensed table-hover">
+<table class="table table-bordered table-striped table-hover">
     <thead>
         <tr>
             <th width="<?= $this->getPkFieldWidth(); ?>">#</th>
