@@ -22,12 +22,12 @@ class ApplicationTest extends PHPUnit_Framework_TestCase {
         
         // define the SERVER var - emulating web request
         $docRoot = file_exists('/xampp/htdocs') ? '/xampp/htdocs' : (
-                    file_exists('/gri/xampp/htdocs') ? '/gri/xampp/htdocs' : 'c:\\'
+                file_exists('/gri/xampp/htdocs') ? '/gri/xampp/htdocs' : 'c:\\'
                 );
         $_SERVER = array(
             'REQUEST_URI' => '/gritm',
             'DOCUMENT_ROOT' => $docRoot
-            );
+        );
         $this->object = new Application;
     }
 

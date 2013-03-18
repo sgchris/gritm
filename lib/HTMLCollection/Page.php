@@ -75,8 +75,15 @@ class Page extends HTMLCollection {
         foreach ($this->getItems() as $item) {
             if (!($item instanceof Table))
                 continue;
-
             $tablesHtml.= $item->getHtml();
+        }
+
+        // get the html of the tables
+        $buttonsHtml = '';
+        foreach ($this->getItems() as $item) {
+            if (!($item instanceof Button))
+                continue;
+            $buttonsHtml.= $item->getHtml();
         }
 
         // load page template
