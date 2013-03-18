@@ -11,11 +11,7 @@ class Field_Text extends Field {
     
     public function getHtml() {
         
-		// load page template
-		ob_start();
-		require FIELD_TEXT_VIEW;
-		$fieldHtml = ob_get_clean();
-
+		$fieldHtml = htmlentities($this->getValue(), ENT_NOQUOTES, 'utf-8');
 		return $fieldHtml;
     }
     

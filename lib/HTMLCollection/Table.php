@@ -36,6 +36,11 @@ class Table extends HTMLCollection {
     protected $_pkField = 'id';
 
     /**
+     * Primary key field name
+     */
+    protected $_pkFieldWidth = 50;
+
+    /**
      * Alternative SQL for the table
      * if defined, there's no upsert available
      */

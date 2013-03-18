@@ -18,6 +18,11 @@ class Application extends HTMLCollection {
     protected $_name;
 
     /**
+     * The description of the application
+     */
+    protected $_description;
+
+    /**
      * the request object
      * initialized by `Request` object
      */

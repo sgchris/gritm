@@ -8,10 +8,10 @@
 </div>
 
 <? /* TABLE */ ?>
-<table class="table table-striped table-condensed table-hover">
+<table class="table table-bordered table-striped table-condensed table-hover">
     <thead>
         <tr>
-            <th>#</th>
+            <th width="<?= $this->getPkFieldWidth(); ?>">#</th>
             <? foreach ($fieldsList as $field) { ?>
                 <th width="<?= $field->getWidth() ?>">
                     <?= htmlentities($field->getName(), ENT_NOQUOTES, 'utf-8') ?>
@@ -23,6 +23,7 @@
     <tbody>
         <? foreach ($recordSetRows as $row) { ?>
             <tr>
+                <td><?= $row[$this->getPkField()] ?></td>
                 <? foreach ($fieldsList as $field) { ?>
                     <td>
                         <?
