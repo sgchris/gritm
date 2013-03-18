@@ -58,6 +58,9 @@ class Application extends HTMLCollection {
         // get the request object for the current request
         $this->_request = new Request;
         $this->_request->parse();
+        
+        // add the homepage as one of the page
+        $this->add(new Page_Homepage());
     }
 
     /**

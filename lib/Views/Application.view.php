@@ -4,47 +4,46 @@
         <title><?= $this->getName() ?></title>
         <link rel="stylesheet" href="<?= $this->_request->getRelativePath() ?>/css/bootstrap.min.css" />
         <link rel="stylesheet" href="<?= $this->_request->getRelativePath() ?>/css/bootstrap-responsive.min.css" />
+        <link rel="stylesheet" href="<?= $this->_request->getRelativePath() ?>/css/my.css" />
     </head>
     <body>
         <div class="container-fluid">
             <header class="page-header">
                 <h1><?= $this->getName() ?> <small><?= $this->getDescription() ?></small></h1>
             </header>
-            <div class="row-fluid">
-                <nav class="span2 well">
-                    <ul class="nav nav-pills nav-stacked">
+            <section class="main-section row-fluid">
+                <nav class="span3 well">
+                    <ul class="nav nav-list nav-pills nav-stacked">
                         <? foreach ($applicationPages as $page) { ?>
                             <li>
                                 <a href="<?= $this->_request->getRelativePath() ?>/<?= $page->getUrl() ?>">
-                                    <?= htmlentities($page->getUrl(), ENT_NOQUOTES, 'utf-8') ?>
+                                    <?= htmlentities($page->getName(), ENT_NOQUOTES, 'utf-8') ?>
                                 </a>
                             </li>
                         <? } ?>
                     </ul>
                 </nav>
 
-                <section class="span10">
+                <section class="span9">
                     <?= $currentPageHtml ?>
                 </section>
-            </div>
+            </section>
             
-            <footer class="navbar-fixed-bottom well">
+            <footer class="navbar-static-bottom navbar-fixed-bottom well">
                 <nav>
+                    <small class="muted pull-right">
+                        All rights reserved to GriTM 2013&copy;
+                    </small>
                     <ul class="nav nav-pills">
                         <? foreach ($applicationPages as $page) { ?>
                             <li>
                                 <a href="<?= $this->_request->getRelativePath() ?>/<?= $page->getUrl() ?>">
-                                    <?= htmlentities($page->getUrl(), ENT_NOQUOTES, 'utf-8') ?>
+                                    <?= htmlentities($page->getName(), ENT_NOQUOTES, 'utf-8') ?>
                                 </a>
                             </li>
                         <? } ?>
                     </ul>
                 </nav>
-
-                <small class="muted pull-right">
-                    All rights reserved to GriTM 2013&copy;
-                </small>
-                
             </footer>
         </div>
     </body>

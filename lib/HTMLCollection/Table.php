@@ -34,17 +34,53 @@ class Table extends HTMLCollection {
      * Primary key field name
      */
     protected $_pkField = 'id';
+    
+    /**
+     * 
+     * @param type $pkFieldName
+     */
+    public function setPkField($pkFieldName) { $this->_pkField = $pkFieldName; }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function getPkField() { return $this->_pkField; }
 
     /**
      * Primary key field name
      */
     protected $_pkFieldWidth = 50;
+    
+    /**
+     * 
+     * @param type $pkFieldWidth
+     */
+    public function setPkFieldWidth($pkFieldWidth) { $this->_pkFieldWidth = $pkFieldWidth; }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function getPkFieldWidth() { return $this->_pkFieldWidth; }
 
     /**
      * Alternative SQL for the table
      * if defined, there's no upsert available
      */
     protected $_customSql = null;
+    
+    /**
+     * 
+     * @param type $customSql
+     */
+    public function setCustomSql($customSql) { $this->_customSql = $customSql; }
+    
+    /**
+     * 
+     * @return string
+     */
+    public function getCustomSql() { return $this->_customSql; }
 
     /**
      * Additional conditions on the table (added to the SQL query)
@@ -55,6 +91,18 @@ class Table extends HTMLCollection {
      * number of rows in one page
      */
     protected $_totalRows = 30;
+    
+    /**
+     * 
+     * @param type $totalRows
+     */
+    public function setTotalRows($totalRows) { $this->_totalRows = $totalRows; }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function getTotalRows() { return $this->_totalRows; }
 
     /**
      * Order of the query
@@ -197,7 +245,7 @@ class Table extends HTMLCollection {
         $sql_Order = array();
         $order = $this->getOrder();
         array_walk($order, function($item) use (&$sql_Order) {
-                    $sql_Order[] = '`' . $item['key'] . '` ' . ($item['key'] == Table::ORDER_ASCENDING ? 'ASC' : 'DESC');
+                    $sql_Order[] = '`' . $item['key'] . '` ' . ($item['order'] == Table::ORDER_ASCENDING ? 'ASC' : 'DESC');
                 });
 
         // build the sql // 'limit' clause
@@ -231,7 +279,13 @@ class Table extends HTMLCollection {
         $sql = $this->_getSql();
 
         // prepare the query
-        $db = Database::get();
+        try {
+            if (($db = Database::get()) === null) {
+                throw new Exception;
+            }
+        } catch (Exception $e) {
+            return null;
+        }
         $stmt = $db->prepare($sql);
 
         // bind values for the where clause

@@ -21,19 +21,23 @@
     </thead>
 
     <tbody>
-        <? foreach ($recordSetRows as $row) { ?>
-            <tr>
-                <td><?= $row[$this->getPkField()] ?></td>
-                <? foreach ($fieldsList as $field) { ?>
-                    <td>
-                        <?
-                        echo $field
-                                ->setValue($row[$field->getDbName()], $row)
-                                ->getHtml();
-                        ?>
-                    </td>
-                <? } ?>
-            </tr>
+        <? if (is_array($recordSetRows)) { ?>
+            <? foreach ($recordSetRows as $row) { ?>
+                <tr>
+                    <td><?= $row[$this->getPkField()] ?></td>
+                    <? foreach ($fieldsList as $field) { ?>
+                        <td>
+                            <?
+                            echo $field
+                                    ->setValue($row[$field->getDbName()], $row)
+                                    ->getHtml();
+                            ?>
+                        </td>
+                    <? } ?>
+                </tr>
+            <? } ?>
+        <? } else { ?>
+                <td colspan="100%">Error getting data!</td>
         <? } ?>
     </tbody>
 </table>

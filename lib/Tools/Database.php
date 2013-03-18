@@ -18,11 +18,15 @@ class Database
 	 */
 	public static function get() {
 		if (is_null(self::$PDOInstance)) {
+                    try {
 			self::$PDOInstance = new PDO('mysql:host='.DBHOST.';dbname='.DBNAME, DBUSER, DBPASS);
 			self::$PDOInstance->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC); 
 			self::$PDOInstance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING); 
 			self::$PDOInstance->exec('set names "utf8"'); 
 			self::$PDOInstance->exec('set character set "utf8"');
+                    } catch (PDOException $e) {
+                        self::$PDOInstance = null;
+                    }
 		}
 
 		return self::$PDOInstance;

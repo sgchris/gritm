@@ -1,19 +1,32 @@
 <?php
+
 /**
  * instance of Page class - responsible for the homepage
  */
-
-require_once __DIR__.'/../Page.php';
+require_once __DIR__ . '/../Page.php';
 
 // The homepage HTML
-define('HOMEPAGE_VIEW', VIEWS_DIR.'/Application.homepage.view.php');
+define('HOMEPAGE_VIEW', VIEWS_DIR . '/Application.homepage.view.php');
 
 class Page_Homepage extends Page {
 
-	public function getHtml() {
-		ob_start();
-		require HOMEPAGE_VIEW;
-		return ob_get_clean();
-	}
+    /**
+     * @override the basic page constructor
+     * @param type $pageName
+     * @param type $pageUrl
+     */
+    public function __construct($pageName = 'Homepage', $pageUrl = '') {
+        parent::__construct($pageName, $pageUrl);
+    }
+    
+    /**
+     * Get the HTML of the homepage
+     * @return type
+     */
+    public function getHtml() {
+        ob_start();
+        require HOMEPAGE_VIEW;
+        return ob_get_clean();
+    }
 
 }

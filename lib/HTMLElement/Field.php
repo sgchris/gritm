@@ -55,10 +55,13 @@ class Field extends HTMLElement {
      * Assign a value to the field
      * @param type $value
      * @param type $row
+     * @return object $this
      */
     public function setValue($value, $row = null) {
         $this->_value = $value;
         $this->_row = $row;
+        
+        return $this;
     }
     
 }
