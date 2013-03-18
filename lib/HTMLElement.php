@@ -24,43 +24,12 @@ class HTMLElement {
     protected $_javascript;
 
     /**
-     * Get the html of the element
-     */
-    public function getHtml() {
-        return $this->_html;
-    }
-
-    /**
-     * Get the css of the element
-     */
-    public function getCss() {
-        return $this->_css;
-    }
-
-    /**
-     * Get the javascript of the element
-     */
-    public function getJavascript() {
-        return $this->_javascript;
-    }
-
-    /**
      * add html to the current html
      * @param $html string
      * @return this object
      */
     protected function appendHtml($html) {
         $this->_html.=$html;
-        return $this;
-    }
-
-    /**
-     * set html to the current html
-     * @param $html string
-     * @return this object
-     */
-    protected function setHtml($html) {
-        $this->_html = $html;
         return $this;
     }
 
@@ -75,32 +44,12 @@ class HTMLElement {
     }
 
     /**
-     * set css to the current css
-     * @param $css string
-     * @return this object
-     */
-    protected function setCss($css) {
-        $this->_css = $css;
-        return $this;
-    }
-
-    /**
      * add javascript to the current javascript
      * @param $javascript string
      * @return this object
      */
     protected function appendJavascript($javascript) {
         $this->_javascript.=$javascript;
-        return $this;
-    }
-
-    /**
-     * set javascript to the current javascript
-     * @param $javascript string
-     * @return this object
-     */
-    protected function setJavascript($javascript) {
-        $this->_javascript = $javascript;
         return $this;
     }
 
