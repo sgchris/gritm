@@ -34,7 +34,7 @@ class TableTest extends UnitTest {
 
         // check that the getHtml returned value
         $this->assertGt(strlen($t->getHtml()), 0);
-        
+
         // check that the table starts with a header
         $this->assertTrue(preg_match('%^<h\d+%i', $t->getHtml()));
     }

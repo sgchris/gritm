@@ -15,7 +15,7 @@
                 <nav class="span3 well">
                     <ul class="nav nav-list nav-pills nav-stacked">
                         <? foreach ($applicationPages as $page) { ?>
-                            <li>
+                            <li<?= ($currentPageUrl == $page->getUrl() ? ' class="active"' : '') ?>>
                                 <a href="<?= $this->_request->getRelativePath() ?>/<?= $page->getUrl() ?>">
                                     <?= htmlentities($page->getName(), ENT_NOQUOTES, 'utf-8') ?>
                                 </a>
@@ -28,7 +28,7 @@
                     <?= $currentPageHtml ?>
                 </section>
             </section>
-            
+
             <footer class="navbar-static-bottom navbar-fixed-bottom well well-small">
                 <nav>
                     <small class="muted pull-right">
@@ -36,7 +36,7 @@
                     </small>
                     <ul class="nav nav-pills">
                         <? foreach ($applicationPages as $page) { ?>
-                            <li>
+                            <li<?= ($currentPageUrl == $page->getUrl() ? ' class="active"' : '') ?>>
                                 <a href="<?= $this->_request->getRelativePath() ?>/<?= $page->getUrl() ?>">
                                     <?= htmlentities($page->getName(), ENT_NOQUOTES, 'utf-8') ?>
                                 </a>

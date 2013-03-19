@@ -29,17 +29,17 @@ class TableTest extends PHPUnit_Framework_TestCase {
     protected function tearDown() {
         
     }
-    
+
     /**
      * @covers Table::getHtml
      * @todo   Implement testGetHtml().
      */
     public function testGetHtml() {
         $html = $this->object->getHtml();
-        
+
         // check that there is a table element
         $this->assertRegExp('%<table(.*?)</table%smi', $html);
-        
+
         // check that there are the fields
         $this->assertRegExp('%<th(.*?)Key(.*?)</th>%smi', $html);
         $this->assertRegExp('%<th(.*?)Value(.*?)</th>%smi', $html);

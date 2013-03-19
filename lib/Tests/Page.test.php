@@ -1,40 +1,37 @@
 <?php
 
-require_once __DIR__.'/UnitTest.php';
-require_once __DIR__.'/../Tools/Request.php';
-require_once __DIR__.'/../HTMLCollection/Page.php';
+require_once __DIR__ . '/UnitTest.php';
+require_once __DIR__ . '/../Tools/Request.php';
+require_once __DIR__ . '/../HTMLCollection/Page.php';
 
 class PageTest extends UnitTest {
 
-	public function testResponsiblePage() {
+    public function testResponsiblePage() {
 
-		$originalRequestUri = $_SERVER['REQUEST_URI'];
-		$_SERVER['REQUEST_URI'] = '/gritm/test-page';
-		$p = new Page('Test page', 'test-page');
-		$r = new Request;
+        $originalRequestUri = $_SERVER['REQUEST_URI'];
+        $_SERVER['REQUEST_URI'] = '/gritm/test-page';
+        $p = new Page('Test page', 'test-page');
+        $r = new Request;
 
-		$this->assertTrue($p->isResponsibleFor($r));
+        $this->assertTrue($p->isResponsibleFor($r));
 
-		$_SERVER['REQUEST_URI'] = $originalRequestUri;
-	}
+        $_SERVER['REQUEST_URI'] = $originalRequestUri;
+    }
 
+    public function testIrresponsiblePage() {
 
-	public function testIrresponsiblePage() {
+        $originalRequestUri = $_SERVER['REQUEST_URI'];
 
-		$originalRequestUri = $_SERVER['REQUEST_URI'];
+        $_SERVER['REQUEST_URI'] = '/gritm/test-another-page';
+        $p = new Page('Test page', 'test-page');
+        $r = new Request;
 
-		$_SERVER['REQUEST_URI'] = '/gritm/test-another-page';
-		$p = new Page('Test page', 'test-page');
-		$r = new Request;
+        $this->assertFalse($p->isResponsibleFor($r));
 
-		$this->assertFalse($p->isResponsibleFor($r));
-
-		$_SERVER['REQUEST_URI'] = $originalRequestUri;
-	}
-
+        $_SERVER['REQUEST_URI'] = $originalRequestUri;
+    }
 
 }
-
 
 $pt = new PageTest;
 $pt->run();

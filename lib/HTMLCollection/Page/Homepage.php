@@ -18,7 +18,7 @@ class Page_Homepage extends Page {
     public function __construct($pageName = 'Homepage', $pageUrl = '') {
         parent::__construct($pageName, $pageUrl);
     }
-    
+
     /**
      * Get the HTML of the homepage
      * @return type

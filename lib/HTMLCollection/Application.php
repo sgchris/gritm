@@ -49,7 +49,7 @@ class Application extends HTMLCollection {
         // get the request object for the current request
         $this->_request = new Request;
         $this->_request->parse();
-        
+
         // add the homepage as one of the page
         $this->add(new Page_Homepage());
     }
@@ -116,6 +116,13 @@ class Application extends HTMLCollection {
 
         // get the HTML of the current page
         $currentPageHtml = $this->_currentPage ? $this->_currentPage->getHtml() : '';
+
+        // get the current page URL
+        $currentPageUrl = $this->_request->getUrlParam(0);
+        if (is_null($currentPageUrl)) {
+            $currentPageUrl = '';
+        }
+
 
         // check if the layout is enabled, if no, just return the HTML of the current page
         if (!$this->_layoutEnabled) {

@@ -55,7 +55,7 @@ class HTMLCollectionTest extends PHPUnit_Framework_TestCase {
         $this->object->add('greg');
         $this->object->add(new stdClass);
         $this->assertEquals(count($this->object->getAll()), 2);
-        
+
         $this->object->remove(0);
         $this->assertEquals(count($this->object->getAll()), 1);
     }
@@ -65,7 +65,7 @@ class HTMLCollectionTest extends PHPUnit_Framework_TestCase {
      */
     public function testExists() {
         $this->object->add(new stdClass(), 'obj');
-        
+
         $this->assertTrue($this->object->exists('obj'));
     }
 

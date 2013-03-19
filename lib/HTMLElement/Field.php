@@ -1,43 +1,43 @@
 <?php
+
 /**
  * Generic field base class
  */
-
 // include the base class
-require_once dirname(__FILE__).'/../HTMLElement.php';
+require_once dirname(__FILE__) . '/../HTMLElement.php';
 
 class Field extends HTMLElement {
 
-	/**
-	 * The name of the column
-	 */
-	protected $_name;
+    /**
+     * The name of the column
+     */
+    protected $_name;
 
-	/**
-	 * the name of the field in the database
-	 */
-	protected $_dbName;
+    /**
+     * the name of the field in the database
+     */
+    protected $_dbName;
 
-	/**
-	 * the width of the field column in the table
-	 */
-	protected $_width = null;
+    /**
+     * the width of the field column in the table
+     */
+    protected $_width = null;
 
-	/**
-	 * the type of the field (text / password / etc)
-	 */
-	protected $_type;
-    
+    /**
+     * the type of the field (text / password / etc)
+     */
+    protected $_type;
+
     /**
      * the value of the field - as it comes from the database
      */
     protected $_value;
-    
+
     /**
      * the whole record value(s)
      */
     protected $_row;
-    
+
     /**
      * Default constructor for a field
      * 
@@ -50,7 +50,7 @@ class Field extends HTMLElement {
         $this->setDbName($dbName);
         $this->setWidth($width);
     }
-    
+
     /**
      * Assign a value to the field
      * @param type $value
@@ -60,8 +60,8 @@ class Field extends HTMLElement {
     public function setValue($value, $row = null) {
         $this->_value = $value;
         $this->_row = $row;
-        
+
         return $this;
     }
-    
+
 }

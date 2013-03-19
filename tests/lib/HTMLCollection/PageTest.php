@@ -45,13 +45,12 @@ class PageTest extends PHPUnit_Framework_TestCase {
     public function testIsResponsibleFor() {
         $GLOBALS['_SERVER']['REQUEST_URI'] = '/gritm';
         $this->assertFalse($this->object->isResponsibleFor(new Request));
-        
+
         $GLOBALS['_SERVER']['REQUEST_URI'] = '/gritm/test-page';
         $this->assertTrue($this->object->isResponsibleFor(new Request));
-        
+
         $GLOBALS['_SERVER']['REQUEST_URI'] = '/gritm/test-page/add-somthing';
         $this->assertTrue($this->object->isResponsibleFor(new Request));
-        
     }
 
     /**
@@ -59,10 +58,10 @@ class PageTest extends PHPUnit_Framework_TestCase {
      * @todo   Implement testGetHtml().
      */
     public function testGetHtml() {
-        
+
         // Remove the following lines when you implement this test.
         $html = $this->object->getHtml();
-        
+
         // check that the header exists
         $this->assertRegExp('%<h\d+>TestPage</h\d+>%i', $html);
     }

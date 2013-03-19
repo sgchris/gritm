@@ -11,15 +11,14 @@ class ApplicationTest extends PHPUnit_Framework_TestCase {
      * @var Application
      */
     protected $object;
-
     protected $originalRequestUri;
-    
+
     /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
     protected function setUp() {
-        
+
         // define the SERVER var - emulating web request
         $docRoot = file_exists('/xampp/htdocs') ? '/xampp/htdocs' : (
                 file_exists('/gri/xampp/htdocs') ? '/gri/xampp/htdocs' : 'c:\\'
@@ -44,11 +43,11 @@ class ApplicationTest extends PHPUnit_Framework_TestCase {
      * @covers Application::getHtml
      */
     public function testDisableLayout() {
-        
+
         $html = $this->object->run(true);
         $this->assertStringStartsWith('<!DOCTYPE', $html);
         $this->assertStringEndsWith('</html>', $html);
-        
+
         $this->object->disableLayout();
         $html = $this->object->run(true);
         $this->assertStringStartsNotWith('<!DOCTYPE', $html);

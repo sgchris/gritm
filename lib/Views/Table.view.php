@@ -8,14 +8,14 @@
 </div>
 
 <? /* TABLE */ ?>
-<table class="table table-bordered table-striped table-hover">
+<table class="table table-bordered table-striped table-hover" table-db-name="<?= $this->getDbName() ?>">
     <thead>
         <tr>
             <th width="<?= $this->getPkFieldWidth(); ?>">#</th>
             <? foreach ($fieldsList as $field) { ?>
-                <th width="<?= $field->getWidth() ?>">
-                    <?= htmlentities($field->getName(), ENT_NOQUOTES, 'utf-8') ?>
-                </th>
+                <th width="<?= $field->getWidth() ?>"><?=
+                    htmlentities($field->getName(), ENT_NOQUOTES, 'utf-8')
+                    ?></th>
             <? } ?>
         </tr>
     </thead>
@@ -23,23 +23,21 @@
     <tbody>
         <? if (is_array($recordSetRows)) { ?>
             <? foreach ($recordSetRows as $row) { ?>
-                <tr>
+                <tr row-pk="<?= $row[$this->getPkField()] ?>">
                     <td><?= $row[$this->getPkField()] ?></td>
                     <? foreach ($fieldsList as $field) { ?>
-                        <td>
-                            <?
+                        <td field-db-name="<?= $field->getDbName() ?>" field-db-value="<?= $row[$field->getDbName()] ?>"><?
                             echo $field
                                     ->setValue($row[$field->getDbName()], $row)
                                     ->getHtml();
-                            ?>
-                        </td>
+                            ?></td>
                     <? } ?>
                 </tr>
             <? } ?>
         <? } else { ?>
-                <td colspan="100%">Error getting data!</td>
-        <? } ?>
-    </tbody>
+        <td colspan="100%">Error getting data!</td>
+    <? } ?>
+</tbody>
 </table>
 
 <? /* BUTTONS */ ?>

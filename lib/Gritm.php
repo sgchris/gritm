@@ -1,11 +1,11 @@
 <?php
+
 /**
  * Initial page of the lib. This page is included in the application definition
  * 
  * @since Mar 17, 2013
  * @author Gregoryc
  */
-
 // include the basic configuration
 require_once __DIR__ . '/Config/Config.php';
 
