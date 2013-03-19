@@ -29,7 +29,7 @@
                         <td field-db-name="<?= $field->getDbName() ?>" field-db-value="<?= $row[$field->getDbName()] ?>"><?
                             echo $field
                                     ->setValue($row[$field->getDbName()], $row)
-                                    ->getHtml();
+                                    ->getEditHtml();
                             ?></td>
                     <? } ?>
                 </tr>
