@@ -5,6 +5,11 @@
         <link rel="stylesheet" href="<?= $this->_request->getRelativePath() ?>/css/bootstrap.min.css" />
         <link rel="stylesheet" href="<?= $this->_request->getRelativePath() ?>/css/bootstrap-responsive.min.css" />
         <link rel="stylesheet" href="<?= $this->_request->getRelativePath() ?>/css/my.css" />
+        
+        <script src="<?= $this->_request->getRelativePath() ?>/js/jquery.min.js"></script>
+        <script src="<?= $this->_request->getRelativePath() ?>/js/bootstrap.min.js"></script>
+        <script>var _HTTP_ROOT = "<?= $this->_request->getRelativePath() ?>";</script>
+        <script src="<?= $this->_request->getRelativePath() ?>/js/gritm.js"></script>
     </head>
     <body>
         <div class="container-fluid">
@@ -12,8 +17,9 @@
                 <h1><?= $this->getName() ?> <small><?= $this->getDescription() ?></small></h1>
             </header>
             <section class="main-section row-fluid">
-                <nav class="span3 well">
+                <nav class="span3 well sidebar-nav">
                     <ul class="nav nav-list nav-pills nav-stacked">
+                        <li class="nav-header">Pages</li>
                         <? foreach ($applicationPages as $page) { ?>
                             <li<?= ($currentPageUrl == $page->getUrl() ? ' class="active"' : '') ?>>
                                 <a href="<?= $this->_request->getRelativePath() ?>/<?= $page->getUrl() ?>">

@@ -5,10 +5,10 @@
     <? foreach ($buttonsList as $button) { ?>
         <?= $button->getHtml() ?>
     <? } ?>
-</div>
+</div><br/><br/>
 
 <? /* TABLE */ ?>
-<table class="table table-bordered table-striped table-hover" table-db-name="<?= $this->getDbName() ?>">
+<table class="table table-bordered table-condensed table-striped table-hover" table-db-name="<?= $this->getDbName() ?>">
     <thead>
         <tr>
             <th width="<?= $this->getPkFieldWidth(); ?>">#</th>
@@ -29,7 +29,7 @@
                         <td field-db-name="<?= $field->getDbName() ?>" field-db-value="<?= $row[$field->getDbName()] ?>"><?
                             echo $field
                                     ->setValue($row[$field->getDbName()], $row)
-                                    ->getEditHtml();
+                                    ->getHtml();
                             ?></td>
                     <? } ?>
                 </tr>

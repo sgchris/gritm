@@ -41,6 +41,7 @@ class Table extends HTMLCollection {
      */
     public function setPkField($pkFieldName) {
         $this->_pkField = $pkFieldName;
+        return $this;
     }
 
     /**
@@ -62,6 +63,7 @@ class Table extends HTMLCollection {
      */
     public function setPkFieldWidth($pkFieldWidth) {
         $this->_pkFieldWidth = $pkFieldWidth;
+        return $this;
     }
 
     /**
@@ -110,6 +112,7 @@ class Table extends HTMLCollection {
      */
     public function setTotalRows($totalRows) {
         $this->_totalRows = $totalRows;
+        return $this;
     }
 
     /**
@@ -217,10 +220,22 @@ class Table extends HTMLCollection {
      */
     protected function _getButtons() {
 
+        // add button "add"
+        $addButton = new Button_Add();
+        $this->add($addButton);
+
         // get only the buttons
         $buttonsList = array_filter($this->getItems(), function($item) {
                     return ($item instanceof Button);
                 });
+
+        // assign the table data to the buttons
+        if (!empty($buttonsList)) {
+            foreach ($buttonsList as $button) {
+                $button->setTable($this);
+            }
+        }
+
 
         return $buttonsList;
     }
