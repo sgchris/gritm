@@ -24,17 +24,16 @@ $t2->add(new Field_Text('Key', 'key', 150))
         ->setTotalRows(50);
 
 
+$p1 = new Page('Zips', 'zips-page');
+$p1->add($t)->add($t2);
 
-$p = new Page('Zips', 'zips-page');
-$p->add($t)->add($t2);
-
-$app->add($p);
+$app->add($p1);
 
 
 ///////////////////////////////////////////////////////
-$p = new Page('Demo Page (Table Manipulation)', 'demo-page-table-manipulation');
+$p2 = new Page('Demo Page (Table Manipulation)', 'demo-page-table-manipulation');
 //$p->add($t);
-$app->add($p);
+$app->add($p2);
 
 $app->run();
 

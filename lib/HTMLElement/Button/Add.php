@@ -22,7 +22,7 @@ class Button_Add extends Button {
      * @return string
      */
     public function getHtml() {
-        return '<a class="btn" button-operation="add" table-name="'.(is_null($this->getTable())?'':$this->getTable()->getDbName()).'">'.
+        return '<a class="btn" button-operation="add" table-db-name="'.(is_null($this->getTable())?'':$this->getTable()->getDbName()).'">'.
                 '<i class="icon-asterisk"></i> Add'.
                 '</a>';
     }
