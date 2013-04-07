@@ -5,11 +5,40 @@
         <link rel="stylesheet" href="<?= $this->_request->getRelativePath() ?>/css/bootstrap.min.css" />
         <link rel="stylesheet" href="<?= $this->_request->getRelativePath() ?>/css/bootstrap-responsive.min.css" />
         <link rel="stylesheet" href="<?= $this->_request->getRelativePath() ?>/css/my.css" />
-        
+
         <script src="<?= $this->_request->getRelativePath() ?>/js/jquery.min.js"></script>
         <script src="<?= $this->_request->getRelativePath() ?>/js/bootstrap.min.js"></script>
         <script>var _HTTP_ROOT = "<?= $this->_request->getRelativePath() ?>";</script>
         <script src="<?= $this->_request->getRelativePath() ?>/js/gritm.js"></script>
+        <script>
+            /*
+            $(function() {
+                Gritm.popup.show({
+                    title:'greg',
+                    html: 'This is some popup <b>HTML</b>',
+                    buttons: [{
+                            caption: 'test button1',
+                            click: function(popup) {
+                                console.log('popup', popup);
+                            }
+                    }]
+                });
+                
+                
+                Gritm.popup.show({
+                    title:'greg',
+                    html: 'This is some popup <b>HTML</b>',
+                    closeButton: true,
+                    buttons: [{
+                            caption: 'test button2',
+                            click: function(popup) {
+                                console.log('popup', popup);
+                            }
+                    }]
+                });                
+            });
+            */
+        </script>
     </head>
     <body>
         <div class="container-fluid">
@@ -52,5 +81,6 @@
                 </nav>
             </footer>
         </div>
+
     </body>
 </html>
