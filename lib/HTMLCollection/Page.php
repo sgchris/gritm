@@ -59,7 +59,7 @@ class Page extends HTMLCollection {
     public function executeAjax() {
         // execute ajax of all the tables on the page
         foreach ($this->getItems() as $item) {
-            if ($item instanceof Table) {
+            if (method_exists($item, 'executeAjax')) {
                 $item->executeAjax();
             }
         }
@@ -92,6 +92,23 @@ class Page extends HTMLCollection {
         $pageHtml = ob_get_clean();
 
         return $pageHtml;
+    }
+
+    /**
+     * 
+     * @return string javascript code
+     */
+    public function getJavascript() {
+        $jsCode = '';
+
+        // get the javascript from the children elements
+        foreach ($this->getItems() as $item) {
+            if (method_exists($item, 'getJavascript')) {
+                $jsCode.= $item->getJavascript();
+            }
+        }
+
+        return $jsCode;
     }
 
 }

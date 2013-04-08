@@ -88,21 +88,22 @@
 				return (startNumber++) + 1;
 			}
 		})(),
-		// implementation of the $.extend function
-		extend: function() {
-			var a, c, d, e, f, g, h = arguments[0] || {}, i = 1, j = arguments.length, k = !1;
-			typeof h == "boolean" && (k = h, h = arguments[1] || {}, i = 2), typeof h != "object" && !p.isFunction(h) && (h = {}), j === i && (h = this, --i);
-			for (; i < j; i++)
-				if ((a = arguments[i]) != null)
-					for (c in a) {
-						d = h[c], e = a[c];
-						if (h === e)
-							continue;
-						k && e && (p.isPlainObject(e) || (f = p.isArray(e))) ? (f ? (f = !1, g = d && p.isArray(d) ? d : []) : g = d && p.isPlainObject(d) ? d : {}, h[c] = p.extend(k, g, e)) : e !== b && (h[c] = e)
-					}
-			return h
+		getHtmlElement: function(tagName, attributes, innerHtml) {
+			var elem = document.createElement(tagName);
+			if (innerHtml) {
+				elem.innerHTML = innerHtml;
+			}
+
+			if (attributes) {
+				for (var i in attributes) {
+					elem.setAttribute(i, attributes[i]);
+				}
+			}
+
+			return elem;
 		}
-	};
+
+	}; // helper
 
 	GLOBAL.Gritm = {
 		popup: {
@@ -145,65 +146,46 @@
 
 
 					// create the modal
-					var modalWindow = document.createElement('div');
-					modalWindow.setAttribute('id', 'modal' + _modalsCounter);
-					modalWindow.setAttribute('class', 'modal hide fade in');
+					var modalWindow = _helper.getHtmlElement('div', {id: 'modal' + _modalsCounter, class: 'modal hide fade in'});
 
 					// the HEADER
-					var modalHeader = document.createElement('div');
-					modalHeader.setAttribute('class', 'modal-header');
+					var modalHeader = _helper.getHtmlElement('div', {class: 'modal-header'});
 
 					if (config.closeButton) {
-						var closeTopButton = document.createElement('button');
-						closeTopButton.setAttribute('type', 'button');
-						closeTopButton.setAttribute('class', 'close');
-						closeTopButton.setAttribute('data-dismiss', 'modal');
-						closeTopButton.setAttribute('aria-hidden', 'true');
-						closeTopButton.innerHTML = '&times;';
+						var closeTopButton = _helper.getHtmlElement('button', {
+							type: 'button',
+							class: 'close',
+							'data-dismiss': 'modal',
+							'aria-hidden': true
+						}, '&times;');
 						modalHeader.appendChild(closeTopButton);
 					}
 
-					var modalHeaderH3 = document.createElement('h3');
-					modalHeaderH3.innerHTML = config.title;
+					var modalHeaderH3 = _helper.getHtmlElement('h3', {}, config.title);
 					modalHeader.appendChild(modalHeaderH3);
 					modalWindow.appendChild(modalHeader);
 
 					// the BODY
-					var modalBody = document.createElement('div');
-					modalBody.setAttribute('class', 'modal-body');
-					// check if "p" is necessary
-					modalBody.innerHTML = config.html;
+					var modalBody = _helper.getHtmlElement('div', {class: 'modal-body'}, config.html);
 					modalWindow.appendChild(modalBody);
 
 					// the FOOTER
-					var modalFooter = document.createElement('div');
-					modalFooter.setAttribute('class', 'modal-footer');
+					var modalFooter = _helper.getHtmlElement('div', {class: 'modal-footer'});
 
 					// add the "close" button
 					if (config.closeButton) {
-						var closeBottomButton = document.createElement('button');
-						closeBottomButton.setAttribute('class', 'btn');
-						closeBottomButton.setAttribute('data-dismiss', 'modal');
-						closeBottomButton.innerHTML = 'Close';
+						var closeBottomButton = _helper.getHtmlElement('button', {class: 'btn', 'data-dismiss': 'modal'}, 'Close');
 						modalFooter.appendChild(closeBottomButton);
 					}
 
 					// add another buttons
 					if (config.buttons) {
 						config.buttons.forEach(function(buttonObj) {
-							var _button = document.createElement('button');
 
-							// set attributes
-							if (buttonObj.attributes) {
-								for (var i in buttonObj.attributes) {
-									_button.setAttribute(i, buttonObj.attributes[i]);
-								}
+							if (!buttonObj.attributes.class) {
+								buttonObj.attributes.class = 'btn';
 							}
-							if (!_button.hasAttribute('class')) {
-								_button.setAttribute('class', 'btn');
-							}
-
-							_button.innerHTML = buttonObj.caption;
+							var _button = _helper.getHtmlElement('button', buttonObj.attributes, buttonObj.caption);
 							_button.onclick = function() {
 								buttonObj.click(modalWindow);
 							};
@@ -227,26 +209,51 @@
 					var modalElem = _createPopup(config);
 					modalElem.modal('show');
 				};
-			})()
+			})(), // Gritm.popup.show 
 
-					// add header
+			showAddNewRecord: function(tableDbName) {
 
-					/**
-					 * <div class="modal hide fade">
-					 <div class="modal-header">
-					 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					 <h3>Modal header</h3>
-					 </div>
-					 <div class="modal-body">
-					 <p>One fine body…</p>
-					 </div>
-					 <div class="modal-footer">
-					 <a href="#" class="btn">Close</a>
-					 <a href="#" class="btn btn-primary">Save changes</a>
-					 </div>
-					 </div>
-					 */
-		}
-	}
+				// get fields for mode "new"
+				$.getJSON(_HTTP_ROOT + '/?table='+tableDbName+'&mode=new', function(res) {
+					if (!res || res.error || res.result !== 'ok') {
+						console.log('res', res, 'URL',_HTTP_ROOT + '/?table='+tableDbName+'&mode=new');
+						alert('Error getting fields for adding new record ' + (res&&res.error?res.error:''));
+					}
+
+					// create the form element
+					var form = _helper.getHtmlElement('form', {action: '', method: 'post'});
+
+					// create the fields
+					var dt, dd, dl = document.createElement('dl');
+					if (res.fields) {
+						for (var i in res.fields) {
+							dt = _helper.getHtmlElement('dt', {}, i);
+							dl.appendChild(dt);
+							dd = _helper.getHtmlElement('dd', {}, res.fields[i]);
+							dl.appendChild(dd);
+						}
+					}
+
+					// add submit button row
+					dt = _helper.getHtmlElement('dt', {}, '&nbsp;');
+					dl.appendChild(dt);
+					dd = _helper.getHtmlElement('dd');
+					dd.appendChild(_helper.getHtmlElement('input', {type: 'submit', value: 'Add', class: 'btn'}));
+					dl.appendChild(dd);
+					form.appendChild(dl);
+					form.onsubmit = function() {
+						return false;
+					}
+					
+					Gritm.popup.show({
+						title: 'Add new row', 
+						html: form.outerHTML
+					})
+					
+				});
+
+			}
+		} // Gritm.popup
+	} // Gritm
 
 })(window, jQuery);

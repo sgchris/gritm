@@ -17,7 +17,7 @@ class RequestTest extends UnitTest {
         $docRoot = $_SERVER['DOCUMENT_ROOT'];
         $_SERVER['DOCUMENT_ROOT'] = realpath($_SERVER['DOCUMENT_ROOT'] . '/..');
 
-        $req = new Request;
+        $req = Request::getInstance();
         $req->parse();
 
         $this->assertEquals($req->getRelativePath(), '/htdocs/gritm');
@@ -30,7 +30,7 @@ class RequestTest extends UnitTest {
         $RequestUri = $_SERVER['REQUEST_URI'];
         $_SERVER['REQUEST_URI'] = '/gritm/get/some/file';
 
-        $req = new Request;
+        $req = Request::getInstance();
         $req->parse();
 
         $this->assertEqualsStrict($req->getUrlParam(-3), null);

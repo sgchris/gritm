@@ -47,8 +47,7 @@ class Application extends HTMLCollection {
         $this->_name = $applicationName;
 
         // get the request object for the current request
-        $this->_request = new Request;
-        $this->_request->parse();
+        $this->_request = Request::getInstance();
 
         // add the homepage as one of the page
         $this->add(new Page_Homepage());
@@ -67,7 +66,8 @@ class Application extends HTMLCollection {
         }
 
         // set the request object to the page
-        $this->_currentPage->setRequest(new Request);
+        $this->_currentPage->setRequest(Request::getInstance());
+
         // check if this is AJAX request
         if ($this->_request->isAjax()) {
 
@@ -76,11 +76,13 @@ class Application extends HTMLCollection {
         } else {
 
             // output the app HTML
-            $html = $this->getHtml();
+            $entireCode = $this->getHtml();
+            $entireCode.= '<script>(function(){' . $this->getJavascript() . '})();</script>';
+
             if ($returnHtml) {
-                return $html;
+                return $entireCode;
             } else {
-                echo $html;
+                echo $entireCode;
             }
         }
     }
@@ -133,6 +135,23 @@ class Application extends HTMLCollection {
         ob_start();
         require APP_VIEW;
         return ob_get_clean();
+    }
+
+    /**
+     * 
+     * @return string javascript code
+     */
+    public function getJavascript() {
+        $jsCode = '';
+
+        // get the javascript from the children elements
+        foreach ($this->getItems() as $item) {
+            if (method_exists($item, 'getJavascript')) {
+                $jsCode.= $item->getJavascript();
+            }
+        }
+
+        return $jsCode;
     }
 
     /**

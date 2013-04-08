@@ -199,7 +199,32 @@ class Table extends HTMLCollection {
 
         return $pageHtml;
     }
+    
+    /**
+     * 
+     * @return string javascript code
+     */
+    public function getJavascript() {
+        $jsCode = '';
 
+        // get the javascript from the children elements
+        foreach ($this->getItems() as $item) {
+            if (method_exists($item, 'getJavascript')) {
+                $jsCode.= $item->getJavascript();
+            }
+        }
+
+        return $jsCode;
+    }
+
+    /**
+     * @override
+     * Execute ajax call of the page and its tables
+     */
+    public function executeAjax() {
+
+    }
+    
     /**
      * Get the fields within the table 
      * (instances of `Field`)

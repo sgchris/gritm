@@ -42,15 +42,17 @@ class PageTest extends PHPUnit_Framework_TestCase {
      * @covers Page::isResponsibleFor
      * @todo   Implement testIsResponsibleFor().
      */
-    public function testIsResponsibleFor() {
+    public function testIsResponsibleFor1() {
         $GLOBALS['_SERVER']['REQUEST_URI'] = '/gritm';
-        $this->assertFalse($this->object->isResponsibleFor(new Request));
-
+        $this->assertFalse($this->object->isResponsibleFor(Request::getInstance(true)));
+    }
+    public function testIsResponsibleFor2() {
         $GLOBALS['_SERVER']['REQUEST_URI'] = '/gritm/test-page';
-        $this->assertTrue($this->object->isResponsibleFor(new Request));
-
+        $this->assertTrue($this->object->isResponsibleFor(Request::getInstance(true)));
+    }
+    public function testIsResponsibleFor3() {
         $GLOBALS['_SERVER']['REQUEST_URI'] = '/gritm/test-page/add-somthing';
-        $this->assertTrue($this->object->isResponsibleFor(new Request));
+        $this->assertTrue($this->object->isResponsibleFor(Request::getInstance(true)));
     }
 
     /**

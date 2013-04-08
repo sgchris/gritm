@@ -11,7 +11,7 @@ class PageTest extends UnitTest {
         $originalRequestUri = $_SERVER['REQUEST_URI'];
         $_SERVER['REQUEST_URI'] = '/gritm/test-page';
         $p = new Page('Test page', 'test-page');
-        $r = new Request;
+        $r = Request::getInstance();
 
         $this->assertTrue($p->isResponsibleFor($r));
 
@@ -24,7 +24,7 @@ class PageTest extends UnitTest {
 
         $_SERVER['REQUEST_URI'] = '/gritm/test-another-page';
         $p = new Page('Test page', 'test-page');
-        $r = new Request;
+        $r = Request::getInstance();
 
         $this->assertFalse($p->isResponsibleFor($r));
 

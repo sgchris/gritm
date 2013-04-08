@@ -6,6 +6,26 @@
 class Request {
 
     /**
+     *
+     * @var Request instance
+     */
+    protected static $_instance = null;
+    
+    /**
+     * 
+     * @return Request object
+     */
+    public static function getInstance($forceNewInstance = false) {
+        if (is_null(self::$_instance) || $forceNewInstance) {
+            self::$_instance = new Request();
+            self::$_instance->parse();
+        }
+        
+        return self::$_instance;
+    }
+    
+    
+    /**
      * the base dir of the app (relative path)
      * The value has to be changed when moving the file (Request.php) to another location
      */
@@ -68,7 +88,7 @@ class Request {
      * - Parse the current request (_POST | _GET | _FILES)
      * - check of the request is AJAX
      */
-    public function __construct() {
+    protected function __construct() {
         $this->_get = $_GET;
         $this->_post = $_POST;
         $this->_files = $_FILES;
