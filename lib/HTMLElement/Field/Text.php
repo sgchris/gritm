@@ -34,7 +34,7 @@ class Field_Text extends Field {
         $fieldHtml = '<input type="text" '.
                 'field-db-name="'.$this->getDbName().'" '.
                 'style="width:'.$this->getWidth().'px;" '.
-                'value="" placeholder="Value..." '.
+                'value="" placeholder="'.$this->getName().'..." '.
                 '/>';
         return $fieldHtml;
     }

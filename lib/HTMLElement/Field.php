@@ -63,5 +63,19 @@ class Field extends HTMLElement {
 
         return $this;
     }
+    
+    /**
+     * The simplest implementation for getting the value from the post
+     * @return text
+     */
+    public function getValueFromPost() {
+        $req = Request::getInstance();
+        
+        // get the raw value from the post
+        $rawValue = $req->get($this->getDbName());
+        
+        // in the simplest way, this is the new value of the field
+        return $rawValue;
+    }
 
 }

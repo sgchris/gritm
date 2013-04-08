@@ -84,6 +84,11 @@ class Request {
     protected $_isAjax = false;
 
     /**
+     * determine if the current request is POST
+     */
+    protected $_isPost = false;
+
+    /**
      * initialize the request object
      * - Parse the current request (_POST | _GET | _FILES)
      * - check of the request is AJAX
@@ -98,6 +103,8 @@ class Request {
 
         // check if this is an AJAX call
         $this->_isAjax = isset($_SERVER['HTTP_X_REQUESTED_WITH']);
+        // check if this is a post call (form submit)
+        $this->_isPost = ($_SERVER['REQUEST_METHOD'] == 'POST');
     }
 
     /**
@@ -105,6 +112,13 @@ class Request {
      */
     public function isAjax() {
         return $this->_isAjax;
+    }
+
+    /**
+     * determine if the current request is AJAX
+     */
+    public function isPost() {
+        return $this->_isPost;
     }
 
     /**

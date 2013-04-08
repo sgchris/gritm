@@ -181,10 +181,12 @@
 					// add another buttons
 					if (config.buttons) {
 						config.buttons.forEach(function(buttonObj) {
-
-							if (!buttonObj.attributes.class) {
+							
+							buttonObj.attributes = buttonObj.attributes||{};
+							if (buttonObj.attributes && !buttonObj.attributes.class) {
 								buttonObj.attributes.class = 'btn';
-							}
+							} 
+							
 							var _button = _helper.getHtmlElement('button', buttonObj.attributes, buttonObj.caption);
 							_button.onclick = function() {
 								buttonObj.click(modalWindow);
@@ -214,14 +216,14 @@
 			showAddNewRecord: function(tableDbName) {
 
 				// get fields for mode "new"
-				$.getJSON(_HTTP_ROOT + '/?table='+tableDbName+'&mode=new', function(res) {
+				$.getJSON('?table=' + tableDbName + '&mode=new', function(res) {
 					if (!res || res.error || res.result !== 'ok') {
-						console.log('res', res, 'URL',_HTTP_ROOT + '/?table='+tableDbName+'&mode=new');
-						alert('Error getting fields for adding new record ' + (res&&res.error?res.error:''));
+						console.log('res', res, 'URL', _HTTP_ROOT + '/?table=' + tableDbName + '&mode=new');
+						alert('Error getting fields for adding new record ' + (res && res.error ? res.error : ''));
 					}
 
 					// create the form element
-					var form = _helper.getHtmlElement('form', {action: '', method: 'post'});
+					var form = _helper.getHtmlElement('form', {action: '', method: 'post', onsubmit: 'return false;'});
 
 					// create the fields
 					var dt, dd, dl = document.createElement('dl');
@@ -234,22 +236,20 @@
 						}
 					}
 
-					// add submit button row
-					dt = _helper.getHtmlElement('dt', {}, '&nbsp;');
-					dl.appendChild(dt);
-					dd = _helper.getHtmlElement('dd');
-					dd.appendChild(_helper.getHtmlElement('input', {type: 'submit', value: 'Add', class: 'btn'}));
-					dl.appendChild(dd);
 					form.appendChild(dl);
-					form.onsubmit = function() {
-						return false;
-					}
-					
+
 					Gritm.popup.show({
-						title: 'Add new row', 
-						html: form.outerHTML
+						title: 'Add new row',
+						html: form.outerHTML,
+						buttons: [{
+								caption: 'Add',
+								click: function(popupElem) {
+									var frm = popupElem.querySelector('form');
+									console.log('form in the popup', frm);
+								}
+							}]
 					})
-					
+
 				});
 
 			}

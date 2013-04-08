@@ -70,9 +70,13 @@ class Application extends HTMLCollection {
 
         // check if this is AJAX request
         if ($this->_request->isAjax()) {
-
+            
             // execute the ajax functions
             $this->_executeAjax();
+        } elseif ($this->_request->isPost()) {
+            
+            $this->_processPost();
+            
         } else {
 
             // output the app HTML
@@ -162,6 +166,16 @@ class Application extends HTMLCollection {
 
         // Run ajax of the current requested page
         $this->_currentPage->executeAjax();
+    }
+    
+    
+    protected function _processPost() {
+        // get the javascript from the children elements
+        foreach ($this->getItems() as $item) {
+            if (method_exists($item, 'processPost')) {
+                $item->processPost();
+            }
+        }
     }
 
 }

@@ -57,8 +57,10 @@ class Page extends HTMLCollection {
      * Execute ajax call of the page and its tables
      */
     public function executeAjax() {
+        
         // execute ajax of all the tables on the page
         foreach ($this->getItems() as $item) {
+            
             if (method_exists($item, 'executeAjax')) {
                 $item->executeAjax();
             }
@@ -111,4 +113,17 @@ class Page extends HTMLCollection {
         return $jsCode;
     }
 
+    /**
+     * Process POST request
+     */
+    public function processPost() {
+        
+        // call the "processPost" method of the children
+        foreach ($this->getItems() as $item) {
+            if (method_exists($item, 'processPost')) {
+                $item->processPost();
+            }
+        }
+        
+    }
 }

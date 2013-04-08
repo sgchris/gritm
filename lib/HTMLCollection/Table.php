@@ -222,7 +222,47 @@ class Table extends HTMLCollection {
      * Execute ajax call of the page and its tables
      */
     public function executeAjax() {
-
+        $req = Request::getInstance();
+        
+        // check if this is a request for "new" mode
+        if ($req->get('table') == $this->getDbName() && $req->get('mode') == 'new') {
+            $fields = array('result'=>'ok', 'fields'=>array());
+            
+            foreach ($this->getItems() as $item) {
+                if ($item instanceof Field) {
+                    $fields['fields'][$item->getDbName()] = $item->getNewHtml();
+                }
+            }
+            
+            echo json_encode($fields);
+            return;
+        }
+        
+        // check if this is a request for "new" mode
+        if ($req->get('table') == $this->getDbName() && $req->get('mode') == 'edit') {
+            $fields = array('result'=>'ok', 'fields'=>array());
+            
+            foreach ($this->getItems() as $item) {
+                if ($item instanceof Field) {
+                    $fields['fields'][$item->getDbName()] = $item->getEditHtml();
+                }
+            }
+            
+            echo json_encode($fields);
+            return;
+        }
+        
+        
+    }
+    
+    /**
+     * Process post request - if the request is relevant
+     * @TODO implement the function
+     */
+    public function processPost() {
+        
+        // determine if the request is relevant to the current table!
+        
     }
     
     /**
