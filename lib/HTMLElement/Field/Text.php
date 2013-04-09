@@ -20,6 +20,7 @@ class Field_Text extends Field {
      */
     public function getEditHtml() {
         $fieldHtml = '<input type="text" '.
+                'name="'.$this->getDbName().'" '.
                 'field-db-name="'.$this->getDbName().'" '.
                 'style="width:'.$this->getWidth().'px;" '.
                 'value="'.htmlentities($this->getValue(), ENT_NOQUOTES, 'utf-8').'" '.
@@ -32,6 +33,7 @@ class Field_Text extends Field {
      */
     public function getNewHtml() {
         $fieldHtml = '<input type="text" '.
+                'name="'.$this->getDbName().'" '.
                 'field-db-name="'.$this->getDbName().'" '.
                 'style="width:'.$this->getWidth().'px;" '.
                 'value="" placeholder="'.$this->getName().'..." '.

@@ -218,12 +218,11 @@
 				// get fields for mode "new"
 				$.getJSON('?table=' + tableDbName + '&mode=new', function(res) {
 					if (!res || res.error || res.result !== 'ok') {
-						console.log('res', res, 'URL', _HTTP_ROOT + '/?table=' + tableDbName + '&mode=new');
 						alert('Error getting fields for adding new record ' + (res && res.error ? res.error : ''));
 					}
 
 					// create the form element
-					var form = _helper.getHtmlElement('form', {action: '', method: 'post', onsubmit: 'return false;'});
+					var form = _helper.getHtmlElement('form', {action: '?table=' + tableDbName + '&mode=new', method: 'post', onsubmit: 'return false;'});
 
 					// create the fields
 					var dt, dd, dl = document.createElement('dl');
@@ -244,8 +243,20 @@
 						buttons: [{
 								caption: 'Add',
 								click: function(popupElem) {
-									var frm = popupElem.querySelector('form');
-									console.log('form in the popup', frm);
+									var frm = popupElem.querySelector('form'),
+										iframeSubmit = document.querySelector('iframe#form-submit');
+									if (!iframeSubmit) {
+										iframeSubmit = _helper.getHtmlElement('iframe', {id: 'form-submit', name: 'form-submit'});
+										document.querySelector('body').appendChild(iframeSubmit);
+									}
+									
+									iframeSubmit.onload = function() {
+										$(popupElem).modal('hide');
+									};
+									
+									frm.setAttribute('target', 'form-submit');
+									frm.onsubmit = null;
+									frm.submit();
 								}
 							}]
 					})

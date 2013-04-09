@@ -25,7 +25,8 @@ class ApplicationTest extends PHPUnit_Framework_TestCase {
                 );
         $_SERVER = array(
             'REQUEST_URI' => '/gritm',
-            'DOCUMENT_ROOT' => $docRoot
+            'DOCUMENT_ROOT' => $docRoot,
+            'REQUEST_METHOD' => 'GET',
         );
         $this->object = new Application;
     }

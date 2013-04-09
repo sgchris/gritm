@@ -118,10 +118,20 @@ class Page extends HTMLCollection {
      */
     public function processPost() {
         
+        $req = Request::getInstance();
+        
         // call the "processPost" method of the children
         foreach ($this->getItems() as $item) {
-            if (method_exists($item, 'processPost')) {
-                $item->processPost();
+
+            // check if this is a table
+            if ($item instanceof Table && $req->get('table') == $item->getDbName) {
+               
+                if ($req->get('mode') == 'new') {
+                    $item->addRecord();
+                } elseif ($req->get('mode') == 'edit') {
+                    $item->updateRecord();
+                }
+                
             }
         }
         

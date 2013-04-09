@@ -252,16 +252,27 @@ class Table extends HTMLCollection {
             return;
         }
         
+    }
+    
+    /**
+     * Add new record to the database
+     * @TODO implement the function
+     */
+    public function addRecord() {
+        
+        // determine if the request is relevant to the current table!
+        $req = Request::getInstance();
         
     }
     
     /**
-     * Process post request - if the request is relevant
+     * update a record in the database
      * @TODO implement the function
      */
-    public function processPost() {
+    public function updateRecord() {
         
         // determine if the request is relevant to the current table!
+        $req = Request::getInstance();
         
     }
     

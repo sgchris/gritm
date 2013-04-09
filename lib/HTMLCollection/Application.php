@@ -81,7 +81,6 @@ class Application extends HTMLCollection {
 
             // output the app HTML
             $entireCode = $this->getHtml();
-            $entireCode.= '<script>(function(){' . $this->getJavascript() . '})();</script>';
 
             if ($returnHtml) {
                 return $entireCode;
@@ -119,16 +118,18 @@ class Application extends HTMLCollection {
         $applicationPages = array_filter($this->getItems(), function($item) {
                     return ($item instanceof Page);
                 });
-
+        
         // get the HTML of the current page
         $currentPageHtml = $this->_currentPage ? $this->_currentPage->getHtml() : '';
-
+        if (($jsCode = $this->getJavascript()) != '') {
+            $currentPageHtml.= '<script>(function(){'.$jsCode.'})();</script>';
+        }
+        
         // get the current page URL
         $currentPageUrl = $this->_request->getUrlParam(0);
         if (is_null($currentPageUrl)) {
             $currentPageUrl = '';
         }
-
 
         // check if the layout is enabled, if no, just return the HTML of the current page
         if (!$this->_layoutEnabled) {
@@ -171,11 +172,7 @@ class Application extends HTMLCollection {
     
     protected function _processPost() {
         // get the javascript from the children elements
-        foreach ($this->getItems() as $item) {
-            if (method_exists($item, 'processPost')) {
-                $item->processPost();
-            }
-        }
+        $this->_currentPage->processPost();
     }
 
 }

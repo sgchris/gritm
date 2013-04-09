@@ -24,7 +24,8 @@ class PageTest extends PHPUnit_Framework_TestCase {
                 );
         $GLOBALS['_SERVER'] = array(
             'REQUEST_URI' => '/gritm',
-            'DOCUMENT_ROOT' => $docRoot
+            'DOCUMENT_ROOT' => $docRoot,
+            'REQUEST_METHOD' => 'GET',
         );
 
         $this->object = new Page('TestPage', 'test-page');
@@ -44,14 +45,17 @@ class PageTest extends PHPUnit_Framework_TestCase {
      */
     public function testIsResponsibleFor1() {
         $GLOBALS['_SERVER']['REQUEST_URI'] = '/gritm';
+        $GLOBALS['_SERVER']['REQUEST_METHOD'] = 'GET';
         $this->assertFalse($this->object->isResponsibleFor(Request::getInstance(true)));
     }
     public function testIsResponsibleFor2() {
         $GLOBALS['_SERVER']['REQUEST_URI'] = '/gritm/test-page';
+        $GLOBALS['_SERVER']['REQUEST_METHOD'] = 'GET';
         $this->assertTrue($this->object->isResponsibleFor(Request::getInstance(true)));
     }
     public function testIsResponsibleFor3() {
         $GLOBALS['_SERVER']['REQUEST_URI'] = '/gritm/test-page/add-somthing';
+        $GLOBALS['_SERVER']['REQUEST_METHOD'] = 'GET';
         $this->assertTrue($this->object->isResponsibleFor(Request::getInstance(true)));
     }
 
