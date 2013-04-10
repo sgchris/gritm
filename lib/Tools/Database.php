@@ -5,7 +5,7 @@ require_once __DIR__ . '/../Config/Config.php';
 /**
  * PDO SINGLETON CLASS
  */
-class Database {
+class Database extends PDO {
 
     /**
      * The singleton instance
@@ -19,7 +19,7 @@ class Database {
     public static function get() {
         if (is_null(self::$PDOInstance)) {
             try {
-                self::$PDOInstance = new PDO('mysql:host=' . DBHOST . ';dbname=' . DBNAME, DBUSER, DBPASS);
+                self::$PDOInstance = new Database('mysql:host=' . DBHOST . ';dbname=' . DBNAME, DBUSER, DBPASS);
                 self::$PDOInstance->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
                 self::$PDOInstance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
                 self::$PDOInstance->exec('set names "utf8"');
@@ -42,7 +42,8 @@ class Database {
     /**
      * protected constructor - singleton
      */
-    protected function __construct() {
+    public function __construct($dsn, $username, $passwd, array $options = array()) {
+        parent::__construct($dsn, $username, $passwd, $options);
         // empty constructor
     }
 
@@ -52,31 +53,35 @@ class Database {
      * @param type $fields
      */
     public function insert($tableName, array $fields) {
-        if (empty($fields)) {
-            throw new Exception('error : no fields parameters in ' . __METHOD__);
+        try {
+            if (empty($fields)) {
+                throw new Exception('error : no fields parameters in ' . __METHOD__);
+            }
+
+            // get the list of fields (names)
+            $fieldNames = array();
+            $values = array();
+            foreach (array_keys($fields) as $fieldName) {
+                $fieldNames[] = '`' . $fieldName . '`';
+                $values[] = ':' . $fieldName;
+            }
+
+            // create the SQL string
+            $sql = 'insert into `' . $tableName . '` (' . implode(',', $fieldNames) . ') values (' . implode(',', $values) . ')';
+
+            // bind values
+            $db = self::getInstance();
+            $stmt = $db->prepare($sql);
+            foreach ($fields as $key => $value) {
+                $stmt->bindValue(':' . $key, $value);
+            }
+
+            // execute the query
+            $stmt->execute();
+            return $db->lastInsertId();
+        } catch (Exception $e) {
+            return null;
         }
-
-        // get the list of fields (names)
-        $fields = array();
-        $values = array();
-        foreach (array_keys($fields) as $fieldName) {
-            $fields[] = '`' . $fieldName . '`';
-            $values[] = ':' . $fieldName;
-        }
-
-        // create the SQL string
-        $sql = 'insert into `' . $tableName . '` (' . implode(',', $fields) . ') values (' . implode(',', $values) . ')';
-
-        // bind values
-        $db = self::getInstance();
-        $stmt = $db->prepare($sql);
-        foreach ($fields as $key => $value) {
-            $stmt->bindValue(':' . $key, $value);
-        }
-
-        // execute the query
-        $stmt->execute();
-        return $db->lastInsertId();
     }
 
     /**
@@ -148,7 +153,7 @@ class Database {
         // build the 'where' clause
         $whereConds = array();
         foreach (array_keys($whereFields) as $fieldName) {
-            $whereConds[] = '`' . $fieldName . '` = :' . $fieldName . ($fieldsCoutner++);
+            $whereConds[] = '`' . $fieldName . '` = :' . $fieldName;
         }
         // create the SQL string
         if (!empty($whereConds)) {

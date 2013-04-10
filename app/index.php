@@ -6,6 +6,11 @@
  * @since Mar 18, 2013
  * @author Gregoryc
  */
+
+$db = Database::getInstance();
+$db->insert('test', array('key'=>  uniqid()));
+die();
+
 $app = new Application('Demo Zips Application');
 $app->setDescription('Administration panel for the demo zips application');
 
