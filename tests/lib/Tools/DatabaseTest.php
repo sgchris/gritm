@@ -75,13 +75,10 @@ class DatabaseTest extends PHPUnit_Framework_TestCase {
      */
     protected function _getRowValue($rowId) {
         $sql = 'select `value` from `' . $this->testTableName . '` where `id` = :id';
-        echo '$sql = ', $sql, "\n";
-        echo 'id = ', $rowId, "\n";
         $stmt = $this->object->prepare($sql);
         $stmt->bindValue(':id', $rowId);
         $stmt->execute();
         $row = $stmt->fetch();
-        var_dump($row);
         return $row ? $row['value'] : null;
     }
 
@@ -112,7 +109,6 @@ class DatabaseTest extends PHPUnit_Framework_TestCase {
 
         // get the old value of the 
         $oldValue = $this->_getRowValue($this->temporaryRowId);
-        echo '$oldValue = '.$oldValue.' -- ';
 
         // update the value of the row
         $this->object->update($this->testTableName, array('value' => 'new value ' . uniqid()), array('id' => $this->temporaryRowId));
