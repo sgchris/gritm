@@ -58,24 +58,39 @@ class Request {
     protected $_relativePath = null;
 
     /**
-     * get GET parameter
+     * get GET parameter / all GET parameters
      */
-    public function get($idx) {
-        return isset($this->_get[$idx]) ? $this->_get[$idx] : null;
+    public function get($idx = null) {
+        if (is_null($idx)) {
+            return $this->_get;
+        } else {
+            return isset($this->_get[$idx]) ? $this->_get[$idx] : null;
+        }
     }
 
     /**
-     * get POST parameter
+     * get POST parameter / all POST parameters
      */
-    public function post($idx) {
-        return isset($this->_post[$idx]) ? $this->_post[$idx] : null;
+    public function post($idx = null) {
+        if (is_null($idx)) {
+            return $this->_post;
+        } else {
+            return isset($this->_post[$idx]) ? $this->_post[$idx] : null;
+        }
     }
 
     /**
-     * get GET parameter
+     * get FILES specific item
      */
     public function file($idx) {
         return isset($this->_files[$idx]) ? $this->_files[$idx] : null;
+    }
+
+    /**
+     * get all FILES 
+     */
+    public function files() {
+        return $this->_files;
     }
 
     /**

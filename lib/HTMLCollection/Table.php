@@ -230,7 +230,11 @@ class Table extends HTMLCollection {
             
             foreach ($this->getItems() as $item) {
                 if ($item instanceof Field) {
-                    $fields['fields'][$item->getDbName()] = $item->getNewHtml();
+                    $fields['fields'][] = array(
+                        'name' => $item->getName(),
+                        'dbName' => $item->getDbName(),
+                        'html' => $item->getNewHtml()
+                    );
                 }
             }
             
@@ -244,7 +248,11 @@ class Table extends HTMLCollection {
             
             foreach ($this->getItems() as $item) {
                 if ($item instanceof Field) {
-                    $fields['fields'][$item->getDbName()] = $item->getEditHtml();
+                    $fields['fields'][] = array(
+                        'name' => $item->getName(),
+                        'dbName' => $item->getDbName(),
+                        'html' => $item->getEditHtml()
+                    );
                 }
             }
             
@@ -263,6 +271,18 @@ class Table extends HTMLCollection {
         // determine if the request is relevant to the current table!
         $req = Request::getInstance();
         
+        // define fields / values to be inserted to the database
+        $fields = array();
+        foreach ($this->getItems() as $item) {
+            if ($item instanceof Field) {
+                $fields[$item->getDbName()] = $item->getValueFromPost();
+            }
+        }
+        
+        // insert to the database
+        $db = Database::getInstance();
+        $db->
+                
     }
     
     /**

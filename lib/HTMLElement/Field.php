@@ -72,7 +72,7 @@ class Field extends HTMLElement {
         $req = Request::getInstance();
         
         // get the raw value from the post
-        $rawValue = $req->get($this->getDbName());
+        $rawValue = $req->post($this->getDbName());
         
         // in the simplest way, this is the new value of the field
         return $rawValue;

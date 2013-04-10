@@ -46,4 +46,31 @@ class Database {
         // empty constructor
     }
 
+    /**
+     * Insert a record to the database
+     * @param type $tableName
+     * @param type $fields
+     */
+    public function insert($tableName, $fields) {
+        
+    }
+    
+    /**
+     * Update a record in the database
+     * @param type $tableName
+     * @param type $fields
+     * @param type $whereFields
+     */
+    public function update($tableName, $fields, $whereFields) {
+        
+    }
+    
+    /**
+     * Delete a record from the database
+     * @param type $tableName
+     * @param type $whereFields
+     */
+    public function delete($tableName, $whereFields) {
+        
+    }
 }

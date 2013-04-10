@@ -12,8 +12,8 @@ $app->setDescription('Administration panel for the demo zips application');
 ///////////////////////////////////////////////////////
 $t = new Table('U.S. Zip Codes', 'zipcodes_2011');
 $t->setPkField('zipcode')
-        ->add(new Field_Text('City', 'city', 250))
-        ->add(new Field_Text('State', 'state', 50))
+        ->add(new Field_Text('The City', 'city', 250))
+        ->add(new Field_Text('The State', 'state', 50))
         ->orderBy('zipcode', Table::ORDER_ASCENDING);
 
 

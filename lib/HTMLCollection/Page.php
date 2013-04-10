@@ -124,7 +124,7 @@ class Page extends HTMLCollection {
         foreach ($this->getItems() as $item) {
 
             // check if this is a table
-            if ($item instanceof Table && $req->get('table') == $item->getDbName) {
+            if ($item instanceof Table && $req->get('table') == $item->getDbName()) {
                
                 if ($req->get('mode') == 'new') {
                     $item->addRecord();

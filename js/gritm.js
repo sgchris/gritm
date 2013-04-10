@@ -220,21 +220,21 @@
 					if (!res || res.error || res.result !== 'ok') {
 						alert('Error getting fields for adding new record ' + (res && res.error ? res.error : ''));
 					}
-
+                    console.log(res);
 					// create the form element
 					var form = _helper.getHtmlElement('form', {action: '?table=' + tableDbName + '&mode=new', method: 'post', onsubmit: 'return false;'});
-
+                    
 					// create the fields
 					var dt, dd, dl = document.createElement('dl');
 					if (res.fields) {
 						for (var i in res.fields) {
-							dt = _helper.getHtmlElement('dt', {}, i);
+							dt = _helper.getHtmlElement('dt', {}, res.fields[i].name);
 							dl.appendChild(dt);
-							dd = _helper.getHtmlElement('dd', {}, res.fields[i]);
+							dd = _helper.getHtmlElement('dd', {}, res.fields[i].html);
 							dl.appendChild(dd);
 						}
 					}
-
+                    
 					form.appendChild(dl);
 
 					Gritm.popup.show({
