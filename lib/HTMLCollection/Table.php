@@ -281,8 +281,9 @@ class Table extends HTMLCollection {
         
         // insert to the database
         $db = Database::getInstance();
-        $db->
-                
+        if ($db->insert($this->getDbName(), $fields) === false) {
+            throw new Exception;
+        }
     }
     
     /**
