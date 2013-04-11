@@ -327,6 +327,24 @@ class Table extends HTMLCollection {
     }
 
     /**
+     * update a record in the database
+     * @TODO implement the function
+     */
+    public function deleteRecord() {
+
+        // determine if the request is relevant to the current table!
+        $req = Request::getInstance();
+        
+        $pkValue = $req->get('pk');
+        if (!$pkValue) {
+            return false;
+        }
+        
+        $db = Database::getInstance();
+        $db->delete($this->getDbName(), array($this->getPkField() => $pkValue));
+    }
+
+    /**
      * Get the fields within the table 
      * (instances of `Field`)
      */
@@ -353,6 +371,10 @@ class Table extends HTMLCollection {
         // add button "edit"
         $editButton = new Button_Edit();
         $this->add($editButton);
+
+        // add button "delete"
+        $deleteButton = new Button_Delete();
+        $this->add($deleteButton);
 
         // get only the buttons
         $buttonsList = array_filter($this->getItems(), function($item) {

@@ -144,6 +144,8 @@ class Page extends HTMLCollection {
                     $item->addRecord();
                 } elseif ($req->get('mode') == 'edit') {
                     $item->updateRecord();
+                } elseif ($req->get('mode') == 'delete') {
+                    $item->deleteRecord();
                 }
             }
         }

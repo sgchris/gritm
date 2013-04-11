@@ -324,7 +324,51 @@
 
 				});
 
-			}
+			}, // showEditRecord
+			
+			showDeleteRecord: function(tableDbName, pkValue) {
+				// check the selected row
+				if (!pkValue) {
+					Gritm.popup.show({
+						title: 'Error',
+						html: 'Please select a row to delete'
+					});
+					return;
+				}
+
+				// confirm the delete
+				Gritm.popup.show({
+					title: 'Delete a record',
+					html: 'Sure?',
+					buttons: [{
+							caption: 'Delete!',
+							attributes: {
+								class: 'btn btn-danger'
+							},
+							click: function(popupElem) {
+								
+								var iframeSubmit = document.querySelector('iframe#form-submit');
+								if (!iframeSubmit) {
+									iframeSubmit = _helper.getHtmlElement('iframe', {id: 'form-submit', name: 'form-submit', width: 1, height: 1, frameborder: 0});
+									document.querySelector('body').appendChild(iframeSubmit);
+								}
+
+								iframeSubmit.onload = function() {
+									// reload the page
+									document.location.href += ' ';
+								};
+								
+								var frm = _helper.getHtmlElement('form', {
+									action: '?table=' + tableDbName + '&mode=delete&pk=' + pkValue, 
+									method: 'post', 
+									target: 'form-submit'
+								});
+								frm.onsubmit = null;
+								frm.submit();
+							}
+						}]
+				});
+			} // showDeleteRecord
 		} // Gritm.popup
 	} // Gritm
 

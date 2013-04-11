@@ -11,7 +11,7 @@ class Field_Text extends Field {
 
     public function getHtml() {
 
-        $fieldHtml = htmlentities($this->getValue(), ENT_NOQUOTES, 'utf-8');
+        $fieldHtml = htmlentities($this->getValue(), ENT_QUOTES, 'utf-8');
         return $fieldHtml;
     }
     
@@ -23,7 +23,7 @@ class Field_Text extends Field {
                 'name="'.$this->getDbName().'" '.
                 'field-db-name="'.$this->getDbName().'" '.
                 'style="width:'.$this->getWidth().'px;" '.
-                'value="'.htmlentities($this->getValue(), ENT_NOQUOTES, 'utf-8').'" '.
+                'value="'.htmlentities($this->getValue(), ENT_QUOTES, 'utf-8').'" '.
                 '/>';
         return $fieldHtml;
     }
