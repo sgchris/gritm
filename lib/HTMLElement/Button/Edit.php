@@ -41,12 +41,17 @@ class Button_Edit extends Button {
             return '';
         }
         
+        $_tableName = is_null($this->getTable()) ? '' : $this->getTable()->getDbName();
+        
         // let the application include the 
         self::$_javascriptIncluded = true;
         return '
                 [].forEach.call(document.querySelectorAll("a.btn[button-operation=\'edit\']"), function(elem) {
                     elem.onclick = function() {
-                        Gritm.popup.showEditRecord(elem.getAttribute("table-db-name"));
+                        // get the selected row
+                        var selectedRow = document.querySelector("table[table-db-name=\''.$_tableName.'\'] tr.selected");
+                        var selectedRowPkValue = selectedRow ? selectedRow.getAttribute("row-pk") : null;
+                        Gritm.popup.showEditRecord(elem.getAttribute("table-db-name"), selectedRowPkValue);
                     };
                 });
             ';

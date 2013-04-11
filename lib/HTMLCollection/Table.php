@@ -199,13 +199,27 @@ class Table extends HTMLCollection {
 
         return $pageHtml;
     }
-    
+
     /**
      * 
      * @return string javascript code
      */
     public function getJavascript() {
-        $jsCode = '';
+        $jsCode = '
+            [].forEach.call(document.querySelectorAll("tbody tr"), function(elem) {
+                elem.onclick = function() {
+                    // remove the currently selected row
+                    var selectedRow = elem.parentNode.querySelector("tr.selected");
+                    
+                    if (selectedRow) selectedRow.classList.remove("info");
+                    if (selectedRow) selectedRow.classList.remove("selected");
+
+                    // add selected class to the chosen row
+                    elem.classList.add("info");
+                    elem.classList.add("selected");
+                };
+            });
+            ';
 
         // get the javascript from the children elements
         foreach ($this->getItems() as $item) {
@@ -223,11 +237,11 @@ class Table extends HTMLCollection {
      */
     public function executeAjax() {
         $req = Request::getInstance();
-        
+
         // check if this is a request for "new" mode
         if ($req->get('table') == $this->getDbName() && $req->get('mode') == 'new') {
-            $fields = array('result'=>'ok', 'fields'=>array());
-            
+            $fields = array('result' => 'ok', 'fields' => array());
+
             foreach ($this->getItems() as $item) {
                 if ($item instanceof Field) {
                     $fields['fields'][] = array(
@@ -237,37 +251,48 @@ class Table extends HTMLCollection {
                     );
                 }
             }
-            
+
             echo json_encode($fields);
             return;
         }
-        
+
         // check if this is a request for "new" mode
-        if ($req->get('table') == $this->getDbName() && $req->get('mode') == 'edit') {
-            $fields = array('result'=>'ok', 'fields'=>array());
-            
-            foreach ($this->getItems() as $item) {
-                if ($item instanceof Field) {
-                    $fields['fields'][] = array(
-                        'name' => $item->getName(),
-                        'dbName' => $item->getDbName(),
-                        'html' => $item->getEditHtml()
-                    );
+        if ($req->get('table') == $this->getDbName() && $req->get('mode') == 'edit' && $req->get('pk')) {
+            $fields = array('result' => 'ok', 'fields' => array());
+
+            $dbRow = $this->_getRow($req->get('pk'));
+            if (!$dbRow) {
+                
+                $fields = array('result' => 'error', 'error' => 'Record not found');
+            } else {
+
+                foreach ($this->getItems() as $item) {
+                    if ($item instanceof Field) {
+
+                        // set the value of the field
+                        $item->setValue($dbRow[$item->getDbName()]);
+
+                        // get the HTML of the edit mode
+                        $fields['fields'][] = array(
+                            'name' => $item->getName(),
+                            'dbName' => $item->getDbName(),
+                            'html' => $item->getEditHtml()
+                        );
+                    }
                 }
             }
             
             echo json_encode($fields);
             return;
         }
-        
     }
-    
+
     /**
      * Add new record to the database
      * @TODO implement the function
      */
     public function addRecord() {
-        
+
         // define fields / values to be inserted to the database
         $fields = array();
         foreach ($this->getItems() as $item) {
@@ -275,25 +300,32 @@ class Table extends HTMLCollection {
                 $fields[$item->getDbName()] = $item->getValueFromPost();
             }
         }
-        
+
         // insert to the database
         $db = Database::getInstance();
         if ($db->insert($this->getDbName(), $fields) === false) {
-            throw new Exception;
+            throw new Exception('Error inserting new record to the database');
         }
     }
-    
+
     /**
      * update a record in the database
      * @TODO implement the function
      */
     public function updateRecord() {
-        
+
         // determine if the request is relevant to the current table!
         $req = Request::getInstance();
         
+        $pkValue = $req->get('pk');
+        if (!$pkValue) {
+            return false;
+        }
+        
+        $db = Database::getInstance();
+        $db->update($this->getDbName(), $req->post(), array($this->getPkField() => $pkValue));
     }
-    
+
     /**
      * Get the fields within the table 
      * (instances of `Field`)
@@ -426,6 +458,18 @@ class Table extends HTMLCollection {
         $stmt->execute();
 
         return $stmt->fetchAll();
+    }
+
+    /**
+     * Get a row from the database
+     * @param type $pkValue
+     */
+    protected function _getRow($pkValue) {
+        $db = Database::getInstance();
+        $stmt = $db->prepare('select * from `' . $this->getDbName() . '` where `' . $this->getPkField() . '` = :' . $this->getPkField());
+        $stmt->bindValue(':' . $this->getPkField(), $pkValue);
+        $stmt->execute();
+        return $stmt->fetch();
     }
 
 }

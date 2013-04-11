@@ -128,7 +128,7 @@
 							},
 							// the callback function for the button
 							click: function(popupHTMLElement) {
-								alert('Ok clicked');
+								$(popupHTMLElement).modal('hide');
 							}
 						}],
 					// the "X" on the top right corner and the "close" button at the bottom
@@ -246,7 +246,7 @@
 									var frm = popupElem.querySelector('form'),
 											iframeSubmit = document.querySelector('iframe#form-submit');
 									if (!iframeSubmit) {
-										iframeSubmit = _helper.getHtmlElement('iframe', {id: 'form-submit', name: 'form-submit'});
+										iframeSubmit = _helper.getHtmlElement('iframe', {id: 'form-submit', name: 'form-submit', width: 1, height: 1, frameborder: 0});
 										document.querySelector('body').appendChild(iframeSubmit);
 									}
 
@@ -266,16 +266,23 @@
 
 			}, // Gritm.popup.showAddNewRecord 
 
-			showEditRecord: function(tableDbName) {
+			showEditRecord: function(tableDbName, pkValue) {
+				if (!pkValue) {
+					Gritm.popup.show({
+						title: 'Error',
+						html: 'Please select a row to update'
+					});
+					return;
+				}
 
 				// get fields for mode "new"
-				$.getJSON('?table=' + tableDbName + '&mode=edit', function(res) {
+				$.getJSON('?table=' + tableDbName + '&mode=edit&pk=' + pkValue, function(res) {
 					if (!res || res.error || res.result !== 'ok') {
 						alert('Error getting fields for editing the record ' + (res && res.error ? res.error : ''));
 					}
 
 					// create the form element
-					var form = _helper.getHtmlElement('form', {action: '?table=' + tableDbName + '&mode=edit', method: 'post', onsubmit: 'return false;'});
+					var form = _helper.getHtmlElement('form', {action: '?table=' + tableDbName + '&mode=edit&pk=' + pkValue, method: 'post', onsubmit: 'return false;'});
 
 					// create the fields
 					var dt, dd, dl = document.createElement('dl');
@@ -299,7 +306,7 @@
 									var frm = popupElem.querySelector('form'),
 											iframeSubmit = document.querySelector('iframe#form-submit');
 									if (!iframeSubmit) {
-										iframeSubmit = _helper.getHtmlElement('iframe', {id: 'form-submit', name: 'form-submit'});
+										iframeSubmit = _helper.getHtmlElement('iframe', {id: 'form-submit', name: 'form-submit', width: 1, height: 1, frameborder: 0});
 										document.querySelector('body').appendChild(iframeSubmit);
 									}
 
