@@ -322,8 +322,18 @@ class Table extends HTMLCollection {
             return false;
         }
         
+        // fields
+        $row = $this->_getRow($pkValue);
+        $fieldsToUpdate = array();
+        foreach ($this->getItems() as $item) {
+            if ($item instanceof Field) {
+                $item->setValue($row[$item->getDbName()]);
+                $fieldsToUpdate[$item->getDbName()] = $item->getValueFromPost();
+            }
+        }
+        
         $db = Database::getInstance();
-        $db->update($this->getDbName(), $req->post(), array($this->getPkField() => $pkValue));
+        $db->update($this->getDbName(), $fieldsToUpdate, array($this->getPkField() => $pkValue));
     }
 
     /**

@@ -20,8 +20,8 @@ $t->setPkField('zipcode')
 
 $t2 = new Table('Demo table #2', 'test');
 $t2->add(new Field_Text('Key', 'key', 150))
-        ->add(new Field_Text('Value', 'value', 150))
-        ->orderBy('value', Table::ORDER_ASCENDING)
+        ->add(new Field_Password('Value(Password)', 'value', 150))
+        ->orderBy('id', Table::ORDER_DESCENDING)
         ->setTotalRows(50);
 
 
@@ -34,7 +34,8 @@ $app->add($p1);
 
 ///////////////////////////////////////////////////////
 $p2 = new Page('Demo Page (Table Manipulation)', 'demo-page-table-manipulation');
-//$p->add($t);
+$p2->add($t2);
+
 $app->add($p2);
 
 $app->run();
