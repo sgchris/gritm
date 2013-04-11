@@ -13,6 +13,21 @@ class HTMLCollection extends HTMLElement {
     protected $items = array();
 
     /**
+     * enable/disable layout. default true. 
+     * e.g. false is used for AJAX requests 
+     */
+    protected $_layoutEnabled = true;
+
+    /**
+     * disable layout - (for ajax requests for example)
+     * @alias $app->setLayoutEnabled(false)
+     */
+    public function disableLayout() {
+        $this->_layoutEnabled = false;
+        return $this;
+    }
+
+    /**
      * Add item to the collection
      * @param required $item
      * @param optional $key

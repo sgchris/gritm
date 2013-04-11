@@ -6,13 +6,13 @@
  * @since Mar 18, 2013
  * @author Gregoryc
  */
-
 $app = new Application('Demo Zips Application');
 $app->setDescription('Administration panel for the demo zips application');
 
 ///////////////////////////////////////////////////////
 $t = new Table('U.S. Zip Codes', 'zipcodes_2011');
 $t->setPkField('zipcode')
+        ->add(new Field_Text('Zip Code', 'zipcode', 100))
         ->add(new Field_Text('The City', 'city', 250))
         ->add(new Field_Text('The State', 'state', 50))
         ->orderBy('zipcode', Table::ORDER_ASCENDING);
@@ -26,7 +26,8 @@ $t2->add(new Field_Text('Key', 'key', 150))
 
 
 $p1 = new Page('Zips', 'zips-page');
-$p1->add($t)->add($t2);
+$p1->add($t);
+//$p1->add($t2);
 
 $app->add($p1);
 

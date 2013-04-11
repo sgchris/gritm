@@ -1,12 +1,14 @@
-<h3><?= htmlentities($this->_name, ENT_NOQUOTES, 'utf-8') ?></h3>
+<? if ($this->_layoutEnabled) { ?>
+    <h3><?= htmlentities($this->_name, ENT_NOQUOTES, 'utf-8') ?></h3>
 
-<? /* BUTTONS */ ?>
-<div class="btn-group">
-    <? foreach ($buttonsList as $button) { ?>
-        <?= $button->getHtml() ?>
-    <? } ?>
-</div><br/><br/>
+    <? /* BUTTONS */ ?>
+    <div class="btn-group">
+        <? foreach ($buttonsList as $button) { ?>
+            <?= $button->getHtml() ?>
+        <? } ?>
+    </div><br/><br/>
 
+<? } ?>
 <? /* TABLE */ ?>
 <table class="table table-bordered table-condensed table-striped table-hover" table-db-name="<?= $this->getDbName() ?>">
     <thead>
@@ -41,9 +43,11 @@
 </table>
 
 <? /* BUTTONS */ ?>
-<div class="btn-group">
-    <? foreach ($buttonsList as $button) { ?>
-        <?= $button->getHtml() ?>
-    <? } ?>
-</div>
+<? if (!empty($buttonsList)) { ?>
+    <div class="btn-group">
+        <? foreach ($buttonsList as $button) { ?>
+            <?= $button->getHtml() ?>
+        <? } ?>
+    </div>
+<? } ?>
 

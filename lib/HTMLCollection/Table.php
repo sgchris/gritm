@@ -186,8 +186,8 @@ class Table extends HTMLCollection {
         // get only the fields
         $fieldsList = $this->_getFields();
 
-        // get only the buttons
-        $buttonsList = $this->_getButtons();
+        // get only the buttons (if the layout enabled)
+        $buttonsList = $this->_layoutEnabled ? $this->_getButtons() : array();
 
         // load the data
         $recordSetRows = $this->_getRecordSet();
@@ -267,9 +267,6 @@ class Table extends HTMLCollection {
      * @TODO implement the function
      */
     public function addRecord() {
-        
-        // determine if the request is relevant to the current table!
-        $req = Request::getInstance();
         
         // define fields / values to be inserted to the database
         $fields = array();

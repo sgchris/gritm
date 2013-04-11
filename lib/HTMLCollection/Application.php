@@ -24,21 +24,6 @@ class Application extends HTMLCollection {
     protected $_currentPage = null;
 
     /**
-     * enable/disable layout. default true. 
-     * e.g. false is used for AJAX requests 
-     */
-    protected $_layoutEnabled = true;
-
-    /**
-     * disable layout - (for ajax requests for example)
-     * @alias $app->setLayoutEnabled(false)
-     */
-    public function disableLayout() {
-        $this->_layoutEnabled = false;
-        return $this;
-    }
-
-    /**
      * Initialize application object
      */
     public function __construct($applicationName = 'Unnamed application') {
@@ -68,15 +53,19 @@ class Application extends HTMLCollection {
         // set the request object to the page
         $this->_currentPage->setRequest(Request::getInstance());
 
+        // set the layout to the child items
+        if (!$this->_layoutEnabled) {
+            $this->_currentPage->disableLayout();
+        }
+
         // check if this is AJAX request
         if ($this->_request->isAjax()) {
-            
+
             // execute the ajax functions
             $this->_executeAjax();
         } elseif ($this->_request->isPost()) {
-            
+
             $this->_processPost();
-            
         } else {
 
             // output the app HTML
@@ -118,14 +107,16 @@ class Application extends HTMLCollection {
         $applicationPages = array_filter($this->getItems(), function($item) {
                     return ($item instanceof Page);
                 });
-        
+
         // get the HTML of the current page
         $currentPageHtml = $this->_currentPage ? $this->_currentPage->getHtml() : '';
-        if (($jsCode = $this->getJavascript()) != '') {
-            $currentPageHtml.= '<script>(function(){'.$jsCode.'})();</script>';
+
+        // get the Javascript if the layout enabled
+        if (($jsCode = $this->getJavascript()) != '' && $this->_layoutEnabled) {
+            $currentPageHtml.= '<script>(function(){' . $jsCode . '})();</script>';
         }
-        
-        // get the current page URL
+
+        // get the current page URL (for the View)
         $currentPageUrl = $this->_request->getUrlParam(0);
         if (is_null($currentPageUrl)) {
             $currentPageUrl = '';
@@ -133,13 +124,16 @@ class Application extends HTMLCollection {
 
         // check if the layout is enabled, if no, just return the HTML of the current page
         if (!$this->_layoutEnabled) {
-            return $currentPageHtml;
-        }
 
-        // load the application template
-        ob_start();
-        require APP_VIEW;
-        return ob_get_clean();
+            // return only the inner page HTML
+            return $currentPageHtml;
+        } else {
+
+            // load the application template
+            ob_start();
+            require APP_VIEW;
+            return ob_get_clean();
+        }
     }
 
     /**
@@ -168,8 +162,7 @@ class Application extends HTMLCollection {
         // Run ajax of the current requested page
         $this->_currentPage->executeAjax();
     }
-    
-    
+
     protected function _processPost() {
         // get the javascript from the children elements
         $this->_currentPage->processPost();

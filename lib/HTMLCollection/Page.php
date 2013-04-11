@@ -57,10 +57,10 @@ class Page extends HTMLCollection {
      * Execute ajax call of the page and its tables
      */
     public function executeAjax() {
-        
+
         // execute ajax of all the tables on the page
         foreach ($this->getItems() as $item) {
-            
+
             if (method_exists($item, 'executeAjax')) {
                 $item->executeAjax();
             }
@@ -75,25 +75,39 @@ class Page extends HTMLCollection {
         // get the html of the tables
         $tablesHtml = '';
         foreach ($this->getItems() as $item) {
-            if (!($item instanceof Table))
-                continue;
+            
+            // exclude buttons from the list
+            if ($item instanceof Button) continue;
+            
+            // disable layout if needed
+            if (!$this->_layoutEnabled && method_exists($item, 'disableLayout')) {
+                $item->disableLayout();
+            }
+
+            // get the html of the table
             $tablesHtml.= $item->getHtml();
         }
 
-        // get the html of the buttons
-        $buttonsHtml = '';
-        foreach ($this->getItems() as $item) {
-            if (!($item instanceof Button))
-                continue;
-            $buttonsHtml.= $item->getHtml();
+        // get the html of the buttons if the layout enabled
+        if (!$this->_layoutEnabled) {
+            return $tablesHtml;
+        } else {
+            
+            // load the page buttons
+            $buttonsHtml = '';
+            foreach ($this->getItems() as $item) {
+                if (!($item instanceof Button))
+                    continue;
+                $buttonsHtml.= $item->getHtml();
+            }
+
+            // load page template
+            ob_start();
+            require PAGE_VIEW;
+            $pageHtml = ob_get_clean();
+
+            return $pageHtml;
         }
-
-        // load page template
-        ob_start();
-        require PAGE_VIEW;
-        $pageHtml = ob_get_clean();
-
-        return $pageHtml;
     }
 
     /**
@@ -117,23 +131,22 @@ class Page extends HTMLCollection {
      * Process POST request
      */
     public function processPost() {
-        
+
         $req = Request::getInstance();
-        
+
         // call the "processPost" method of the children
         foreach ($this->getItems() as $item) {
 
             // check if this is a table
             if ($item instanceof Table && $req->get('table') == $item->getDbName()) {
-               
+
                 if ($req->get('mode') == 'new') {
                     $item->addRecord();
                 } elseif ($req->get('mode') == 'edit') {
                     $item->updateRecord();
                 }
-                
             }
         }
-        
     }
+
 }
