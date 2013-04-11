@@ -8,7 +8,7 @@
  */
 require_once __DIR__ . '/../Button.php';
 
-class Button_Add extends Button {
+class Button_Edit extends Button {
 
     /**
      * avoid from including the JS several times
@@ -27,8 +27,8 @@ class Button_Add extends Button {
      * @return string
      */
     public function getHtml() {
-        return '<a class="btn" button-operation="add" table-db-name="' . (is_null($this->getTable()) ? '' : $this->getTable()->getDbName()) . '">' .
-                '<i class="icon-asterisk"></i> Add' .
+        return '<a class="btn" button-operation="edit" table-db-name="' . (is_null($this->getTable()) ? '' : $this->getTable()->getDbName()) . '">' .
+                '<i class="icon-pencil"></i> Edit' .
                 '</a>';
     }
 
@@ -43,11 +43,10 @@ class Button_Add extends Button {
         
         // let the application include the 
         self::$_javascriptIncluded = true;
-        
         return '
-                [].forEach.call(document.querySelectorAll("a.btn[button-operation=\'add\']"), function(elem) {
+                [].forEach.call(document.querySelectorAll("a.btn[button-operation=\'edit\']"), function(elem) {
                     elem.onclick = function() {
-                        Gritm.popup.showAddNewRecord(elem.getAttribute("table-db-name"));
+                        Gritm.popup.showEditRecord(elem.getAttribute("table-db-name"));
                     };
                 });
             ';

@@ -53,11 +53,6 @@ class Application extends HTMLCollection {
         // set the request object to the page
         $this->_currentPage->setRequest(Request::getInstance());
 
-        // set the layout to the child items
-        if (!$this->_layoutEnabled) {
-            $this->_currentPage->disableLayout();
-        }
-
         // check if this is AJAX request
         if ($this->_request->isAjax()) {
 
@@ -103,17 +98,23 @@ class Application extends HTMLCollection {
      */
     public function getHtml() {
 
-        // get only the `Page` objects from all the items
+        // get only the `Page` objects from all the items (for the View)
         $applicationPages = array_filter($this->getItems(), function($item) {
                     return ($item instanceof Page);
                 });
+
+        // set the layout to the child items
+        if (!$this->_layoutEnabled) {
+            $this->_currentPage->disableLayout();
+        }
 
         // get the HTML of the current page
         $currentPageHtml = $this->_currentPage ? $this->_currentPage->getHtml() : '';
 
         // get the Javascript if the layout enabled
+        $currentPageJavascript = '';
         if (($jsCode = $this->getJavascript()) != '' && $this->_layoutEnabled) {
-            $currentPageHtml.= '<script>(function(){' . $jsCode . '})();</script>';
+            $currentPageJavascript.= $jsCode;
         }
 
         // get the current page URL (for the View)

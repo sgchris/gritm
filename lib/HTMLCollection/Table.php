@@ -318,6 +318,10 @@ class Table extends HTMLCollection {
         $addButton = new Button_Add();
         $this->add($addButton);
 
+        // add button "edit"
+        $editButton = new Button_Edit();
+        $this->add($editButton);
+
         // get only the buttons
         $buttonsList = array_filter($this->getItems(), function($item) {
                     return ($item instanceof Button);

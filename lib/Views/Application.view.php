@@ -2,6 +2,7 @@
 <html>
     <head>
         <title><?= $this->getName() ?></title>
+        <meta charset="utf-8" />
         <link rel="stylesheet" href="<?= $this->_request->getRelativePath() ?>/css/bootstrap.min.css" />
         <link rel="stylesheet" href="<?= $this->_request->getRelativePath() ?>/css/bootstrap-responsive.min.css" />
         <link rel="stylesheet" href="<?= $this->_request->getRelativePath() ?>/css/my.css" />
@@ -52,6 +53,10 @@
                 </nav>
             </footer>
         </div>
-
+        <? if (!empty($currentPageJavascript)) { ?>
+            <script>(function() {
+    <?= $currentPageJavascript ?>
+                })();</script>
+        <? } ?>
     </body>
 </html>

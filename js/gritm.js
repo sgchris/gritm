@@ -181,12 +181,12 @@
 					// add another buttons
 					if (config.buttons) {
 						config.buttons.forEach(function(buttonObj) {
-							
-							buttonObj.attributes = buttonObj.attributes||{};
+
+							buttonObj.attributes = buttonObj.attributes || {};
 							if (buttonObj.attributes && !buttonObj.attributes.class) {
 								buttonObj.attributes.class = 'btn';
-							} 
-							
+							}
+
 							var _button = _helper.getHtmlElement('button', buttonObj.attributes, buttonObj.caption);
 							_button.onclick = function() {
 								buttonObj.click(modalWindow);
@@ -220,10 +220,10 @@
 					if (!res || res.error || res.result !== 'ok') {
 						alert('Error getting fields for adding new record ' + (res && res.error ? res.error : ''));
 					}
-                    console.log(res);
+
 					// create the form element
 					var form = _helper.getHtmlElement('form', {action: '?table=' + tableDbName + '&mode=new', method: 'post', onsubmit: 'return false;'});
-                    
+
 					// create the fields
 					var dt, dd, dl = document.createElement('dl');
 					if (res.fields) {
@@ -234,26 +234,80 @@
 							dl.appendChild(dd);
 						}
 					}
-                    
+
 					form.appendChild(dl);
 
 					Gritm.popup.show({
-						title: 'Add new row',
+						title: 'Add new record',
 						html: form.outerHTML,
 						buttons: [{
 								caption: 'Add',
 								click: function(popupElem) {
 									var frm = popupElem.querySelector('form'),
-										iframeSubmit = document.querySelector('iframe#form-submit');
+											iframeSubmit = document.querySelector('iframe#form-submit');
 									if (!iframeSubmit) {
 										iframeSubmit = _helper.getHtmlElement('iframe', {id: 'form-submit', name: 'form-submit'});
 										document.querySelector('body').appendChild(iframeSubmit);
 									}
-									
+
 									iframeSubmit.onload = function() {
-										$(popupElem).modal('hide');
+										// reload the page
+										document.location.href += ' ';
 									};
-									
+
+									frm.setAttribute('target', 'form-submit');
+									frm.onsubmit = null;
+									frm.submit();
+								}
+							}]
+					})
+
+				});
+
+			}, // Gritm.popup.showAddNewRecord 
+
+			showEditRecord: function(tableDbName) {
+
+				// get fields for mode "new"
+				$.getJSON('?table=' + tableDbName + '&mode=edit', function(res) {
+					if (!res || res.error || res.result !== 'ok') {
+						alert('Error getting fields for editing the record ' + (res && res.error ? res.error : ''));
+					}
+
+					// create the form element
+					var form = _helper.getHtmlElement('form', {action: '?table=' + tableDbName + '&mode=edit', method: 'post', onsubmit: 'return false;'});
+
+					// create the fields
+					var dt, dd, dl = document.createElement('dl');
+					if (res.fields) {
+						for (var i in res.fields) {
+							dt = _helper.getHtmlElement('dt', {}, res.fields[i].name);
+							dl.appendChild(dt);
+							dd = _helper.getHtmlElement('dd', {}, res.fields[i].html);
+							dl.appendChild(dd);
+						}
+					}
+
+					form.appendChild(dl);
+
+					Gritm.popup.show({
+						title: 'Update record',
+						html: form.outerHTML,
+						buttons: [{
+								caption: 'Update',
+								click: function(popupElem) {
+									var frm = popupElem.querySelector('form'),
+											iframeSubmit = document.querySelector('iframe#form-submit');
+									if (!iframeSubmit) {
+										iframeSubmit = _helper.getHtmlElement('iframe', {id: 'form-submit', name: 'form-submit'});
+										document.querySelector('body').appendChild(iframeSubmit);
+									}
+
+									iframeSubmit.onload = function() {
+										// reload the page
+										document.location.href += ' ';
+									};
+
 									frm.setAttribute('target', 'form-submit');
 									frm.onsubmit = null;
 									frm.submit();
