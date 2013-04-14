@@ -55,6 +55,21 @@ $t6->add(new Field_Text('Key', 'key', 150))
         ->orderBy('id', Table::ORDER_DESCENDING)
         ->setTotalRows(50);
 
+$selBox = new Field_Select('File value', 'value', 300, 'test', 'value');
+
+$selBox->setStaticValues(array(
+    '1' => 'Red',
+    '2' => 'Green',
+    '3' => 'Blue',
+    '4' => 'Yellow'
+));
+
+$t7 = new Table('Key-Value (Selectbox) table', 'test');
+$t7->add(new Field_Text('Key', 'key', 150))
+        ->add($selBox)
+        ->orderBy('id', Table::ORDER_DESCENDING)
+        ->setTotalRows(50);
+
 
 //////////////// PAGES //////////////////////
 
@@ -77,6 +92,9 @@ $p5->add($t5);
 $p6 = new Page('Key-value image page', 'key-value-image-test');
 $p6->add($t6);
 
+$p7 = new Page('Key-value selectbox page', 'key-value-selectbox-test');
+$p7->add($t7);
+
 ///////////////////////////////////////////////////////
 
 $app->add($p1);
@@ -85,6 +103,7 @@ $app->add($p3);
 $app->add($p4);
 $app->add($p5);
 $app->add($p6);
+$app->add($p7);
 
 $app->run();
 
