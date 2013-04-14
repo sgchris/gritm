@@ -21,7 +21,7 @@ class Field_Password extends Field {
                 'name="' . $this->getDbName() . '" ' .
                 'field-db-name="' . $this->getDbName() . '" ' .
                 'style="width:' . $this->getWidth() . 'px;" ' .
-                'placeholder="Leave blank or update" '.
+                'placeholder="Leave blank or update" ' .
                 '/>';
         return $fieldHtml;
     }

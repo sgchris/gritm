@@ -6,6 +6,10 @@
  * @since Mar 17, 2013
  * @author Gregoryc
  */
+
+// define the root dir of the application
+define('GRITM_DIR', __DIR__);
+
 // include the basic configuration
 require_once __DIR__ . '/Config/Config.php';
 

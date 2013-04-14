@@ -222,7 +222,12 @@
 					}
 
 					// create the form element
-					var form = _helper.getHtmlElement('form', {action: '?table=' + tableDbName + '&mode=new', method: 'post', onsubmit: 'return false;'});
+					var form = _helper.getHtmlElement('form', {
+						action: '?table=' + tableDbName + '&mode=new',
+						method: 'post', 
+						onsubmit: 'return false;', 
+						enctype: 'multipart/form-data'
+					});
 
 					// create the fields
 					var dt, dd, dl = document.createElement('dl');
@@ -282,7 +287,12 @@
 					}
 
 					// create the form element
-					var form = _helper.getHtmlElement('form', {action: '?table=' + tableDbName + '&mode=edit&pk=' + pkValue, method: 'post', onsubmit: 'return false;'});
+					var form = _helper.getHtmlElement('form', {
+						action: '?table=' + tableDbName + '&mode=edit&pk=' + pkValue, 
+						method: 'post', 
+						onsubmit: 'return false;', 
+						enctype: 'multipart/form-data'
+					});
 
 					// create the fields
 					var dt, dd, dl = document.createElement('dl');
@@ -325,7 +335,7 @@
 				});
 
 			}, // showEditRecord
-			
+
 			showDeleteRecord: function(tableDbName, pkValue) {
 				// check the selected row
 				if (!pkValue) {
@@ -346,7 +356,7 @@
 								class: 'btn btn-danger'
 							},
 							click: function(popupElem) {
-								
+
 								var iframeSubmit = document.querySelector('iframe#form-submit');
 								if (!iframeSubmit) {
 									iframeSubmit = _helper.getHtmlElement('iframe', {id: 'form-submit', name: 'form-submit', width: 1, height: 1, frameborder: 0});
@@ -357,11 +367,12 @@
 									// reload the page
 									document.location.href += ' ';
 								};
-								
+
 								var frm = _helper.getHtmlElement('form', {
-									action: '?table=' + tableDbName + '&mode=delete&pk=' + pkValue, 
-									method: 'post', 
-									target: 'form-submit'
+									action: '?table=' + tableDbName + '&mode=delete&pk=' + pkValue,
+									method: 'post',
+									target: 'form-submit',
+									enctype: 'multipart/form-data'
 								});
 								frm.onsubmit = null;
 								frm.submit();

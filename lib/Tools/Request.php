@@ -196,4 +196,20 @@ class Request {
         return $this->_relativePath;
     }
 
+    /**
+     * Check if there are uploaded files (without errors)
+     * @return bool
+     */
+    public function validFilesUploaded() {
+        $files = $this->files();
+        if (is_array($files) && !empty($files)) {
+            foreach ($files as $file) {
+                if ($file['error'] == 0) {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
 }

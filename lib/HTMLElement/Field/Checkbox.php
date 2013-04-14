@@ -9,7 +9,7 @@ class Field_Checkbox extends Field {
 
     public function getHtml() {
 
-        $fieldHtml = $this->getValue() ? 'V' : '<span style="color:#AAA">&times;</span>';
+        $fieldHtml = $this->getValue() ? '<b>V</b>' : '<span style="color:#AAA">&times;</span>';
         return $fieldHtml;
     }
 
