@@ -11,7 +11,7 @@ class Field_Image extends Field_File {
      * The default preview image width
      * @var type 
      */
-    protected $_previewWidth = 300;
+    protected $_previewWidth = 120;
 
     /**
      * Get the HTML of the field
@@ -28,6 +28,7 @@ class Field_Image extends Field_File {
 
     /**
      * Get the html of the field when in `edit` mode
+     * This time it's with the image preview
      * @return string
      */
     public function getEditHtml() {
