@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Implementation of an INPUT TEXT field
+ * Implementation of an TEXTAREA field
  */
 require_once __DIR__ . '/../Field.php';
 

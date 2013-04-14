@@ -47,6 +47,14 @@ $t5->add(new Field_Text('Key', 'key', 150))
         ->orderBy('id', Table::ORDER_DESCENDING)
         ->setTotalRows(50);
 
+$image = new Field_Image('File value', 'value', 300);
+$image->setUploadDir('upload_test_images')->setPreserveOriginalFileName(false);
+$t6 = new Table('Key-Value (Checkbox) table', 'test');
+$t6->add(new Field_Text('Key', 'key', 150))
+        ->add($image)
+        ->orderBy('id', Table::ORDER_DESCENDING)
+        ->setTotalRows(50);
+
 
 //////////////// PAGES //////////////////////
 
@@ -63,8 +71,11 @@ $p3->add($t3);
 $p4 = new Page('Key-value checkbox page', 'key-value-checkbox-test');
 $p4->add($t4);
 
-$p5 = new Page('Key-value checkbox page', 'key-value-file-test');
+$p5 = new Page('Key-value file page', 'key-value-file-test');
 $p5->add($t5);
+
+$p6 = new Page('Key-value image page', 'key-value-image-test');
+$p6->add($t6);
 
 ///////////////////////////////////////////////////////
 
@@ -73,6 +84,7 @@ $app->add($p2);
 $app->add($p3);
 $app->add($p4);
 $app->add($p5);
+$app->add($p6);
 
 $app->run();
 

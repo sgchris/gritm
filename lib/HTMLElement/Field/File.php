@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Implementation of an INPUT TEXT field
+ * Implementation of an INPUT FILE field
  */
 require_once __DIR__ . '/../Field.php';
 
@@ -94,7 +94,7 @@ class Field_File extends Field {
                         throw new Exception('Destination folder is not set for field '.$this->getDbName());
                     } else {
                         $uploadDir.= $this->_uploadDir;
-                        @mkdir($uploadDir . '/', 0777, true);
+                        @mkdir($uploadDir, 0777, true);
                     }
 
                     // check the file and move the uploaded file
@@ -104,8 +104,14 @@ class Field_File extends Field {
 
                         if (move_uploaded_file($file['tmp_name'], $uploadDir . '/' . $newFileName)) {
                             $returnValue = $this->_uploadDir . '/' . $newFileName;
+                        } else {
+                            throw new Exception('Error moving the file to its final destination (`move_uploaded_file` function)');
                         }
+                    } else {
+                        throw new Exception('The file is not uploaded (`is_uploaded_file` function)');
                     }
+                } else {
+                    throw new Exception('file upload error #'.$file['error']);
                 }
             }
         } catch (Exception $e) {
