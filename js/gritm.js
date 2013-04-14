@@ -247,6 +247,9 @@
 						html: form.outerHTML,
 						buttons: [{
 								caption: 'Add',
+								attributes: {
+									class: 'btn btn-primary'
+								},
 								click: function(popupElem) {
 									var frm = popupElem.querySelector('form'),
 											iframeSubmit = document.querySelector('iframe#form-submit');
@@ -289,7 +292,7 @@
 					// create the form element
 					var form = _helper.getHtmlElement('form', {
 						action: '?table=' + tableDbName + '&mode=edit&pk=' + pkValue, 
-						method: 'post', 
+						method: 'post',
 						onsubmit: 'return false;', 
 						enctype: 'multipart/form-data'
 					});
@@ -312,6 +315,9 @@
 						html: form.outerHTML,
 						buttons: [{
 								caption: 'Update',
+								attributes: {
+									class: 'btn btn-primary'
+								},
 								click: function(popupElem) {
 									var frm = popupElem.querySelector('form'),
 											iframeSubmit = document.querySelector('iframe#form-submit');
