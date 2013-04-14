@@ -43,6 +43,7 @@ $p2 = new Page('Demo Page (Table Manipulation)', 'demo-page-table-manipulation')
 $app->add($p2);
 
 $app->run();
+?>
 
 TODO
 =====
