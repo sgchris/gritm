@@ -4,9 +4,6 @@
  * One page class
  */
 // include the required classes
-require_once __DIR__ . '/../HTMLCollection.php';
-require_once __DIR__ . '/Table.php';
-require_once __DIR__ . '/../Tools/Request.php';
 
 // The view file of the page
 define('PAGE_VIEW', VIEWS_DIR . '/Page.view.php');

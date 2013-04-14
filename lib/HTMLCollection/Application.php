@@ -3,9 +3,6 @@
 /**
  * Main App class
  */
-require_once __DIR__ . '/../HTMLCollection.php';
-require_once __DIR__ . '/Page/Homepage.php';
-require_once __DIR__ . '/../Tools/Request.php';
 
 // The view file of the application
 define('APP_VIEW', VIEWS_DIR . '/Application.view.php');

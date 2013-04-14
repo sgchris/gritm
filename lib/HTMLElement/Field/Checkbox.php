@@ -3,7 +3,6 @@
 /**
  * Implementation of an INPUT TEXT field
  */
-require_once __DIR__ . '/../Field.php';
 
 class Field_Checkbox extends Field {
 
@@ -21,7 +20,6 @@ class Field_Checkbox extends Field {
                 'name="' . $this->getDbName() . '" ' .
                 'value="1" ' .
                 'field-db-name="' . $this->getDbName() . '" ' .
-                'style="width:' . $this->getWidth() . 'px;" ' .
                 ($this->getValue() ? 'checked' : '') .
                 '/>';
         return $fieldHtml;
@@ -35,7 +33,6 @@ class Field_Checkbox extends Field {
                 'name="' . $this->getDbName() . '" ' .
                 'value="1" ' .
                 'field-db-name="' . $this->getDbName() . '" ' .
-                'style="width:' . $this->getWidth() . 'px;" ' .
                 '/>';
         return $fieldHtml;
     }

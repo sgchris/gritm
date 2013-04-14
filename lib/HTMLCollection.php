@@ -3,7 +3,6 @@
 /**
  * Collection base class
  */
-require_once __DIR__ . '/HTMLElement.php';
 
 class HTMLCollection extends HTMLElement {
 

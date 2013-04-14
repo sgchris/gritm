@@ -3,7 +3,6 @@
 /**
  * Implementation of an TEXTAREA field
  */
-require_once __DIR__ . '/../Field.php';
 
 class Field_Textarea extends Field {
 

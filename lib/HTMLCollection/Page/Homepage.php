@@ -3,7 +3,6 @@
 /**
  * instance of Page class - responsible for the homepage
  */
-require_once __DIR__ . '/../Page.php';
 
 // The homepage HTML
 define('HOMEPAGE_VIEW', VIEWS_DIR . '/Application.homepage.view.php');

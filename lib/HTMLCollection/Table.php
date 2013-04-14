@@ -3,11 +3,6 @@
 /**
  * One table class
  */
-require_once __DIR__ . '/../HTMLElement.php';
-require_once __DIR__ . '/../HTMLElement/Field.php';
-require_once __DIR__ . '/../HTMLElement/Button.php';
-require_once __DIR__ . '/../HTMLCollection.php';
-require_once __DIR__ . '/../Tools/Database.php';
 
 // The view file of the page
 define('TABLE_VIEW', VIEWS_DIR . '/Table.view.php');

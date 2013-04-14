@@ -6,7 +6,6 @@
  * @since Mar 19, 2013
  * @author Gregoryc
  */
-require_once __DIR__ . '/../Button.php';
 
 class Button_Edit extends Button {
 

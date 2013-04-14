@@ -3,7 +3,6 @@
 /**
  * Implementation of an INPUT File (image) field
  */
-require_once __DIR__ . '/../Field.php';
 
 class Field_Image extends Field_File {
 

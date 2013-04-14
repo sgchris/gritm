@@ -45,8 +45,10 @@ $app->add($p2);
 $app->run();
 ?>
 
-TODO
+TO DO
 =====
 
-
-1) create images block
+*) add resize to images in the Field_Image class
+*) validate images using GD on upload
+*) add custom SQL to the Field_Select
+*) create images block
