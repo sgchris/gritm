@@ -33,6 +33,12 @@ $t3->add(new Field_Text('Key', 'key', 150))
         ->orderBy('id', Table::ORDER_DESCENDING)
         ->setTotalRows(50);
 
+$t4 = new Table('Key-Value (Checkbox) table', 'test');
+$t4->add(new Field_Text('Key', 'key', 150))
+        ->add(new Field_Checkbox('Bool value', 'value', 300))
+        ->orderBy('id', Table::ORDER_DESCENDING)
+        ->setTotalRows(50);
+
 
 //////////////// PAGES //////////////////////
 
@@ -46,11 +52,15 @@ $p2->add($t2);
 $p3 = new Page('Key-value textarea page', 'key-value-textarea-test');
 $p3->add($t3);
 
+$p4 = new Page('Key-value checkbox page', 'key-value-checkbox-test');
+$p4->add($t4);
+
 ///////////////////////////////////////////////////////
 
 $app->add($p1);
 $app->add($p2);
 $app->add($p3);
+$app->add($p4);
 
 $app->run();
 
