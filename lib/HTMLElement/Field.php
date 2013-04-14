@@ -24,6 +24,12 @@ class Field extends HTMLElement {
     protected $_width = null;
 
     /**
+     * the height of the field (for textarea and wysiwyg)
+     * 200 is the default value (in pixels)
+     */
+    protected $_height = 200;
+
+    /**
      * the type of the field (text / password / etc)
      */
     protected $_type;
