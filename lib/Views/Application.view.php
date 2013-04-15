@@ -38,9 +38,6 @@
 
             <footer class="navbar-static-bottom navbar-fixed-bottom well well-small">
                 <nav>
-                    <small class="muted pull-right">
-                        All rights reserved to GriTM 2013&copy;
-                    </small>
                     <ul class="nav nav-pills">
                         <? foreach ($applicationPages as $page) { ?>
                             <li<?= ($currentPageUrl == $page->getUrl() ? ' class="active"' : '') ?>>
@@ -50,6 +47,9 @@
                             </li>
                         <? } ?>
                     </ul>
+                    <small class="muted pull-right">
+                        All rights reserved to GriTM 2013&copy;
+                    </small>
                 </nav>
             </footer>
         </div>

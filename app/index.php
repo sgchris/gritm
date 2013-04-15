@@ -55,14 +55,16 @@ $t6->add(new Field_Text('Key', 'key', 150))
         ->orderBy('id', Table::ORDER_DESCENDING)
         ->setTotalRows(50);
 
-$selBox = new Field_Select('File value', 'value', 300, 'test', 'value');
+$selBox = new Field_Select('File value', 'value', 300, 'zipcodes_2011', 'city', 'zipcode');
 
-$selBox->setStaticValues(array(
-    '1' => 'Red',
-    '2' => 'Green',
-    '3' => 'Blue',
-    '4' => 'Yellow'
-));
+//$selBox->setStaticValues(array(
+//    '1' => 'Red',
+//    '2' => 'Green',
+//    '3' => 'Blue',
+//    '4' => 'Yellow'
+//));
+
+$selBox->setSql('select * from zipcodes_2011 order by `zipcode` limit 20');
 
 $t7 = new Table('Key-Value (Selectbox) table', 'test');
 $t7->add(new Field_Text('Key', 'key', 150))

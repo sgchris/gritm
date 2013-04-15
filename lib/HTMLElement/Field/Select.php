@@ -25,6 +25,11 @@ class Field_Select extends Field {
     protected $_otherTablePkFieldName = 'id';
 
     /**
+     * Alternative SQL for the selectbox
+     * @var string 
+     */
+    protected $_sql = null;
+    /**
      * Option to configure static values instead of from other table
      * @var type 
      */
@@ -76,6 +81,22 @@ class Field_Select extends Field {
                     return $val;
                 }
             }
+        } elseif (!is_null($this->_sql)) {
+            $db = Database::getInstance();
+            $stmt = $db->prepare($this->_sql);
+            $stmt->execute();
+            $res = $stmt->fetchAll();
+            
+            // set the sql as static values (cache for the next time)
+            if ($res) {
+                foreach ($res as $row) {
+                    $this->_staticValues[$row[$this->_otherTablePkFieldName]] = $row[$this->_otherTableFieldName];
+                }
+              
+                // call recursively this function as with the static values set
+                return $this->getValueFromOtherTable();
+            } 
+            
         } else {
 
             $db = Database::getInstance();
@@ -107,10 +128,26 @@ class Field_Select extends Field {
 
             foreach ($this->_staticValues as $idx => $val) {
                 $allRows[] = array(
-                    'id' => $idx,
+                    $this->getOtherTablePkFieldName() => $idx,
                     $this->getOtherTableFieldName() => $val
                 );
             }
+        } elseif (!is_null($this->_sql)) {
+            $db = Database::getInstance();
+            $stmt = $db->prepare($this->_sql);
+            $stmt->execute();
+            $res = $stmt->fetchAll();
+            
+            // set the sql as static values (cache for the next time)
+            if ($res) {
+                foreach ($res as $row) {
+                    $this->_staticValues[$row[$this->getOtherTablePkFieldName()]] = $row[$this->getOtherTableFieldName()];
+                }
+              
+                // call recursively this function as with the static values set
+                return $this->getValuesFromOtherTable();
+            } 
+            
         } else {
 
             $db = Database::getInstance();
