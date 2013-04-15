@@ -7,6 +7,45 @@
 class Field_Image extends Field_File {
 
     /**
+     * Resize the image to dimensions array([0] => xxx, [1] => yyy)
+     * @var type 
+     */
+    protected $_resize = array();
+    
+    /**
+     * Resize the uploaded image
+     * @param type $x
+     * @param type $y
+     * @return $this
+     */
+    public function resize($x, $y) {
+        $this->_resize = array($x, $y);
+        return $this;
+    }
+    
+    /**
+     *
+     * @var type 
+     */
+    protected $_keepOriginalImage = false;
+    
+    /**
+     * The name of the field that will hold the original image name
+     * @var type 
+     */
+    protected $_keepOriginalImageFieldName = null;
+    
+    /**
+     * 
+     * @param type $_keepOriginalImage
+     * @param type $_keepOriginalImageFieldName
+     */
+    public function setKeepOriginalImage($originalImageFieldName) {
+        $this->_keepOriginalImage = true;
+        $this->_keepOriginalImageFieldName = $originalImageFieldName;
+    }
+    
+    /**
      * The default preview image width
      * @var type 
      */

@@ -50,5 +50,5 @@ TO DO
 
 *) add resize to images in the Field_Image class
 *) validate images using GD on upload
-*) add custom SQL to the Field_Select
+
 *) create images block
