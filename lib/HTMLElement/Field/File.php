@@ -3,7 +3,6 @@
 /**
  * Implementation of an INPUT FILE field
  */
-
 class Field_File extends Field {
 
     /**
@@ -40,7 +39,7 @@ class Field_File extends Field {
     public function getHtml() {
         $req = Request::getInstance();
         $value = $this->getValue();
-        $value = '/'.trim($value, '/');
+        $value = '/' . trim($value, '/');
         $fieldHtml = '<a href="' . $req->getRelativePath() . $value . '" target="_blank">' . htmlentities($this->getValue(), ENT_QUOTES, 'utf-8') . '</a>';
         return $fieldHtml;
     }
@@ -72,46 +71,58 @@ class Field_File extends Field {
     }
 
     /**
+     * Upload a file from the $_FILES array
+     * @param type $file - item from the $_FILES array
+     * @return string - the new relative path of the file
+     * @throws Exception
+     */
+    protected function _uploadFile($file) {
+        if ($file && $file['error'] == 0) {
+
+            // create the destination directory
+            $uploadDir = defined('ROOT_DIR') ? ROOT_DIR : (defined('GRITM_DIR') ? realpath(GRITM_DIR . '/..') : null);
+            if (is_null($uploadDir) || is_null($this->_uploadDir)) {
+                throw new Exception('Destination folder is not set for field ' . $this->getDbName());
+            } else {
+                $uploadDir.= $this->_uploadDir;
+                @mkdir($uploadDir, 0777, true);
+            }
+
+            // check the file and move the uploaded file
+            if (is_uploaded_file($file['tmp_name'])) {
+                $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
+                $newFileName = $this->getPreserveOriginalFileName() ? $file['name'] : uniqid() . '.' . $ext;
+
+                if (move_uploaded_file($file['tmp_name'], $uploadDir . '/' . $newFileName)) {
+                    return $this->_uploadDir . '/' . $newFileName;
+                } else {
+                    throw new Exception('Error moving the file to its final destination (`move_uploaded_file` function)');
+                }
+            } else {
+                throw new Exception('The file is not uploaded (`is_uploaded_file` function)');
+            }
+        } else {
+            throw new Exception('file upload error #' . $file['error']);
+        }
+    }
+
+    /**
      * Upload the file and return the relative path to it
      * @return string
      */
     public function getValueFromPost() {
         $returnValue = $this->getValue();
-
+        
         try {
             // check if any file uploaded
             $req = Request::getInstance();
             if ($req->validFilesUploaded()) {
-
+                
                 // check if particularly this file uploaded
                 $file = $req->file($this->getDbName());
-                if ($file && $file['error'] == 0) {
-                    
-                    // create the destination directory
-                    $uploadDir = defined('ROOT_DIR') ? ROOT_DIR : (defined('GRITM_DIR') ? realpath(GRITM_DIR . '/..') : null);
-                    if (is_null($uploadDir) || is_null($this->_uploadDir)) {
-                        throw new Exception('Destination folder is not set for field '.$this->getDbName());
-                    } else {
-                        $uploadDir.= $this->_uploadDir;
-                        @mkdir($uploadDir, 0777, true);
-                    }
-
-                    // check the file and move the uploaded file
-                    if (is_uploaded_file($file['tmp_name'])) {
-                        $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
-                        $newFileName = $this->getPreserveOriginalFileName() ? $file['name'] : uniqid() . '.' . $ext;
-
-                        if (move_uploaded_file($file['tmp_name'], $uploadDir . '/' . $newFileName)) {
-                            $returnValue = $this->_uploadDir . '/' . $newFileName;
-                        } else {
-                            throw new Exception('Error moving the file to its final destination (`move_uploaded_file` function)');
-                        }
-                    } else {
-                        throw new Exception('The file is not uploaded (`is_uploaded_file` function)');
-                    }
-                } else {
-                    throw new Exception('file upload error #'.$file['error']);
-                }
+                
+                // upload the file
+                $returnValue = $this->_uploadFile($file);
             }
         } catch (Exception $e) {
             fputs(STDERR, $e->getMessage());

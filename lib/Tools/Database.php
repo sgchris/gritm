@@ -21,7 +21,7 @@ class Database extends PDO {
             try {
                 self::$PDOInstance = new Database('mysql:host=' . DBHOST . ';dbname=' . DBNAME, DBUSER, DBPASS);
                 self::$PDOInstance->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-                self::$PDOInstance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+                self::$PDOInstance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 self::$PDOInstance->exec('set names "utf8"');
                 self::$PDOInstance->exec('set character set "utf8"');
             } catch (PDOException $e) {
@@ -80,6 +80,7 @@ class Database extends PDO {
             $stmt->execute();
             return $db->lastInsertId();
         } catch (Exception $e) {
+            debug_print_backtrace();
             return null;
         }
     }

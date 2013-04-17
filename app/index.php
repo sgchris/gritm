@@ -73,6 +73,16 @@ $t7->add(new Field_Text('Key', 'key', 150))
         ->setTotalRows(50);
 
 
+$image2 = new Field_Image('Small File', 'value', 300);
+$image2->setUploadDir('upload_test_images_w_originals')
+        ->setPreserveOriginalFileName(false)
+        ->resize(100, null, $originalImageFieldName = 'value2');
+$t8 = new Table('Key-Value (Checkbox) table', 'test');
+$t8->add(new Field_Text('Key', 'key', 150))
+        ->add($image2)
+        ->orderBy('id', Table::ORDER_DESCENDING)
+        ->setTotalRows(50);
+
 //////////////// PAGES //////////////////////
 
 $p1 = new Page('Zips', 'zips-page');
@@ -97,15 +107,19 @@ $p6->add($t6);
 $p7 = new Page('Key-value selectbox page', 'key-value-selectbox-test');
 $p7->add($t7);
 
+$p8 = new Page('Images/w/Origs', 'images-with-their-originals');
+$p8->add($t8);
+
 ///////////////////////////////////////////////////////
 
-$app->add($p1);
-$app->add($p2);
-$app->add($p3);
-$app->add($p4);
-$app->add($p5);
-$app->add($p6);
+//$app->add($p1);
+//$app->add($p2);
+//$app->add($p3);
+//$app->add($p4);
+//$app->add($p5);
+//$app->add($p6);
 $app->add($p7);
+$app->add($p8);
 
 $app->run();
 

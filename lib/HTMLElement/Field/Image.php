@@ -1,9 +1,11 @@
 <?php
 
+// include the `WideImage` object
+require_once THIRD_PATRY_DIR . '/WideImage/lib/WideImage.php';
+
 /**
  * Implementation of an INPUT File (image) field
  */
-
 class Field_Image extends Field_File {
 
     /**
@@ -11,40 +13,18 @@ class Field_Image extends Field_File {
      * @var type 
      */
     protected $_resize = array();
-    
+
     /**
      * Resize the uploaded image
      * @param type $x
      * @param type $y
      * @return $this
      */
-    public function resize($x, $y) {
-        $this->_resize = array($x, $y);
+    public function resize($x, $y, $originalImageFieldName = null) {
+        $this->_resize = array($x, $y, 'originalImageFieldName' => $originalImageFieldName);
         return $this;
     }
-    
-    /**
-     *
-     * @var type 
-     */
-    protected $_keepOriginalImage = false;
-    
-    /**
-     * The name of the field that will hold the original image name
-     * @var type 
-     */
-    protected $_keepOriginalImageFieldName = null;
-    
-    /**
-     * 
-     * @param type $_keepOriginalImage
-     * @param type $_keepOriginalImageFieldName
-     */
-    public function setKeepOriginalImage($originalImageFieldName) {
-        $this->_keepOriginalImage = true;
-        $this->_keepOriginalImageFieldName = $originalImageFieldName;
-    }
-    
+
     /**
      * The default preview image width
      * @var type 
@@ -81,6 +61,66 @@ class Field_Image extends Field_File {
                 'style="width:' . $this->getWidth() . 'px;" ' .
                 '/>';
         return $fieldHtml;
+    }
+
+    /**
+     * Upload the file and return the relative path to it
+     * add "other field" for original image
+     * @return string
+     */
+    public function getValueFromPost() {
+        $returnValue = $this->getValue();
+
+        try {
+            // check if any file uploaded
+            $req = Request::getInstance();
+            if ($req->validFilesUploaded()) {
+
+                // check if particularly this file uploaded
+                $file = WideImage::loadFromUpload($this->getDbName());
+
+                // prepare the destination directory
+                if (is_null($this->_uploadDir)) {
+                    throw new Exception('Destination folder is not set for field ' . $this->getDbName());
+                }
+                $uploadDir = ROOT_DIR . $this->_uploadDir;
+                @mkdir($uploadDir, 0777, true);
+
+                // get the new file name
+                $uploadedFileInfo = $req->file($this->getDbName());
+                $ext = pathinfo($uploadedFileInfo['name'], PATHINFO_EXTENSION);
+                $newFileName = $this->getPreserveOriginalFileName() ? $uploadedFileInfo['name'] : uniqid() . '.' . $ext;
+
+                // store the file
+                $file->saveToFile($uploadDir . '/' . $newFileName);
+
+                // prepare the return value
+                $uploadedFilePath = $uploadDir . '/' . $newFileName;
+
+                // check if the original file has to be kept
+                if (!empty($this->_resize)) {
+                    $resizeX = $this->_resize[0];
+                    $resizeY = $this->_resize[1];
+
+                    // define the original file as "other" field
+                    if (!is_null($this->_resize['originalImageFieldName'])) {
+                        $this->addOtherField($this->_resize['originalImageFieldName'], $uploadedFilePath . '_original.' . $ext);
+                    }
+
+                    // resize and save the file
+                    $file->resize($resizeX, $resizeY)->saveToFile($uploadedFilePath);
+                }
+
+                $returnValue = $uploadedFilePath;
+            }
+        } catch (Exception $e) {
+            fputs(STDERR, $e->getMessage());
+        }
+
+        // return the previous value
+        var_dump($returnValue);
+        die();
+        return $returnValue;
     }
 
 }

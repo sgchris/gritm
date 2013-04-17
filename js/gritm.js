@@ -1,5 +1,8 @@
 (function(GLOBAL, $) {
 
+	// DEBUG option - to avoid reload after forms (popup) submit
+	var _reloadAfterSubmit = false;
+
 	// debug functions /////////////////////
 	var _debug = function() {
 		console.log.apply(console, arguments);
@@ -224,8 +227,8 @@
 					// create the form element
 					var form = _helper.getHtmlElement('form', {
 						action: '?table=' + tableDbName + '&mode=new',
-						method: 'post', 
-						onsubmit: 'return false;', 
+						method: 'post',
+						onsubmit: 'return false;',
 						enctype: 'multipart/form-data'
 					});
 
@@ -260,7 +263,9 @@
 
 									iframeSubmit.onload = function() {
 										// reload the page
-										document.location.href += ' ';
+										if (_reloadAfterSubmit) {
+											document.location.href += ' ';
+										}
 									};
 
 									frm.setAttribute('target', 'form-submit');
@@ -291,9 +296,9 @@
 
 					// create the form element
 					var form = _helper.getHtmlElement('form', {
-						action: '?table=' + tableDbName + '&mode=edit&pk=' + pkValue, 
+						action: '?table=' + tableDbName + '&mode=edit&pk=' + pkValue,
 						method: 'post',
-						onsubmit: 'return false;', 
+						onsubmit: 'return false;',
 						enctype: 'multipart/form-data'
 					});
 
@@ -328,7 +333,9 @@
 
 									iframeSubmit.onload = function() {
 										// reload the page
-										document.location.href += ' ';
+										if (_reloadAfterSubmit) {
+											document.location.href += ' ';
+										}
 									};
 
 									frm.setAttribute('target', 'form-submit');
@@ -371,7 +378,9 @@
 
 								iframeSubmit.onload = function() {
 									// reload the page
-									document.location.href += ' ';
+									if (_reloadAfterSubmit) {
+										document.location.href += ' ';
+									}
 								};
 
 								var frm = _helper.getHtmlElement('form', {

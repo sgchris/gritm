@@ -3,7 +3,6 @@
 /**
  * One table class
  */
-
 // The view file of the page
 define('TABLE_VIEW', VIEWS_DIR . '/Table.view.php');
 
@@ -257,7 +256,7 @@ class Table extends HTMLCollection {
 
             $dbRow = $this->_getRow($req->get('pk'));
             if (!$dbRow) {
-                
+
                 $fields = array('result' => 'error', 'error' => 'Record not found');
             } else {
 
@@ -276,7 +275,7 @@ class Table extends HTMLCollection {
                     }
                 }
             }
-            
+
             echo json_encode($fields);
             return;
         }
@@ -293,6 +292,13 @@ class Table extends HTMLCollection {
         foreach ($this->getItems() as $item) {
             if ($item instanceof Field) {
                 $fields[$item->getDbName()] = $item->getValueFromPost();
+
+                // check if there are other fields that have to be updated/added
+                if ($item->hasOtherFields()) {
+                    foreach ($this->getOtherFields() as $otherFieldName => $otherFIeldValue) {
+                        $fields[$otherFieldName] = $otherFIeldValue;
+                    }
+                }
             }
         }
 
@@ -311,12 +317,12 @@ class Table extends HTMLCollection {
 
         // determine if the request is relevant to the current table!
         $req = Request::getInstance();
-        
+
         $pkValue = $req->get('pk');
         if (!$pkValue) {
             return false;
         }
-        
+
         // fields
         $row = $this->_getRow($pkValue);
         $fieldsToUpdate = array();
@@ -324,9 +330,16 @@ class Table extends HTMLCollection {
             if ($item instanceof Field) {
                 $item->setValue($row[$item->getDbName()]);
                 $fieldsToUpdate[$item->getDbName()] = $item->getValueFromPost();
+
+                // check if there are other fields that have to be updated/added
+                if ($item->hasOtherFields()) {
+                    foreach ($this->getOtherFields() as $otherFieldName => $otherFIeldValue) {
+                        $fieldsToUpdate[$otherFieldName] = $otherFIeldValue;
+                    }
+                }
             }
         }
-        
+
         $db = Database::getInstance();
         $db->update($this->getDbName(), $fieldsToUpdate, array($this->getPkField() => $pkValue));
     }
@@ -339,12 +352,12 @@ class Table extends HTMLCollection {
 
         // determine if the request is relevant to the current table!
         $req = Request::getInstance();
-        
+
         $pkValue = $req->get('pk');
         if (!$pkValue) {
             return false;
         }
-        
+
         $db = Database::getInstance();
         $db->delete($this->getDbName(), array($this->getPkField() => $pkValue));
     }

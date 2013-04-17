@@ -45,6 +45,30 @@ class Field extends HTMLElement {
     protected $_row;
 
     /**
+     * Define other fields that should be modified when saving/adding a record
+     * @var type 
+     */
+    protected $_otherFields = array();
+    
+    /**
+     * Add another field that should be modified when saving/adding a record
+     * @param type $fieldName
+     * @param type $fieldValue
+     */
+    protected function addOtherField($fieldName, $fieldValue) {
+        $this->_otherFields[$fieldName] = $fieldValue;
+        return $this;
+    }
+    
+    /**
+     * Check if there are other fields that should be taken in consideration
+     * @return type
+     */
+    public function hasOtherFields() {
+        return count($this->_otherFields) > 0;
+    }
+    
+    /**
      * Default constructor for a field
      * 
      * @param type $name
