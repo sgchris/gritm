@@ -295,7 +295,7 @@ class Table extends HTMLCollection {
 
                 // check if there are other fields that have to be updated/added
                 if ($item->hasOtherFields()) {
-                    foreach ($this->getOtherFields() as $otherFieldName => $otherFIeldValue) {
+                    foreach ($item->getOtherFields() as $otherFieldName => $otherFIeldValue) {
                         $fields[$otherFieldName] = $otherFIeldValue;
                     }
                 }
@@ -333,13 +333,13 @@ class Table extends HTMLCollection {
 
                 // check if there are other fields that have to be updated/added
                 if ($item->hasOtherFields()) {
-                    foreach ($this->getOtherFields() as $otherFieldName => $otherFIeldValue) {
+                    foreach ($item->getOtherFields() as $otherFieldName => $otherFIeldValue) {
                         $fieldsToUpdate[$otherFieldName] = $otherFIeldValue;
                     }
                 }
             }
         }
-
+        
         $db = Database::getInstance();
         $db->update($this->getDbName(), $fieldsToUpdate, array($this->getPkField() => $pkValue));
     }

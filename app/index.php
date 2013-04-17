@@ -76,7 +76,7 @@ $t7->add(new Field_Text('Key', 'key', 150))
 $image2 = new Field_Image('Small File', 'value', 300);
 $image2->setUploadDir('upload_test_images_w_originals')
         ->setPreserveOriginalFileName(false)
-        ->resize(100, null, $originalImageFieldName = 'value2');
+        ->resize(null, 120, $originalImageFieldName = 'value2');
 $t8 = new Table('Key-Value (Checkbox) table', 'test');
 $t8->add(new Field_Text('Key', 'key', 150))
         ->add($image2)
@@ -117,7 +117,7 @@ $p8->add($t8);
 //$app->add($p3);
 //$app->add($p4);
 //$app->add($p5);
-//$app->add($p6);
+$app->add($p6);
 $app->add($p7);
 $app->add($p8);
 

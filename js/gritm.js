@@ -1,7 +1,7 @@
 (function(GLOBAL, $) {
 
 	// DEBUG option - to avoid reload after forms (popup) submit
-	var _reloadAfterSubmit = false;
+	var _reloadAfterSubmit = true;
 
 	// debug functions /////////////////////
 	var _debug = function() {

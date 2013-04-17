@@ -95,7 +95,7 @@ class Field_Image extends Field_File {
                 $file->saveToFile($uploadDir . '/' . $newFileName);
 
                 // prepare the return value
-                $uploadedFilePath = $uploadDir . '/' . $newFileName;
+                $uploadedFilePath = $this->_uploadDir . '/' . $newFileName;
 
                 // check if the original file has to be kept
                 if (!empty($this->_resize)) {
@@ -104,11 +104,17 @@ class Field_Image extends Field_File {
 
                     // define the original file as "other" field
                     if (!is_null($this->_resize['originalImageFieldName'])) {
-                        $this->addOtherField($this->_resize['originalImageFieldName'], $uploadedFilePath . '_original.' . $ext);
+                        $this->addOtherField($this->_resize['originalImageFieldName'], $uploadedFilePath);
                     }
 
+                    // set the relative path for the resized image - the one that will be returned
+                    $uploadedFilePath = $uploadedFilePath . '_R' . $resizeX . 'X' . $resizeY . '.' . $ext;
+                    
+                    // set the upload directory for the resized image
+                    $uploadedFileDir = $uploadDir . '/' . $newFileName . '_R' . $resizeX . 'X' . $resizeY . '.' . $ext;
+                    
                     // resize and save the file
-                    $file->resize($resizeX, $resizeY)->saveToFile($uploadedFilePath);
+                    $file->resize($resizeX, $resizeY)->saveToFile($uploadedFileDir);
                 }
 
                 $returnValue = $uploadedFilePath;
@@ -118,8 +124,6 @@ class Field_Image extends Field_File {
         }
 
         // return the previous value
-        var_dump($returnValue);
-        die();
         return $returnValue;
     }
 
