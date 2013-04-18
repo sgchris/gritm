@@ -3,17 +3,18 @@
 /**
  * Collection base class
  */
-
 class HTMLCollection extends HTMLElement {
 
     /**
      * The html of the element
+     * @var array
      */
     protected $items = array();
 
     /**
      * enable/disable layout. default true. 
      * e.g. false is used for AJAX requests 
+     * @var bool
      */
     protected $_layoutEnabled = true;
 

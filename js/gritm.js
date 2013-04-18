@@ -236,6 +236,8 @@
 					var dt, dd, dl = document.createElement('dl');
 					if (res.fields) {
 						for (var i in res.fields) {
+							if (!res.fields[i].html) { continue; } else { console.log('res.fields[i].html', res.fields[i].html); };
+							
 							dt = _helper.getHtmlElement('dt', {}, res.fields[i].name);
 							dl.appendChild(dt);
 							dd = _helper.getHtmlElement('dd', {}, res.fields[i].html);
@@ -306,6 +308,9 @@
 					var dt, dd, dl = document.createElement('dl');
 					if (res.fields) {
 						for (var i in res.fields) {
+							if (!res.fields[i].html)
+								continue;
+
 							dt = _helper.getHtmlElement('dt', {}, res.fields[i].name);
 							dl.appendChild(dt);
 							dd = _helper.getHtmlElement('dd', {}, res.fields[i].html);

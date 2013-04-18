@@ -15,7 +15,7 @@ class Field_Password extends Field {
     /**
      * Get the html of the field when in `edit` mode
      */
-    public function getEditHtml() {
+    protected function getEditHtml() {
         $fieldHtml = '<input type="password" ' .
                 'name="' . $this->getDbName() . '" ' .
                 'field-db-name="' . $this->getDbName() . '" ' .
@@ -28,7 +28,7 @@ class Field_Password extends Field {
     /**
      * Get the html of the field when in `new` mode
      */
-    public function getNewHtml() {
+    protected function getNewHtml() {
         $fieldHtml = '<input type="password" ' .
                 'name="' . $this->getDbName() . '" ' .
                 'field-db-name="' . $this->getDbName() . '" ' .
@@ -42,7 +42,7 @@ class Field_Password extends Field {
      * 
      * @return text
      */
-    public function getValueFromPost() {
+    protected function getValueFromPost() {
         $req = Request::getInstance();
 
         // get the raw value from the post

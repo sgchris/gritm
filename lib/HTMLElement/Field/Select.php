@@ -177,7 +177,7 @@ class Field_Select extends Field {
     /**
      * Get the html of the field when in `edit` mode
      */
-    public function getEditHtml() {
+    protected function getEditHtml() {
 
         $allRows = $this->getValuesFromOtherTable();
         $fieldHtml = '<select name="' . $this->getDbName() . '" ' .
@@ -201,7 +201,7 @@ class Field_Select extends Field {
     /**
      * Get the html of the field when in `new` mode
      */
-    public function getNewHtml() {
+    protected function getNewHtml() {
 
         $allRows = $this->getValuesFromOtherTable();
         $fieldHtml = '<select name="' . $this->getDbName() . '" ' .

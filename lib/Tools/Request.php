@@ -28,32 +28,38 @@ class Request {
     /**
      * the base dir of the app (relative path)
      * The value has to be changed when moving the file (Request.php) to another location
+     * @var string
      */
     protected $_APP_BASE_DIR;
 
     /**
      * local var for GET request parameters
+     * @var array
      */
-    protected $_get;
+    protected $_get = array();
 
     /**
      * local var for POST request parameters
+     * @var array
      */
-    protected $_post;
+    protected $_post = array();
 
     /**
      * local var for FILES request parameters
+     * @var array
      */
-    protected $_files;
+    protected $_files = array();
 
     /**
      * parsed URL request. /path/to/page
      * $urlParams = array('0'=>'path', '1'=>'to', '2'=>'url')
+     * @var array
      */
     protected $_urlParams = null;
 
     /**
      * The relative path from doc root (`htdocs` or `www` dir)
+     * @var string
      */
     protected $_relativePath = null;
 

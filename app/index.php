@@ -25,7 +25,7 @@ $t2->add(new Field_Text('Key', 'key', 150))
         ->setTotalRows(50);
 
 $ta = new Field_Textarea('Value', 'value', 350);
-$ta->setHeight(300)->setHeight(100);
+$ta->setWidth(300)->setHeight(100);
 
 $t3 = new Table('Key-Value (TA) table', 'test');
 $t3->add(new Field_Text('Key', 'key', 150))
@@ -75,10 +75,15 @@ $t7->add(new Field_Text('Key', 'key', 150))
 
 $image2 = new Field_Image('Small File', 'value', 300);
 $image2->setUploadDir('upload_test_images_w_originals')
-        ->setPreserveOriginalFileName(false)
-        ->resize(null, 120, $originalImageFieldName = 'value2');
+        ->setPreserveOriginalFileName(true)
+        ->setPreviewWidth(80)
+        ->resize(80, null, $originalImageFieldName = 'value2');
+$origImage = new Field_Image('Original image', 'value2', 300);
+$origImage->setReadOnly(true);
+
 $t8 = new Table('Key-Value (Checkbox) table', 'test');
 $t8->add(new Field_Text('Key', 'key', 150))
+        ->add($origImage)
         ->add($image2)
         ->orderBy('id', Table::ORDER_DESCENDING)
         ->setTotalRows(50);
@@ -112,7 +117,6 @@ $p8->setIcon('icon-picture')
         ->add($t8);
 
 ///////////////////////////////////////////////////////
-
 //$app->add($p1);
 //$app->add($p2);
 //$app->add($p3);

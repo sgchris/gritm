@@ -16,7 +16,7 @@ class Field_Textarea extends Field {
     /**
      * Get the html of the field when in `edit` mode
      */
-    public function getEditHtml() {
+    protected function getEditHtml() {
         $fieldHtml = '<textarea ' .
                 'name="' . $this->getDbName() . '" ' .
                 'field-db-name="' . $this->getDbName() . '" ' .
@@ -29,7 +29,7 @@ class Field_Textarea extends Field {
     /**
      * Get the html of the field when in `new` mode
      */
-    public function getNewHtml() {
+    protected function getNewHtml() {
         $fieldHtml = '<textarea ' .
                 'name="' . $this->getDbName() . '" ' .
                 'field-db-name="' . $this->getDbName() . '" ' .

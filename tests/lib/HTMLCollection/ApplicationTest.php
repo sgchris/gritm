@@ -55,4 +55,8 @@ class ApplicationTest extends PHPUnit_Framework_TestCase {
         $this->assertStringEndsNotWith('</html>', $html);
     }
 
+    
+    public function testBasicRequest() {
+        
+    }
 }

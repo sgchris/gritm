@@ -48,7 +48,7 @@ class Field_File extends Field {
      * Get the html of the field when in `edit` mode
      * @return string
      */
-    public function getEditHtml() {
+    protected function getEditHtml() {
         $fieldHtml = '<input type="file" ' .
                 'name="' . $this->getDbName() . '" ' .
                 'field-db-name="' . $this->getDbName() . '" ' .
@@ -61,7 +61,7 @@ class Field_File extends Field {
      * Get the html of the field when in `new` mode
      * @return string
      */
-    public function getNewHtml() {
+    protected function getNewHtml() {
         $fieldHtml = '<input type="file" ' .
                 'name="' . $this->getDbName() . '" ' .
                 'field-db-name="' . $this->getDbName() . '" ' .
@@ -110,7 +110,7 @@ class Field_File extends Field {
      * Upload the file and return the relative path to it
      * @return string
      */
-    public function getValueFromPost() {
+    protected function getValueFromPost() {
         $returnValue = $this->getValue();
         
         try {

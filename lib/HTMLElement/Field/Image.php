@@ -15,6 +15,24 @@ class Field_Image extends Field_File {
     protected $_resize = array();
 
     /**
+     * The default preview image width
+     * @var type 
+     */
+    protected $defaultPreviewWidth = 120;
+
+    /**
+     * The default preview image width
+     * @var type 
+     */
+    protected $_previewWidth = null;
+
+    /**
+     * The default preview image height
+     * @var type 
+     */
+    protected $_previewHeight = null;
+
+    /**
      * Resize the uploaded image
      * @param type $x
      * @param type $y
@@ -26,12 +44,6 @@ class Field_Image extends Field_File {
     }
 
     /**
-     * The default preview image width
-     * @var type 
-     */
-    protected $_previewWidth = 120;
-
-    /**
      * Get the HTML of the field
      * @return string
      */
@@ -40,7 +52,22 @@ class Field_Image extends Field_File {
         $value = $this->getValue();
         $value = '/' . trim($value, '/');
 
-        $fieldHtml = '<a href="' . $req->getRelativePath() . $value . '" target="_blank"><img src="' . $req->getRelativePath() . $value . '" width="' . $this->getPreviewWidth() . '" /></a>';
+        $style = '';
+        if ( $this->getPreviewHeight() || $this->getPreviewWidth()) {
+            if ($this->getPreviewWidth()) {
+                $style.= 'width:' . $this->getPreviewWidth() . 'px;';
+            }
+            
+            if ($this->getPreviewHeight()) {
+                $style.= 'height:' . $this->getPreviewHeight() . 'px;';
+            }
+        } else {
+            $style.= ' width:' . $this->defaultPreviewWidth . 'px;';
+        }
+
+        $fieldHtml = '<a href="' . $req->getRelativePath() . $value . '" target="_blank">' .
+                '<img src="' . $req->getRelativePath() . $value . '" style="'.$style.'" />' .
+                '</a>';
         return $fieldHtml;
     }
 
@@ -49,7 +76,7 @@ class Field_Image extends Field_File {
      * This time it's with the image preview
      * @return string
      */
-    public function getEditHtml() {
+    protected function getEditHtml() {
 
         $req = Request::getInstance();
         $value = $this->getValue();
@@ -109,10 +136,10 @@ class Field_Image extends Field_File {
 
                     // set the relative path for the resized image - the one that will be returned
                     $uploadedFilePath = $uploadedFilePath . '_R' . $resizeX . 'X' . $resizeY . '.' . $ext;
-                    
+
                     // set the upload directory for the resized image
                     $uploadedFileDir = $uploadDir . '/' . $newFileName . '_R' . $resizeX . 'X' . $resizeY . '.' . $ext;
-                    
+
                     // resize and save the file
                     $file->resize($resizeX, $resizeY)->saveToFile($uploadedFileDir);
                 }

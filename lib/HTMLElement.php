@@ -10,26 +10,31 @@ class HTMLElement {
 
     /**
      * The name of the element
+     * @var string
      */
     protected $_name;
 
     /**
      * The description of the element
+     * @var string
      */
     protected $_description;
 
     /**
      * The html of the element
+     * @var string
      */
     protected $_html;
 
     /**
      * The css of the element
+     * @var string
      */
     protected $_css;
 
     /**
      * The Javascript of the element
+     * @var string
      */
     protected $_javascript;
 
@@ -93,6 +98,10 @@ class HTMLElement {
             }
         }
 
+        if (method_exists($this, $funcName)) {
+            return call_user_func_array(array($this, $funcName), $args);
+        }
+        
         throw new Exception(__METHOD__ . ': error calling "' . $funcName . '" function');
     }
 

@@ -48,7 +48,5 @@ $app->run();
 TO DO
 =====
 
-*) add resize to images in the Field_Image class
-*) validate images using GD on upload
-
-*) create images block
+*) manage the CSS (added by components)
+*) create images block / gallery page

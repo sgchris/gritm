@@ -9,6 +9,7 @@ class Database extends PDO {
 
     /**
      * The singleton instance
+     * @var PDO
      */
     protected static $PDOInstance = null;
 

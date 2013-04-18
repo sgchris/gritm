@@ -15,7 +15,7 @@ class Field_Checkbox extends Field {
     /**
      * Get the html of the field when in `edit` mode
      */
-    public function getEditHtml() {
+    protected function getEditHtml() {
         $fieldHtml = '<input type="checkbox" ' .
                 'name="' . $this->getDbName() . '" ' .
                 'value="1" ' .
@@ -28,7 +28,7 @@ class Field_Checkbox extends Field {
     /**
      * Get the html of the field when in `new` mode
      */
-    public function getNewHtml() {
+    protected function getNewHtml() {
         $fieldHtml = '<input type="checkbox" ' .
                 'name="' . $this->getDbName() . '" ' .
                 'value="1" ' .
@@ -37,7 +37,7 @@ class Field_Checkbox extends Field {
         return $fieldHtml;
     }
 
-    public function getValueFromPost() {
+    protected function getValueFromPost() {
         $req = Request::getInstance();
 
         // get the raw value from the post
