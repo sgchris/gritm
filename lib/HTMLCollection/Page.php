@@ -24,6 +24,14 @@ class Page extends HTMLCollection {
      * The request object
      */
     protected $_request = null;
+    
+    /**
+     * Set the icon of the page on the menu
+     * All the icons can be viewed here:
+     * @link http://twitter.github.io/bootstrap/base-css.html#icons 140 icons
+     * @var type 
+     */
+    protected $_icon = 'icon-list-alt';
 
     /**
      * initialize the object

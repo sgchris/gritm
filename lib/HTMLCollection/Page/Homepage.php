@@ -3,11 +3,16 @@
 /**
  * instance of Page class - responsible for the homepage
  */
-
 // The homepage HTML
 define('HOMEPAGE_VIEW', VIEWS_DIR . '/Application.homepage.view.php');
 
 class Page_Homepage extends Page {
+
+    /**
+     * Override the default icon with the "home" icon
+     * @var type 
+     */
+    protected $_icon = 'icon-home';
 
     /**
      * @override the basic page constructor

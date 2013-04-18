@@ -108,7 +108,8 @@ $p7 = new Page('Key-value selectbox page', 'key-value-selectbox-test');
 $p7->add($t7);
 
 $p8 = new Page('Images/w/Origs', 'images-with-their-originals');
-$p8->add($t8);
+$p8->setIcon('icon-picture')
+        ->add($t8);
 
 ///////////////////////////////////////////////////////
 

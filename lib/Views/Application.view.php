@@ -22,10 +22,9 @@
                     <ul class="nav nav-list nav-pills nav-stacked">
                         <li class="nav-header">Pages</li>
                         <? foreach ($applicationPages as $page) { ?>
-                            <? $icon = $page instanceof Page_Homepage ? 'icon-home' : 'icon-list-alt'; ?>
                             <li<?= ($currentPageUrl == $page->getUrl() ? ' class="active"' : '') ?>>
                                 <a href="<?= $this->_request->getRelativePath() ?>/<?= $page->getUrl() ?>">
-                                    <i class="<?=$icon?>"></i> <?= htmlentities($page->getName(), ENT_NOQUOTES, 'utf-8') ?>
+                                    <i class="<?=$page->getIcon()?>"></i> <?= htmlentities($page->getName(), ENT_NOQUOTES, 'utf-8') ?>
                                 </a>
                             </li>
                         <? } ?>
@@ -41,10 +40,9 @@
                 <nav>
                     <ul class="nav nav-pills">
                         <? foreach ($applicationPages as $page) { ?>
-                            <? $icon = $page instanceof Page_Homepage ? 'icon-home' : 'icon-list-alt'; ?>
                             <li<?= ($currentPageUrl == $page->getUrl() ? ' class="active"' : '') ?>>
                                 <a href="<?= $this->_request->getRelativePath() ?>/<?= $page->getUrl() ?>">
-                                    <i class="<?=$icon?>"></i> <?= htmlentities($page->getName(), ENT_NOQUOTES, 'utf-8') ?>
+                                    <i class="<?=$page->getIcon()?>"></i> <?= htmlentities($page->getName(), ENT_NOQUOTES, 'utf-8') ?>
                                 </a>
                             </li>
                         <? } ?>
