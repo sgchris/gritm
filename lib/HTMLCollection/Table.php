@@ -234,7 +234,7 @@ class Table extends HTMLCollection {
 
         // check if this is a request for "new" mode
         if ($req->get('table') == $this->getDbName() && $req->get('mode') == 'new') {
-            $fields = array('result' => 'ok', 'fields' => array());
+            $fields = array('result' => 'ok', 'fields' => array(), 'javascript' => '');
 
             foreach ($this->getItems() as $item) {
                 if ($item instanceof Field) {
@@ -243,6 +243,9 @@ class Table extends HTMLCollection {
                         'dbName' => $item->getDbName(),
                         'html' => $item->getNewHtml()
                     );
+
+                    // add JS
+                    $fields['javascript'].= $item->getJavascript();
                 }
             }
 
@@ -252,7 +255,7 @@ class Table extends HTMLCollection {
 
         // check if this is a request for "new" mode
         if ($req->get('table') == $this->getDbName() && $req->get('mode') == 'edit' && $req->get('pk')) {
-            $fields = array('result' => 'ok', 'fields' => array());
+            $fields = array('result' => 'ok', 'fields' => array(), 'javascript' => '');
 
             $dbRow = $this->_getRow($req->get('pk'));
             if (!$dbRow) {
@@ -272,6 +275,9 @@ class Table extends HTMLCollection {
                             'dbName' => $item->getDbName(),
                             'html' => $item->getEditHtml()
                         );
+
+                        // add JS
+                        $fields['javascript'].= $item->getJavascript();
                     }
                 }
             }
@@ -339,7 +345,7 @@ class Table extends HTMLCollection {
                 }
             }
         }
-        
+
         $db = Database::getInstance();
         $db->update($this->getDbName(), $fieldsToUpdate, array($this->getPkField() => $pkValue));
     }
