@@ -5,10 +5,12 @@
         <meta charset="utf-8" />
         <link rel="stylesheet" href="<?= $this->_request->getRelativePath() ?>/css/bootstrap.min.css" />
         <link rel="stylesheet" href="<?= $this->_request->getRelativePath() ?>/css/bootstrap-responsive.min.css" />
+        <link rel="stylesheet" href="<?= $this->_request->getRelativePath() ?>/css/datepicker.min.css" />
         <link rel="stylesheet" href="<?= $this->_request->getRelativePath() ?>/css/my.css" />
 
         <script src="<?= $this->_request->getRelativePath() ?>/js/jquery.min.js"></script>
         <script src="<?= $this->_request->getRelativePath() ?>/js/bootstrap.min.js"></script>
+        <script src="<?= $this->_request->getRelativePath() ?>/js/bootstrap-datepicker.min.js"></script>
         <script>var _HTTP_ROOT = "<?= $this->_request->getRelativePath() ?>";</script>
         <script src="<?= $this->_request->getRelativePath() ?>/js/gritm.js"></script>
     </head>
@@ -24,7 +26,7 @@
                         <? foreach ($applicationPages as $page) { ?>
                             <li<?= ($currentPageUrl == $page->getUrl() ? ' class="active"' : '') ?>>
                                 <a href="<?= $this->_request->getRelativePath() ?>/<?= $page->getUrl() ?>">
-                                    <i class="<?=$page->getIcon()?>"></i> <?= htmlentities($page->getName(), ENT_NOQUOTES, 'utf-8') ?>
+                                    <i class="<?= $page->getIcon() ?>"></i> <?= htmlentities($page->getName(), ENT_NOQUOTES, 'utf-8') ?>
                                 </a>
                             </li>
                         <? } ?>
@@ -42,7 +44,7 @@
                         <? foreach ($applicationPages as $page) { ?>
                             <li<?= ($currentPageUrl == $page->getUrl() ? ' class="active"' : '') ?>>
                                 <a href="<?= $this->_request->getRelativePath() ?>/<?= $page->getUrl() ?>">
-                                    <i class="<?=$page->getIcon()?>"></i> <?= htmlentities($page->getName(), ENT_NOQUOTES, 'utf-8') ?>
+                                    <i class="<?= $page->getIcon() ?>"></i> <?= htmlentities($page->getName(), ENT_NOQUOTES, 'utf-8') ?>
                                 </a>
                             </li>
                         <? } ?>

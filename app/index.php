@@ -60,6 +60,7 @@ $t8 = new Table('Key-Value (Checkbox) table', 'test');
 $t8->add(new Field_Text('Key', 'key', 150))
         ->add($origImage)
         ->add($image2)
+        ->add(new Field_Date('Date C.', 'date_created', '200'))
         ->orderBy('id', Table::ORDER_DESCENDING)
         ->setTotalRows(50);
 

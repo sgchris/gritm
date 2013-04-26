@@ -74,6 +74,7 @@ class Database extends PDO {
             $db = self::getInstance();
             $stmt = $db->prepare($sql);
             foreach ($fields as $key => $value) {
+                if (!$value) $value = '';
                 $stmt->bindValue(':' . $key, $value);
             }
 
@@ -129,11 +130,13 @@ class Database extends PDO {
         // bind values for the SET
         $fieldsCoutner2 = 0;
         foreach ($fields as $fieldName => $fieldValue) {
+            if (!$fieldValue) $fieldValue = '';
             $stmt->bindValue(':' . $fieldName . ($fieldsCoutner2++), $fieldValue);
         }
 
         // bind values for the WHERE
         foreach ($whereFields as $fieldName => $fieldValue) {
+            if (!$fieldValue) $fieldValue = '';
             $stmt->bindValue(':' . $fieldName . ($fieldsCoutner2++), $fieldValue);
         }
 

@@ -3,7 +3,6 @@
 /**
  * Implementation of an INPUT TEXT field
  */
-
 class Field_Date extends Field {
 
     /**
@@ -11,14 +10,14 @@ class Field_Date extends Field {
      * @var string
      */
     protected $_dateFormat = 'd.m.Y H:i';
-    
+
     public function getHtml() {
-        
+
         // parse the date (as it appears on the database (`dateTime` field)
         if (false !== ($timeStamp = strtotime($this->getValue()))) {
             return date($this->_dateFormat, $timeStamp);
-        } 
-        
+        }
+
         return '';
     }
 
@@ -26,13 +25,14 @@ class Field_Date extends Field {
      * Get the html of the field when in `edit` mode
      */
     protected function getEditHtml() {
-//        $fieldHtml = '<input type="text" ' .
-//                'name="' . $this->getDbName() . '" ' .
-//                'field-db-name="' . $this->getDbName() . '" ' .
-//                'style="width:' . $this->getWidth() . 'px;" ' .
-//                'value="' . htmlentities($this->getValue(), ENT_QUOTES, 'utf-8') . '" ' .
-//                '/>';
-//        return $fieldHtml;
+        $fieldHtml = '<input type="text" ' .
+                'name="' . $this->getDbName() . '" ' .
+                'field-db-name="' . $this->getDbName() . '" ' .
+                'style="width:' . $this->getWidth() . 'px;" ' .
+                'value="' . htmlentities($this->getValue(), ENT_QUOTES, 'utf-8') . '" ' .
+                'class="date-picker-input" ' .
+                '/>';
+        return $fieldHtml;
     }
 
     /**
@@ -46,6 +46,26 @@ class Field_Date extends Field {
 //                'value="" placeholder="' . $this->getName() . '..." ' .
 //                '/>';
 //        return $fieldHtml;
+    }
+
+    /**
+     * avoid loading the JS more than one time
+     * @var bool
+     */
+    protected $jsIncluded = false;
+
+    /**
+     * initilize the date picker object
+     */
+    public function getJavascript() {
+        if (!$this->jsIncluded) {
+            $this->jsIncluded = true;
+
+            $jsCode = '$("input.date-picker-input").datepicker();';
+            return $jsCode;
+        }
+
+        return '';
     }
 
 }
