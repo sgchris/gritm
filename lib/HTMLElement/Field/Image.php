@@ -49,7 +49,13 @@ class Field_Image extends Field_File {
      */
     public function getHtml() {
         $req = Request::getInstance();
+        
+        // read the value of the field (the image)
         $value = $this->getValue();
+        if (empty($value)) {
+            return '<span class="small muted">(empty)</span>';
+        }
+        
         $value = '/' . trim($value, '/');
 
         $style = '';
