@@ -1,23 +1,14 @@
+# compress output
 <IfModule mod_deflate.c>
 	SetOutputFilter DEFLATE
-	
-	# compress text, html, javascript, css, xml:
-	AddOutputFilterByType DEFLATE text/plain
-	AddOutputFilterByType DEFLATE text/html
-	AddOutputFilterByType DEFLATE text/xml
-	AddOutputFilterByType DEFLATE text/css
-	AddOutputFilterByType DEFLATE application/xml
-	AddOutputFilterByType DEFLATE application/xhtml+xml
-	AddOutputFilterByType DEFLATE application/rss+xml
-	AddOutputFilterByType DEFLATE application/javascript
-	AddOutputFilterByType DEFLATE application/x-javascript
-	AddOutputFilterByType DEFLATE application/x-font-woff
 </IfModule>
 
+# add headers for unknown types
 AddType application/vnd.ms-fontobject .eot
 AddType application/x-font-woff .woff
 AddType application/octet-stream .otf .ttf
 
+# URLs rewrite
 <IfModule mod_rewrite.c>
 	RewriteEngine On
 

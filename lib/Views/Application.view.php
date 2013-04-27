@@ -11,6 +11,9 @@
         <script src="<?= $this->_request->getRelativePath() ?>/js/jquery.min.js"></script>
         <script src="<?= $this->_request->getRelativePath() ?>/js/bootstrap.min.js"></script>
         <script src="<?= $this->_request->getRelativePath() ?>/js/bootstrap-datetimepicker.min.js"></script>
+        <? if ($this->_currentPage->hasWysiwyg()) { ?>
+            <script src="<?= $this->_request->getRelativePath() ?>/lib/3rdparty/ckeditor/ckeditor.js"></script>
+        <? } ?>
         <script>var _HTTP_ROOT = "<?= $this->_request->getRelativePath() ?>";</script>
         <script src="<?= $this->_request->getRelativePath() ?>/js/gritm.js"></script>
     </head>

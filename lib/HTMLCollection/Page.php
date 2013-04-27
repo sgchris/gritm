@@ -4,7 +4,6 @@
  * One page class
  */
 // include the required classes
-
 // The view file of the page
 define('PAGE_VIEW', VIEWS_DIR . '/Page.view.php');
 
@@ -24,7 +23,7 @@ class Page extends HTMLCollection {
      * The request object
      */
     protected $_request = null;
-    
+
     /**
      * Set the icon of the page on the menu
      * All the icons can be viewed here:
@@ -80,10 +79,11 @@ class Page extends HTMLCollection {
         // get the html of the tables
         $tablesHtml = '';
         foreach ($this->getItems() as $item) {
-            
+
             // exclude buttons from the list
-            if ($item instanceof Button) continue;
-            
+            if ($item instanceof Button)
+                continue;
+
             // disable layout if needed
             if (!$this->_layoutEnabled && method_exists($item, 'disableLayout')) {
                 $item->disableLayout();
@@ -97,7 +97,7 @@ class Page extends HTMLCollection {
         if (!$this->_layoutEnabled) {
             return $tablesHtml;
         } else {
-            
+
             // load the page buttons
             $buttonsHtml = '';
             foreach ($this->getItems() as $item) {
@@ -154,6 +154,20 @@ class Page extends HTMLCollection {
                 }
             }
         }
+    }
+
+    /**
+     * Check if one of the tables has wysiwyg.item
+     * Used to check if the CKEditor has to be included
+     * @return boolean
+     */
+    public function hasWysiwyg() {
+        foreach ($this->getItems() as $item) {
+            if ($item instanceof Table && $item->hasWysiwyg()) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

@@ -64,6 +64,12 @@ $t8->add(new Field_Text('Key', 'key', 150))
         ->orderBy('id', Table::ORDER_DESCENDING)
         ->setTotalRows(50);
 
+$t9 = new Table('Wysiwyg field test', 'test');
+$t9->add(new Field_Text('Key', 'key', 150))
+        ->add(new Field_Wysiwyg('Content', 'value', 150))
+        ->orderBy('id', Table::ORDER_DESCENDING)
+        ->setTotalRows(50);
+
 //////////////// PAGES //////////////////////
 
 $p2 = new Page('Key-value password page', 'key-value-password-test');
@@ -85,6 +91,9 @@ $p8 = new Page('Images/w/Origs', 'images-with-their-originals');
 $p8->setIcon('icon-picture')
         ->add($t8);
 
+$p9 = new Page('Wysiwyg-test', 'wysiwyg-test');
+$p9->add($t9);
+
 ///////////////////////////////////////////////////////
 //$app->add($p1);
 //$app->add($p2);
@@ -93,6 +102,7 @@ $p8->setIcon('icon-picture')
 //$app->add($p5);
 $app->add($p6);
 $app->add($p8);
+$app->add($p9);
 
 $app->run();
 

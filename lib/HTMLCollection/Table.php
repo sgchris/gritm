@@ -375,6 +375,20 @@ class Table extends HTMLCollection {
     }
 
     /**
+     * Check if one of the fields is wysiwyg. 
+     * Used to check if the CKEditor has to be included
+     * @return boolean
+     */
+    public function hasWysiwyg() {
+        foreach ($this->getItems() as $item) {
+            if ($item instanceof Field_Wysiwyg) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Get the fields within the table 
      * (instances of `Field`)
      */
