@@ -48,6 +48,5 @@ $app->run();
 TO DO
 =====
 
-*) manage the CSS (added by components)
-*) manage the JS of the components (loaded by AJAX)
-*) create images block / gallery page
+*) create images block (gallery) page
+*) create table with order change
