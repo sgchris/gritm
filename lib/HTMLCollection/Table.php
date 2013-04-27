@@ -234,7 +234,7 @@ class Table extends HTMLCollection {
 
         // check if this is a request for "new" mode
         if ($req->get('table') == $this->getDbName() && $req->get('mode') == 'new') {
-            $fields = array('result' => 'ok', 'fields' => array(), 'javascript' => '');
+            $fields = array('result' => 'ok', 'fields' => array(), 'javascript' => '', 'css' => '');
 
             foreach ($this->getItems() as $item) {
                 if ($item instanceof Field) {
@@ -246,6 +246,9 @@ class Table extends HTMLCollection {
 
                     // add JS
                     $fields['javascript'].= $item->getJavascript();
+
+                    // add CSS
+                    $fields['css'].= $item->getCss();
                 }
             }
 
@@ -255,7 +258,7 @@ class Table extends HTMLCollection {
 
         // check if this is a request for "new" mode
         if ($req->get('table') == $this->getDbName() && $req->get('mode') == 'edit' && $req->get('pk')) {
-            $fields = array('result' => 'ok', 'fields' => array(), 'javascript' => '');
+            $fields = array('result' => 'ok', 'fields' => array(), 'javascript' => '', 'css' => '');
 
             $dbRow = $this->_getRow($req->get('pk'));
             if (!$dbRow) {
@@ -278,6 +281,9 @@ class Table extends HTMLCollection {
 
                         // add JS
                         $fields['javascript'].= $item->getJavascript();
+
+                        // add CSS
+                        $fields['css'].= $item->getCss();
                     }
                 }
             }

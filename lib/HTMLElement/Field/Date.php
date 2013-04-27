@@ -15,9 +15,13 @@ class Field_Date extends Field {
      * Get the `view` mode for the field
      * @return string
      */
-    public function getHtml() {
+    public function getHtml($alterDateFormat = null) {
+        if (is_null($alterDateFormat)) {
+            $alterDateFormat = $this->_dateFormat;
+        }
+        
         if (false !== ($timeStamp = strtotime($this->getValue()))) {
-            $fieldHtml = date($this->_dateFormat, $timeStamp);
+            $fieldHtml = date($alterDateFormat, $timeStamp);
         } else {
             $fieldHtml = '<i class="small muted">(wrong date format)</i>';
         }
@@ -33,7 +37,7 @@ class Field_Date extends Field {
                 'name="' . $this->getDbName() . '" ' .
                 'field-db-name="' . $this->getDbName() . '" ' .
                 'style="width:' . $this->getWidth() . 'px;" ' .
-                'value="' . htmlentities($this->getValue(), ENT_QUOTES, 'utf-8') . '" ' .
+                'value="' . $this->getHtml('Y-m-d') . '" ' .
                 '/>';
         return $fieldHtml;
     }

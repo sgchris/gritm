@@ -211,7 +211,7 @@
                         docBody.appendChild(modalWindow);
                     }
 
-                    return $('#modal' + _modalsCounter)
+                    return $('#modal' + _modalsCounter);
                 };
 
                 return function(config) {
@@ -221,10 +221,26 @@
                     if (typeof(config.onload) === 'function') {
                         modalElem.on('show', config.onload);
                     }
+
+                    // display the popup
                     modalElem.modal('show');
                 };
             })(), // Gritm.popup.show 
 
+            // res - the AJAX result object (JSON)
+            _onPopupLoad: function(res) {
+
+                // execute JS
+                if (res.javascript) {
+                    eval(res.javascript);
+                }
+
+                // add CSS styles
+                if (res.css) {
+                    var styleElem = _helper.getHtmlElement('style', {type: 'text/css'}, res.css);
+                    document.getElementsByTagName('head')[0].appendChild(styleElem);
+                }
+            },
             showAddNewRecord: function(tableDbName) {
 
                 // get fields for mode "new"
@@ -264,9 +280,7 @@
                         title: 'Add new record',
                         html: form.outerHTML,
                         onload: function() {
-                            if (res.javascript) {
-                                eval(res.javascript);
-                            }
+                            Gritm.popup._onPopupLoad(res);
                         },
                         buttons: [{
                                 caption: 'Add',
@@ -342,10 +356,7 @@
                         title: 'Update record',
                         html: form.outerHTML,
                         onload: function() {
-                            if (res.javascript) {
-                                console.log(res.javascript);
-                                eval(res.javascript);
-                            }
+                            Gritm.popup._onPopupLoad(res);
                         },
                         buttons: [{
                                 caption: 'Update',
