@@ -70,6 +70,10 @@ $t9->add(new Field_Text('Key', 'key', 150))
         ->orderBy('id', Table::ORDER_DESCENDING)
         ->setTotalRows(50);
 
+$g1 = new Table_Gallery('Gallery Test', 'galleries');
+$g1->setImagesTable('images', 'gallery_id')
+        ->add(new Field_Text('Name', 'name'));
+
 //////////////// PAGES //////////////////////
 
 $p2 = new Page('Key-value password page', 'key-value-password-test');
@@ -94,6 +98,9 @@ $p8->setIcon('icon-picture')
 $p9 = new Page('Wysiwyg-test', 'wysiwyg-test');
 $p9->add($t9);
 
+$p10 = new Page('Gallery test', 'gallery-test');
+$p10->add($g1);
+
 ///////////////////////////////////////////////////////
 //$app->add($p1);
 //$app->add($p2);
@@ -103,6 +110,7 @@ $p9->add($t9);
 $app->add($p6);
 $app->add($p8);
 $app->add($p9);
+$app->add($p10);
 
 $app->run();
 

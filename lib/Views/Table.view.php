@@ -47,6 +47,10 @@
     <div class="btn-group">
         <? foreach ($buttonsList as $button) { ?>
             <?= $button->getHtml() ?>
+            <? 
+            $buttonJs = $button->getJavascript();
+            if ($buttonJs) echo '<script>'.$buttonJs.'</script>';
+            ?>
         <? } ?>
     </div>
 <? } ?>

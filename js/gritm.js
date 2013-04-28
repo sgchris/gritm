@@ -109,6 +109,26 @@
     }; // helper
 
     GLOBAL.Gritm = {
+        /**
+         * Global functions related to the tables on the page
+         */
+        table: {
+            getSelectedRow: function(tableDbName) {
+                var tbl = document.querySelector('table[table-db-name="'+tableDbName+'"]');
+                if (tbl) {
+                    var selectedRow = tbl.querySelector('tr.selected');
+                    if (selectedRow) {
+                        return selectedRow;
+                    }
+                }
+                
+                return null;
+            }
+        },
+                
+        /**
+         * Global functions for popup manipulation
+         */
         popup: {
             // Show the popup
             // the config is an extension of Gritm.popup.defaultConfig

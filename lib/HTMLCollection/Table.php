@@ -122,7 +122,7 @@ class Table extends HTMLCollection {
      * format => array ('name'=>Table::ORDER_ASCENDING, 'date_created'=>Table::ORDER_DESCENDING)
      */
     protected $_order = array();
-
+    
     /**
      * Initialize table
      * @param $name
@@ -133,7 +133,7 @@ class Table extends HTMLCollection {
         $this->_name = $name;
         $this->_dbName = $dbTableName;
     }
-
+    
     /**
      * add condition to the sql
      * @param $key
@@ -221,7 +221,7 @@ class Table extends HTMLCollection {
                 $jsCode.= $item->getJavascript();
             }
         }
-
+        
         return $jsCode;
     }
 
