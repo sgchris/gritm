@@ -10,7 +10,7 @@ class Request {
      * @var Request instance
      */
     protected static $_instance = null;
-    
+
     /**
      * 
      * @return Request object
@@ -20,11 +20,10 @@ class Request {
             self::$_instance = new Request();
             self::$_instance->parse();
         }
-        
+
         return self::$_instance;
     }
-    
-    
+
     /**
      * the base dir of the app (relative path)
      * The value has to be changed when moving the file (Request.php) to another location
@@ -66,22 +65,22 @@ class Request {
     /**
      * get GET parameter / all GET parameters
      */
-    public function get($idx = null) {
+    public function get($idx = null, $default = null) {
         if (is_null($idx)) {
             return $this->_get;
         } else {
-            return isset($this->_get[$idx]) ? $this->_get[$idx] : null;
+            return isset($this->_get[$idx]) ? $this->_get[$idx] : $default;
         }
     }
 
     /**
      * get POST parameter / all POST parameters
      */
-    public function post($idx = null) {
+    public function post($idx = null, $default = null) {
         if (is_null($idx)) {
             return $this->_post;
         } else {
-            return isset($this->_post[$idx]) ? $this->_post[$idx] : null;
+            return isset($this->_post[$idx]) ? $this->_post[$idx] : $default;
         }
     }
 
@@ -215,7 +214,8 @@ class Request {
                 }
             }
         }
-        
+
         return false;
     }
+
 }

@@ -152,6 +152,24 @@ class Application extends HTMLCollection {
     }
 
     /**
+     * @return string css code
+     */
+    public function getCss() {
+        $cssCode = '';
+
+        // get the javascript from the children elements
+        foreach ($this->getItems() as $item) {
+            if (method_exists($item, 'getCss')) {
+                $cssCode.= $item->getCss();
+            }
+        }
+
+        return $cssCode;
+    }
+
+    
+    
+    /**
      * Execute AJAX
      * @param Page $currentPage
      */

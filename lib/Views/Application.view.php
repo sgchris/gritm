@@ -7,6 +7,8 @@
         <link rel="stylesheet" href="<?= $this->_request->getRelativePath() ?>/css/bootstrap-responsive.min.css" />
         <link rel="stylesheet" href="<?= $this->_request->getRelativePath() ?>/css/bootstrap-datetimepicker.min.css" />
         <link rel="stylesheet" href="<?= $this->_request->getRelativePath() ?>/css/my.css" />
+        <style><?= $this->getCss() ?></style>
+            
 
         <script src="<?= $this->_request->getRelativePath() ?>/js/jquery.min.js"></script>
         <script src="<?= $this->_request->getRelativePath() ?>/js/bootstrap.min.js"></script>

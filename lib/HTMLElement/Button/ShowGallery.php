@@ -6,6 +6,7 @@
  * @since Mar 19, 2013
  * @author Gregoryc
  */
+define('GALLERY_JS', VIEWS_DIR . '/Table/Gallery.js');
 
 class Button_ShowGallery extends Button {
 
@@ -43,14 +44,9 @@ class Button_ShowGallery extends Button {
         // let the application include the 
         self::$_javascriptIncluded = true;
         
-        return '
-                [].forEach.call(document.querySelectorAll("a.btn[button-operation=\'show-gallery\']"), function(elem) {
-                    elem.onclick = function() {
-                        var tableDbName = elem.getAttribute("table-db-name");
-                        console.log("tableDbName", tableDbName);
-                    };
-                });
-            ';
+        ob_start();
+        require GALLERY_JS;
+        return ob_get_clean();
     }
 
 }
