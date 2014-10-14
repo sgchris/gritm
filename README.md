@@ -1,9 +1,9 @@
-gritm
-=====
+## gritm
 
 gritm framework - (STMFramework V3.0)
 The application main PHP file should look like:
 
+```php
 <?php
 /**
  * Index file for the application
@@ -43,10 +43,10 @@ $p2 = new Page('Demo Page (Table Manipulation)', 'demo-page-table-manipulation')
 $app->add($p2);
 
 $app->run();
-?>
 
-TO DO
-=====
+```
 
-*) create images block (gallery) page
-*) create table with order change
+## TO DO
+
+* create images block (gallery) page
+* create table with order change
